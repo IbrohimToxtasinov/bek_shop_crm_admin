@@ -1,0 +1,95 @@
+name: bek_shop
+description: "Bek shop online shopping"
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.12.1
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
+  firebase_storage: ^12.4.4
+  flutter_svg: ^2.0.17
+  sqflite: ^2.4.2
+  cloud_firestore: ^5.6.5
+  flutter_screenutil: ^5.9.3
+  icons_launcher: ^3.0.0
+  equatable: ^2.0.7
+  image_picker: ^1.1.2
+  zoom_tap_animation: ^1.1.0
+  supabase_flutter: ^2.8.4
+  cached_network_image: ^3.4.1
+  path: ^1.9.1
+  easy_localization: ^3.0.7+1
+  photo_view: ^0.15.0
+  rename: ^3.0.2
+  mask_text_input_formatter: ^2.9.0
+  geolocator: ^13.0.3
+  app_settings: ^5.2.0
+  dio: ^5.8.0+1
+  lottie: ^1.4.3
+  map_launcher: ^3.5.0
+  path_provider: ^2.1.5
+  pdf: ^3.11.3
+  share_plus: ^10.1.4
+  open_filex: ^4.7.0
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+icons_launcher:
+  image_path: "assets/images/app_logo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+    - assets/lottie/
+    - assets/translations/
+
+  fonts:
+    - family: YandexSans
+      fonts:
+        - asset: assets/fonts/yandex/YandexSansDisplay-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/yandex/YandexSansText-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/yandex/YandexSansDisplay-Light.ttf
+          weight: 300
+        - asset: assets/fonts/yandex/YandexSansText-Light.ttf
+          weight: 300
+        - asset: assets/fonts/yandex/YandexSansText-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/yandex/YandexSansDisplay-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/yandex/YandexSansDisplay-RegularItalic.ttf
+          weight: 400
+        - asset: assets/fonts/yandex/YandexSansText-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/yandex/YandexSansText-RegularItalic.ttf
+          weight: 400
+        - asset: assets/fonts/yandex/YandexSansDisplay-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/yandex/YandexSansText-Thin.ttf
+          weight: 100

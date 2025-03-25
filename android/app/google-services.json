@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "168338992332",
+    "project_id": "bek-shop",
+    "storage_bucket": "bek-shop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168338992332:android:cdc93268f0845c08e42669",
+        "android_client_info": {
+          "package_name": "uz.bek.shop.bek_shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3zQABXJlzAskzbiOnwmNKg_U675wzY54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
