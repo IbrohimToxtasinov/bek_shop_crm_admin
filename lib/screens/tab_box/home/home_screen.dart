@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               tooltip: "search".tr(),
               icon: SvgPicture.asset(
                 AppIcons.search,
+                  width: 24.w, height: 24.h,
                 colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
               onPressed: () => Navigator.pushNamed(context, AppRouterNames.globalSearchProducts),
@@ -64,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
-                        childAspectRatio: 0.9,
+                        childAspectRatio:
+                        MediaQuery.of(context).size.width > 600 ? 1.3 : 0.9,
                       ),
                       itemBuilder: (context, index) {
                         return FruitsAndVegetablesCard(categoryModel: state.categories[index]);
@@ -142,7 +144,7 @@ class FruitsAndVegetablesCard extends StatelessWidget {
                 topLeft: Radius.circular(20),
               ),
               child: AppCachedNetworkImage(
-                height: 150,
+                height: 150.h,
                 width: double.infinity,
                 image: categoryModel.categoryImage,
               ),

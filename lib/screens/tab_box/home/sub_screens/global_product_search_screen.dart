@@ -123,11 +123,11 @@ class _GlobalProductSearchScreenState extends State<GlobalProductSearchScreen> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: state.products.length,
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 10.0,
                                   crossAxisSpacing: 10.0,
-                                  childAspectRatio: 0.7,
+                                  childAspectRatio:MediaQuery.of(context).size.width > 600 ? 0.9 : 0.7,
                                 ),
                                 itemBuilder: (context, index) {
                                   return ProductItem(
