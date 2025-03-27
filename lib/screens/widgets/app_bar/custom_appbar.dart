@@ -27,9 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
         fontWeight: FontWeight.w500,
         fontSize: 20.sp,
       ),
-      actions: [
-        if (showTrailing) Padding(padding: const EdgeInsets.only(right: 8.0), child: trailing),
-      ],
+      actions: [if (showTrailing) Padding(padding: EdgeInsets.only(right: 8.0.w), child: trailing)],
       centerTitle: centerTitle,
     );
   }
@@ -38,5 +36,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
   Widget get child => throw UnimplementedError();
 
   @override
-  Size get preferredSize => const Size(double.infinity, 56);
+  Size get preferredSize => Size(double.infinity.w, 56.h);
 }
