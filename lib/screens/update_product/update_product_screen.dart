@@ -291,7 +291,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                     onPressed: () {
                                       setState(() {
                                         mfgDate = null;
-                                        isButtonEnabled = true;
+                                        if (expDate != null) {
+                                          isButtonEnabled = true;
+                                        }
                                       });
                                     },
                                     icon: SvgPicture.asset(AppIcons.clear),
