@@ -9,10 +9,12 @@ import 'package:bek_shop/screens/widgets/buttons/main_action_button.dart';
 import 'package:bek_shop/screens/widgets/containers/app_ui_loading_container.dart';
 import 'package:bek_shop/screens/widgets/text_fields/custom_text_form_field_widget.dart';
 import 'package:bek_shop/utils/app_colors.dart';
+import 'package:bek_shop/utils/app_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../add_category/add_category_screen.dart';
@@ -253,15 +255,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   color: AppColors.c101426,
                                 ),
                               ),
-                              trailing: Text(
-                                mfgDate != null
-                                    ? mfgDate!.toLocal().toString().split(' ')[0]
-                                    : "select_date".tr(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.green.shade700,
-                                ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    mfgDate != null
+                                        ? mfgDate!.toLocal().toString().split(' ')[0]
+                                        : "select_date".tr(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.green.shade700,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        mfgDate = null;
+                                      });
+                                    },
+                                    icon: SvgPicture.asset(AppIcons.clear),
+                                  ),
+                                ],
                               ),
                               onTap: () => _selectDate(context, (date) => mfgDate = date),
                             ),
@@ -275,15 +290,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   color: AppColors.c101426,
                                 ),
                               ),
-                              trailing: Text(
-                                expDate != null
-                                    ? expDate!.toLocal().toString().split(' ')[0]
-                                    : "select_date".tr(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blue.shade700,
-                                ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    expDate != null
+                                        ? expDate!.toLocal().toString().split(' ')[0]
+                                        : "select_date".tr(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blue.shade700,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        expDate = null;
+                                      });
+                                    },
+                                    icon: SvgPicture.asset(AppIcons.clear),
+                                  ),
+                                ],
                               ),
                               onTap: () => _selectDate(context, (date) => expDate = date),
                             ),

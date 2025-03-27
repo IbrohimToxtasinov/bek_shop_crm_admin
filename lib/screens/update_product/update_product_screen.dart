@@ -4,6 +4,7 @@ import 'package:bek_shop/data/enums/form_status.dart';
 import 'package:bek_shop/data/models/product/product_model.dart';
 import 'package:bek_shop/data/repositories/product_repository.dart';
 import 'package:bek_shop/data/repositories/upload_image_repository.dart';
+import 'package:bek_shop/screens/add_category/add_category_screen.dart';
 import 'package:bek_shop/screens/widgets/app_bar/custom_appbar.dart';
 import 'package:bek_shop/screens/widgets/buttons/main_action_button.dart';
 import 'package:bek_shop/screens/widgets/containers/app_ui_loading_container.dart';
@@ -326,7 +327,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                     onPressed: () {
                                       setState(() {
                                         expDate = null;
-                                        isButtonEnabled = true;
+                                        if (expDate != null) {
+                                          isButtonEnabled = true;
+                                        }
                                       });
                                     },
                                     icon: SvgPicture.asset(AppIcons.clear),
@@ -355,12 +358,18 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                           productId: widget.productModel.productId,
                           productName: productNameTextEditingController.text.trim(),
                           productPrice: double.parse(
-                            productPriceTextEditingController.text.trim().replaceAll(" ", "").toString(),
+                            productPriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", "")
+                                .toString(),
                           ),
                           productActive: productActive,
                           productImage: widget.productModel.productImage,
                           productQuantity: double.parse(
-                            productQuantityTextEditingController.text.trim().replaceAll(" ", "").toString(),
+                            productQuantityTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", "")
+                                .toString(),
                           ),
                           createdAt: widget.productModel.createdAt,
                           productDescription: productDescriptionTextEditingController.text.trim(),
@@ -379,24 +388,4 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       ),
     );
   }
-}
-
-void showErrorDialog(BuildContext context, String errorMessage) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Xatolik!'),
-        content: Text(errorMessage),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
 }
