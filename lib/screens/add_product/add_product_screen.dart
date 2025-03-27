@@ -308,9 +308,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           imageFile: _image!,
                           categoryId: widget.categoryId,
                           productName: productNameTextEditingController.text.trim(),
-                          productPrice: double.parse(productPriceTextEditingController.text.trim()),
+                          productPrice: double.parse(
+                            productPriceTextEditingController.text.trim().replaceAll(" ", ""),
+                          ),
                           productQuantity: double.parse(
-                            productQuantityTextEditingController.text.trim(),
+                            productQuantityTextEditingController.text.trim().replaceAll(" ", ""),
                           ),
                           productDescription: productDescriptionTextEditingController.text.trim(),
                         ),

@@ -67,7 +67,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state.status == FormStatus.productLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
           } else if (state.status == FormStatus.productSuccess) {
             if (state.products.isNotEmpty) {
               return GridView.builder(

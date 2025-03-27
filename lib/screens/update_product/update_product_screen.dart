@@ -354,11 +354,13 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                           categoryId: widget.productModel.categoryId,
                           productId: widget.productModel.productId,
                           productName: productNameTextEditingController.text.trim(),
-                          productPrice: double.parse(productPriceTextEditingController.text.trim()),
+                          productPrice: double.parse(
+                            productPriceTextEditingController.text.trim().replaceAll(" ", "").toString(),
+                          ),
                           productActive: productActive,
                           productImage: widget.productModel.productImage,
                           productQuantity: double.parse(
-                            productQuantityTextEditingController.text.trim(),
+                            productQuantityTextEditingController.text.trim().replaceAll(" ", "").toString(),
                           ),
                           createdAt: widget.productModel.createdAt,
                           productDescription: productDescriptionTextEditingController.text.trim(),

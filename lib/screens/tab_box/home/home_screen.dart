@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocBuilder<CategoryBloc, CategoryState>(
             builder: (context, state) {
               if (state.status == FormStatus.categoryLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
               } else if (state.status == FormStatus.categorySuccess) {
                 if (state.categories.isNotEmpty) {
                   return Expanded(

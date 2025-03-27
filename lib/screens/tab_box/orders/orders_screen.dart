@@ -23,7 +23,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       body: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           if (state is GetOrderLoadInProgress) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
           } else if (state is GetOrderLoadInSuccess) {
             if (state.orders.isEmpty) {
               return Center(

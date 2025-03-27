@@ -64,50 +64,14 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
                 text: "Buyurtma Tafsilotlari",
                 textStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24),
               ),
-              pw.Row(
-                children: [
-                  pw.Text("Buyurtma ID: ", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text(order.orderId, style: pw.TextStyle(fontWeight: pw.FontWeight.normal)),
-                ],
-              ),
-              pw.SizedBox(height: 5),
-              pw.Row(
-                children: [
-                  pw.Text("Mijoz: ", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text(order.clientName, style: pw.TextStyle(fontWeight: pw.FontWeight.normal)),
-                ],
-              ),
-              pw.SizedBox(height: 5),
-              pw.Row(
-                children: [
-                  pw.Text("Telefon: ", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text(
-                    order.clientPhoneNumber,
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.normal),
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 5),
-              pw.Row(
-                children: [
-                  pw.Text("Manzil: ", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text(
-                    order.clientAddress,
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.normal),
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 5),
-              pw.Row(
-                mainAxisSize: pw.MainAxisSize.min,
-                children: [
-                  pw.Text("Buyurtma vaqti: ", style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text(
-                    AppUtils.formatDate(order.createAt),
-                    style: pw.TextStyle(fontWeight: pw.FontWeight.normal),
-                  ),
-                ],
-              ),
+              pw.SizedBox(height: 10),
+
+              _buildDetailRow("Buyurtma ID:", order.orderId),
+              _buildDetailRow("Mijoz:", order.clientName),
+              _buildDetailRow("Telefon:", order.clientPhoneNumber),
+              _buildDetailRow("Manzil:", order.clientAddress),
+              _buildDetailRow("Buyurtma vaqti:", AppUtils.formatDate(order.createAt)),
+
               pw.SizedBox(height: 10),
 
               pw.Table.fromTextArray(
@@ -139,6 +103,14 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
               ),
 
               pw.SizedBox(height: 20),
+              pw.Text(
+                "Aloqa uchun:",
+                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text("+998 (99) 666-88-89", style: pw.TextStyle(fontSize: 14)),
+
+              pw.SizedBox(height: 20),
               pw.Text("Manzilni QR kod orqali oching:"),
               pw.SizedBox(height: 20),
               qrCode,
@@ -153,4 +125,17 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
 
     return filePath;
   }
+}
+
+pw.Widget _buildDetailRow(String title, String value) {
+  return pw.Padding(
+    padding: const pw.EdgeInsets.only(bottom: 5),
+    child: pw.Row(
+      children: [
+        pw.Text(title, style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+        pw.SizedBox(width: 5),
+        pw.Text(value, style: pw.TextStyle(fontWeight: pw.FontWeight.normal)),
+      ],
+    ),
+  );
 }
