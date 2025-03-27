@@ -38,7 +38,7 @@ class MainActionButton extends StatelessWidget {
               Text(
                 label ?? "",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.c101426,
                 ),
