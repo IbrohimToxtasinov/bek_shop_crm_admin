@@ -80,6 +80,12 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.85)),
+              child: child!,
+            );
+          },
           title: 'Bek Shop',
           theme: ThemeData(
             fontFamily: "YandexSans",
