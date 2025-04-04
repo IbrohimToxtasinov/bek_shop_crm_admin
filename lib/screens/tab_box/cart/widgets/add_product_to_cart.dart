@@ -35,37 +35,38 @@ class _AddProductToCartState extends State<AddProductToCart> {
     return Container(
       width: double.infinity,
       height: 90.h,
-      padding: const EdgeInsets.only(top: 5),
+      padding:  EdgeInsets.only(top: 5.h),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 10,
+            spreadRadius: 2.r,
+            blurRadius: 10.r,
             offset: const Offset(0, 0),
           ),
         ],
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
+        borderRadius:  BorderRadius.only(
+          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30.r),
         ),
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(25),
-          topLeft: Radius.circular(25),
+        borderRadius:BorderRadius.only(
+          topRight: Radius.circular(25.r),
+          topLeft: Radius.circular(25.r),
         ),
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.all(10),
+          padding:  EdgeInsets.all(10.w),
           child: Row(
             children: [
               Expanded(
                 flex: 2,
                 child: Container(
-                  height: 50,
+                  padding: EdgeInsets.all(5.w),
+                  height: 50.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                     color: AppColors.cF2F2F2,
                   ),
                   child: Row(
@@ -92,6 +93,8 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 }
                                 : null,
                         icon: SvgPicture.asset(
+                          width: 5.w,
+                          height: 5.h,
                           AppIcons.minus,
                           colorFilter:
                               !widget.productModel.productActive
@@ -103,7 +106,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                         count.toString(),
                         style: TextStyle(
                           color: AppColors.cFFC34A,
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -124,6 +127,8 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 }
                                 : null,
                         icon: SvgPicture.asset(
+                          width: 18.w,
+                          height: 18.h,
                           AppIcons.plus,
                           colorFilter:
                               !widget.productModel.productActive
@@ -140,7 +145,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
+              SizedBox(width: 20.w),
               Expanded(
                 flex: 3,
                 child: InkWell(
@@ -200,7 +205,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                           }
                           : null,
                   child: Container(
-                    height: 50,
+                    height: 50.h,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color:
@@ -217,7 +222,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                           : "not_available".tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 15.sp,
                         color:
                             widget.productModel.productActive
                                 ? AppColors.c101426

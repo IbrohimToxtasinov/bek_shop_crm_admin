@@ -26,11 +26,11 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30.r),
         ),
       ),
       child: Stack(
@@ -48,19 +48,19 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                   );
                 },
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30),
+                  borderRadius:  BorderRadius.only(
+                    topRight: Radius.circular(18.r),
+                    topLeft: Radius.circular(18.r),
                   ),
                   child: AppCachedNetworkImage(
                     image: productModel.productImage,
                     width: double.infinity,
-                    height: 274,
+                    height: 274.h,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding:  EdgeInsets.all(10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -68,18 +68,18 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                       productModel.productName,
                       style: TextStyle(
                         color: AppColors.c101828,
-                        fontSize: 26,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Text(
                         '${NumberFormat.decimalPattern('uz_UZ').format(productModel.productPrice)} ${tr("sum")}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green.shade700,
-                          fontSize: 22,
+                          fontSize: 22.sp,
                         ),
                       ),
                     ),
@@ -89,7 +89,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.c878787,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                       ),
                     ),
                     SizedBox(height: 5.h),
@@ -99,32 +99,32 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Colors.orange,
-                        fontSize: 20,
+                        fontSize: 20.sp,
                       ),
                     ),
                     if (productModel.mfgDate != null && productModel.mfgDate!.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                        padding:  EdgeInsets.only(top: 5.h),
                         child: Text(
                           "${tr("mfg_date")}: ${AppUtils.formatProductDate(productModel.mfgDate!)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.blue.shade700,
-                            fontSize: 18,
+                            fontSize: 18.sp,
                           ),
                         ),
                       ),
                     if (productModel.expDate != null && productModel.expDate!.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                        padding: EdgeInsets.only(top: 5.h),
                         child: Text(
                           "${tr("exp_date")}: ${AppUtils.formatProductDate(productModel.expDate!)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.red.shade700,
-                            fontSize: 18,
+                            fontSize: 18.sp,
                           ),
                         ),
                       ),
@@ -133,7 +133,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(bottom: 0),
+                padding:  EdgeInsets.only(bottom: 0.h),
                 child: AddProductToCart(
                   productModel: productModel,
                   cartCount: cartCount,
@@ -143,14 +143,14 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
             ],
           ),
           Positioned(
-            top: 10.0,
-            right: 10.0,
+            top: 10.0.h,
+            right: 10.0.w,
             child: MainBackButton(icon: Icons.clear, color: Colors.white),
           ),
           if (isEditView ?? false)
             Positioned(
-              top: 225.0,
-              right: 10.0,
+              top: 225.0.h,
+              right: 10.0.w,
               child: MainBackButton(
                 icon: Icons.edit,
                 color: Colors.white,

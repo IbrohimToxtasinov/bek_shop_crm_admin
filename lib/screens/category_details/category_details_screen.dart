@@ -40,6 +40,8 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
               tooltip: "search".tr(),
               icon: SvgPicture.asset(
                 AppIcons.search,
+                height: 24.h,
+                width: 24.w,
                 colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
               onPressed: () {
@@ -52,7 +54,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
             ),
             IconButton(
               tooltip: "add_product".tr(),
-              icon: SvgPicture.asset(AppIcons.add),
+              icon: SvgPicture.asset(AppIcons.add, height: 24.h, width: 24.w),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -67,19 +69,24 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state.status == FormStatus.productLoading) {
-            return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.cFFC34A),
+            );
           } else if (state.status == FormStatus.productSuccess) {
             if (state.products.isNotEmpty) {
               return GridView.builder(
                 itemCount: state.products.length,
                 padding: EdgeInsets.symmetric(horizontal: 10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
-                  childAspectRatio: 0.7,
+                  childAspectRatio:
+                      MediaQuery.of(context).size.width > 600 ? 0.8 : 0.7,
                 ),
-                itemBuilder: (context, index) => ProductItem(productModel: state.products[index]),
+                itemBuilder:
+                    (context, index) =>
+                        ProductItem(productModel: state.products[index]),
               );
             } else {
               return Center(
@@ -145,7 +152,11 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 child: TotalCostButton(
                   productCount: AppUtils.cartProductsLength(state.products),
                   totalCost: AppUtils.totalPrice(state.products),
-                  onTap: () => Navigator.pushNamed(context, AppRouterNames.cartRoute),
+                  onTap:
+                      () => Navigator.pushNamed(
+                        context,
+                        AppRouterNames.cartRoute,
+                      ),
                 ),
               ),
             ),

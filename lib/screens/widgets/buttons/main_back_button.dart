@@ -1,5 +1,6 @@
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainBackButton extends StatelessWidget {
   final bool isClose;
@@ -16,11 +17,11 @@ class MainBackButton extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: Container(
-        height: 35,
-        width: 35,
+        height: 35.h,
+        width: 35.w,
         alignment: Alignment.center,
         decoration: BoxDecoration(shape: BoxShape.circle, color: color ?? AppColors.cFFC34A),
-        child: Icon(icon ?? Icons.arrow_back, size: 25, color: Colors.black),
+        child: Icon(icon ?? Icons.arrow_back, size: 18.w, color: Colors.black),
       ),
     );
   }

@@ -105,7 +105,7 @@ class _ProductItemState extends State<ProductItem> {
                 children: [
                   AppCachedNetworkImage(
                     image: widget.productModel.productImage,
-                    height: 150.h,
+                    height: 180.h,
                     width: double.infinity,
                     radius: 20.r,
                   ),
