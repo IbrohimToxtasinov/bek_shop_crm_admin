@@ -19,3 +19,17 @@ class CreateOrder extends OrderEvent {
     required this.products,
   });
 }
+
+class EditOrder extends OrderEvent {
+  final List<OrderProductModel> deleteProducts;
+  final OrderModel orderModel;
+
+  EditOrder({required this.deleteProducts, required this.orderModel});
+}
+
+class DeleteOrderById extends OrderEvent {
+  final String orderId;
+  final List<OrderProductModel> deleteProducts;
+
+  DeleteOrderById({required this.deleteProducts, required this.orderId});
+}

@@ -1,8 +1,10 @@
 import 'package:bek_shop/blocs/cart/cart_bloc.dart';
+import 'package:bek_shop/blocs/order_edit_cart/order_edit_cart_bloc.dart';
 import 'package:bek_shop/blocs/search_products/search_products_bloc.dart';
-import 'package:bek_shop/screens/category_details/widgets/product_item.dart';
 import 'package:bek_shop/screens/category_details/widgets/total_cost_button.dart';
+import 'package:bek_shop/screens/edit_order/sub_screens/products_search_for_edit_order/widgets/product_item_for_edit.dart';
 import 'package:bek_shop/screens/router.dart';
+import 'package:bek_shop/screens/widgets/buttons/main_action_button.dart';
 import 'package:bek_shop/screens/widgets/text_fields/app_search_text_field.dart';
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:bek_shop/utils/app_icons.dart';
@@ -13,16 +15,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SearchProductsScreen extends StatefulWidget {
-  final String categoryId;
-
-  const SearchProductsScreen({super.key, required this.categoryId});
+class ProductsSearchScreenForEditOrder extends StatefulWidget {
+  const ProductsSearchScreenForEditOrder({super.key});
 
   @override
-  State<SearchProductsScreen> createState() => _SearchProductsScreenState();
+  State<ProductsSearchScreenForEditOrder> createState() => _ProductsSearchScreenForEditOrderState();
 }
 
-class _SearchProductsScreenState extends State<SearchProductsScreen> {
+class _ProductsSearchScreenForEditOrderState extends State<ProductsSearchScreenForEditOrder> {
   TextEditingController searchController = TextEditingController();
   FocusNode searchFocusNode = FocusNode();
 
@@ -37,15 +37,63 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
   void initState() {
     super.initState();
     searchFocusNode.requestFocus();
-    BlocProvider.of<SearchProductsBloc>(
-      context,
-    ).add(SearchProducts(productName: "", categoryId: widget.categoryId));
+    BlocProvider.of<SearchProductsBloc>(context).add(GlobalSearchProducts(productName: ""));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      bottomNavigationBar: BlocBuilder<OrderEditCartBloc, OrderEditCartState>(
+        buildWhen: (previous, current) => current is OrderEditCartGetSuccess,
+        builder: (context, state) {
+          return AnimatedContainer(
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 100),
+            height: [...state.newProducts, ...state.oldProducts].isNotEmpty ? 85.h : 0,
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 2),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(25),
+                topLeft: Radius.circular(25),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 3,
+                  blurRadius: 10,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(25),
+                topLeft: Radius.circular(25),
+              ),
+              child: Container(
+                alignment: Alignment.topCenter,
+                width: double.infinity,
+                color: Colors.white,
+                padding: EdgeInsets.all(15),
+                child: TotalCostButton(
+                  productCount: AppUtils.cartProductsLengthForEdit([
+                    ...state.newProducts,
+                    ...state.oldProducts,
+                  ]),
+                  totalCost: AppUtils.totalPriceForEdit([
+                    ...state.newProducts,
+                    ...state.oldProducts,
+                  ]),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -62,9 +110,9 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                           prefixTap: () => searchController.clear(),
                           focusNode: searchFocusNode,
                           onChanged: (value) {
-                            BlocProvider.of<SearchProductsBloc>(context).add(
-                              SearchProducts(productName: value, categoryId: widget.categoryId),
-                            );
+                            BlocProvider.of<SearchProductsBloc>(
+                              context,
+                            ).add(GlobalSearchProducts(productName: value));
                           },
                           controller: searchController,
                         );
@@ -100,11 +148,11 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
             ),
             Expanded(
               child: BlocBuilder<SearchProductsBloc, SearchProductsState>(
-                buildWhen: (previous, current) => current is SearchProductsSuccess,
+                buildWhen: (previous, current) => current is GlobalSearchProductsSuccess,
                 builder: (context, state) {
-                  if (state is SearchProductsLoading) {
+                  if (state is GlobalSearchProductsLoading) {
                     return const Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
-                  } else if (state is SearchProductsSuccess) {
+                  } else if (state is GlobalSearchProductsSuccess) {
                     return state.products.isNotEmpty
                         ? SingleChildScrollView(
                           child: Column(
@@ -134,7 +182,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                   childAspectRatio: 0.7,
                                 ),
                                 itemBuilder: (context, index) {
-                                  return ProductItem(
+                                  return ProductItemForEdit(
                                     onTap: () => searchFocusNode.unfocus(),
                                     productModel: state.products[index],
                                   );
@@ -165,7 +213,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                             ],
                           ),
                         );
-                  } else if (state is SearchProductsFailure) {
+                  } else if (state is GlobalSearchProductsFailure) {
                     return Center(child: Text(state.errorText));
                   } else {
                     return const SizedBox();
@@ -175,49 +223,6 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-        buildWhen: (previous, current) => current is CartLoadInSuccessGet,
-        builder: (context, state) {
-          return AnimatedContainer(
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 100),
-            height: state.products.isNotEmpty ? 85.h : 0,
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 2),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: const Offset(0, 0),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
-              ),
-              child: Container(
-                alignment: Alignment.topCenter,
-                width: double.infinity,
-                color: Colors.white,
-                padding: EdgeInsets.all(15),
-                child: TotalCostButton(
-                  productCount: AppUtils.cartProductsLength(state.products),
-                  totalCost: AppUtils.totalPrice(state.products),
-                  onTap: () => Navigator.pushNamed(context, AppRouterNames.cartRoute),
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

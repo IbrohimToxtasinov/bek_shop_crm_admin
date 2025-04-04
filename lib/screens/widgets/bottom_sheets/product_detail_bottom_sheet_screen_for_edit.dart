@@ -1,6 +1,6 @@
-import 'package:bek_shop/data/models/product/product_model.dart';
+import 'package:bek_shop/data/models/order/order_product_model.dart';
+import 'package:bek_shop/screens/edit_order/widget/add_product_to_order_edit_cart.dart';
 import 'package:bek_shop/screens/router.dart';
-import 'package:bek_shop/screens/tab_box/cart/widgets/add_product_to_cart.dart';
 import 'package:bek_shop/screens/widgets/buttons/main_back_button.dart';
 import 'package:bek_shop/screens/widgets/images/app_cached_network_image.dart';
 import 'package:bek_shop/utils/app_colors.dart';
@@ -9,20 +9,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProductDetailBottomSheetScreen extends StatelessWidget {
-  final ProductModel productModel;
-  final bool? isEditView;
+class ProductDetailBottomSheetScreenForEdit extends StatefulWidget {
+  final OrderProductModel productModel;
   final int? cartCount;
-  final int? cartId;
+  final String? cartId;
 
-  const ProductDetailBottomSheetScreen({
+  const ProductDetailBottomSheetScreenForEdit({
     super.key,
     required this.productModel,
     this.cartCount,
     this.cartId,
-    this.isEditView = false,
   });
 
+  @override
+  State<ProductDetailBottomSheetScreenForEdit> createState() =>
+      _ProductDetailBottomSheetScreenForEditState();
+}
+
+class _ProductDetailBottomSheetScreenForEditState
+    extends State<ProductDetailBottomSheetScreenForEdit> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +49,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     AppRouterNames.galleryPhotoViewWrapper,
-                    arguments: productModel.productImage,
+                    arguments: widget.productModel.productImage,
                   );
                 },
                 child: ClipRRect(
@@ -53,7 +58,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                     topLeft: Radius.circular(30),
                   ),
                   child: AppCachedNetworkImage(
-                    image: productModel.productImage,
+                    image: widget.productModel.productImage,
                     width: double.infinity,
                     height: 274,
                   ),
@@ -65,7 +70,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      productModel.productName,
+                      widget.productModel.productName,
                       style: TextStyle(
                         color: AppColors.c101828,
                         fontSize: 26,
@@ -75,7 +80,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
-                        '${NumberFormat.decimalPattern('uz_UZ').format(productModel.productPrice)} ${tr("sum")}',
+                        '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.productPrice)} ${tr("sum")}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green.shade700,
@@ -84,7 +89,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      productModel.productDescription,
+                      widget.productModel.productDescription,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -94,7 +99,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      "${tr("available")}: ${productModel.productQuantity.toInt()} ${productModel.isCountable ? "dona" : "kg"}",
+                      "${tr("available")}: ${widget.productModel.productQuantity.toInt()} ${widget.productModel.isCountable ? "dona" : "kg"}",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -102,11 +107,11 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                         fontSize: 20,
                       ),
                     ),
-                    if (productModel.mfgDate != null && productModel.mfgDate!.isNotEmpty)
+                    if (widget.productModel.mfgDate.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
-                          "${tr("mfg_date")}: ${AppUtils.formatProductDate(productModel.mfgDate!)}",
+                          "${tr("mfg_date")}: ${AppUtils.formatProductDate(widget.productModel.mfgDate)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -115,11 +120,11 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (productModel.expDate != null && productModel.expDate!.isNotEmpty)
+                    if (widget.productModel.expDate.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
-                          "${tr("exp_date")}: ${AppUtils.formatProductDate(productModel.expDate!)}",
+                          "${tr("exp_date")}: ${AppUtils.formatProductDate(widget.productModel.expDate)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -134,10 +139,10 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 0),
-                child: AddProductToCart(
-                  productModel: productModel,
-                  cartCount: cartCount,
-                  cartId: cartId,
+                child: AddProductToOrderEditCart(
+                  productModel: widget.productModel,
+                  cartCount: widget.cartCount,
+                  cartId: widget.cartId,
                 ),
               ),
             ],
@@ -147,22 +152,6 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
             right: 10.0,
             child: MainBackButton(icon: Icons.clear, color: Colors.white),
           ),
-          if (isEditView ?? false)
-            Positioned(
-              top: 225.0,
-              right: 10.0,
-              child: MainBackButton(
-                icon: Icons.edit,
-                color: Colors.white,
-                onTap: () {
-                  Navigator.popAndPushNamed(
-                    context,
-                    AppRouterNames.updateProduct,
-                    arguments: productModel,
-                  );
-                },
-              ),
-            ),
         ],
       ),
     );

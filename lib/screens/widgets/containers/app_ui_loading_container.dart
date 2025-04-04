@@ -59,12 +59,15 @@ class AppUiLoadingContainer extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      loadingText ?? "",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                    Center(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        loadingText ?? "",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ],

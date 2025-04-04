@@ -48,6 +48,7 @@ class OrderModel {
       "total_price": totalPrice,
       "lat_long": latLong.toJson(),
       "products": products.map((product) => product.toJson()).toList(),
+      "search_keywords": clientName.toLowerCase(),
     };
   }
 }

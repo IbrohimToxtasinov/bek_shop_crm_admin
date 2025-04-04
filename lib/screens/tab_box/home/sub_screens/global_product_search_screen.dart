@@ -99,7 +99,7 @@ class _GlobalProductSearchScreenState extends State<GlobalProductSearchScreen> {
                 buildWhen: (previous, current) => current is GlobalSearchProductsSuccess,
                 builder: (context, state) {
                   if (state is GlobalSearchProductsLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
                   } else if (state is GlobalSearchProductsSuccess) {
                     return state.products.isNotEmpty
                         ? SingleChildScrollView(

@@ -13,16 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CartItem extends StatefulWidget {
+class CartItem extends StatelessWidget {
   final CartModel cartModel;
 
   const CartItem({super.key, required this.cartModel});
 
-  @override
-  State<CartItem> createState() => _CartItemState();
-}
-
-class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
@@ -42,21 +37,21 @@ class _CartItemState extends State<CartItem> {
               builder: (BuildContext context) {
                 return ProductDetailBottomSheetScreen(
                   productModel: ProductModel(
-                    mfgDate: widget.cartModel.mfgDate,
-                    expDate: widget.cartModel.expDate,
-                    isCountable: widget.cartModel.isCountable == 1 ? true : false,
-                    productName: widget.cartModel.productName,
-                    productImage: widget.cartModel.productImage,
-                    productPrice: widget.cartModel.productPrice.toDouble(),
-                    productDescription: widget.cartModel.productDescription,
-                    productId: widget.cartModel.productId,
-                    categoryId: widget.cartModel.categoryId,
-                    createdAt: widget.cartModel.createdAt,
-                    productActive: true,
-                    productQuantity: widget.cartModel.productQuantity,
+                    mfgDate: cartModel.mfgDate,
+                    expDate: cartModel.expDate,
+                    isCountable: cartModel.isCountable == 1 ? true : false,
+                    productName: cartModel.productName,
+                    productImage: cartModel.productImage,
+                    productPrice: cartModel.productPrice.toDouble(),
+                    productDescription: cartModel.productDescription,
+                    productId: cartModel.productId,
+                    categoryId: cartModel.categoryId,
+                    createdAt: cartModel.createdAt,
+                    productActive: cartModel.productActive == 1 ? true : false,
+                    productQuantity: cartModel.productQuantity,
                   ),
-                  cartCount: widget.cartModel.count,
-                  cartId: widget.cartModel.id,
+                  cartCount: cartModel.count,
+                  cartId: cartModel.id,
                 );
               },
             );
@@ -82,7 +77,7 @@ class _CartItemState extends State<CartItem> {
             child: Row(
               children: [
                 AppCachedNetworkImage(
-                  image: widget.cartModel.productImage,
+                  image: cartModel.productImage,
                   height: 82,
                   width: 85,
                   radius: 8,
@@ -95,7 +90,7 @@ class _CartItemState extends State<CartItem> {
                     children: [
                       const SizedBox(height: 5),
                       Text(
-                        widget.cartModel.productName.trim(),
+                        cartModel.productName.trim(),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -105,7 +100,7 @@ class _CartItemState extends State<CartItem> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${NumberFormat.decimalPattern('uz_UZ').format(widget.cartModel.productPrice)} ${tr("sum")}',
+                        '${NumberFormat.decimalPattern('uz_UZ').format(cartModel.productPrice)} ${tr("sum")}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -122,27 +117,28 @@ class _CartItemState extends State<CartItem> {
                               InkWell(
                                 borderRadius: BorderRadius.circular(15),
                                 onTap: () {
-                                  if (widget.cartModel.count == 1) {
+                                  if (cartModel.count == 1) {
                                     BlocProvider.of<CartBloc>(
                                       context,
-                                    ).add(DeleteCartById(id: widget.cartModel.id!));
+                                    ).add(DeleteCartById(id: cartModel.id!));
                                   } else {
                                     BlocProvider.of<CartBloc>(context).add(
                                       UpdateCart(
                                         cartModel: CartModel(
-                                          mfgDate: widget.cartModel.mfgDate,
-                                          expDate: widget.cartModel.expDate,
-                                          id: widget.cartModel.id,
-                                          isCountable: widget.cartModel.isCountable,
-                                          categoryId: widget.cartModel.categoryId,
-                                          productId: widget.cartModel.productId,
-                                          productName: widget.cartModel.productName,
-                                          count: widget.cartModel.count - 1,
-                                          productPrice: widget.cartModel.productPrice,
-                                          createdAt: widget.cartModel.createdAt,
-                                          productImage: widget.cartModel.productImage,
-                                          productDescription: widget.cartModel.productDescription,
-                                          productQuantity: widget.cartModel.productQuantity.toInt(),
+                                          productActive: cartModel.productActive,
+                                          mfgDate: cartModel.mfgDate,
+                                          expDate: cartModel.expDate,
+                                          id: cartModel.id,
+                                          isCountable: cartModel.isCountable,
+                                          categoryId: cartModel.categoryId,
+                                          productId: cartModel.productId,
+                                          productName: cartModel.productName,
+                                          count: cartModel.count - 1,
+                                          productPrice: cartModel.productPrice,
+                                          createdAt: cartModel.createdAt,
+                                          productImage: cartModel.productImage,
+                                          productDescription: cartModel.productDescription,
+                                          productQuantity: cartModel.productQuantity.toInt(),
                                         ),
                                       ),
                                     );
@@ -162,7 +158,7 @@ class _CartItemState extends State<CartItem> {
                               ),
                               const SizedBox(width: 16),
                               Text(
-                                widget.cartModel.count.toString(),
+                                cartModel.count.toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101010,
@@ -173,23 +169,24 @@ class _CartItemState extends State<CartItem> {
                               InkWell(
                                 borderRadius: BorderRadius.circular(15),
                                 onTap: () {
-                                  if (widget.cartModel.productQuantity > widget.cartModel.count) {
+                                  if (cartModel.productQuantity > cartModel.count) {
                                     BlocProvider.of<CartBloc>(context).add(
                                       UpdateCart(
                                         cartModel: CartModel(
-                                          id: widget.cartModel.id,
-                                          mfgDate: widget.cartModel.mfgDate,
-                                          expDate: widget.cartModel.expDate,
-                                          isCountable: widget.cartModel.isCountable,
-                                          categoryId: widget.cartModel.categoryId,
-                                          productId: widget.cartModel.productId,
-                                          productName: widget.cartModel.productName,
-                                          count: widget.cartModel.count + 1,
-                                          productPrice: widget.cartModel.productPrice,
-                                          createdAt: widget.cartModel.createdAt,
-                                          productImage: widget.cartModel.productImage,
-                                          productDescription: widget.cartModel.productDescription,
-                                          productQuantity: widget.cartModel.productQuantity.toInt(),
+                                          productActive: cartModel.productActive,
+                                          id: cartModel.id,
+                                          mfgDate: cartModel.mfgDate,
+                                          expDate: cartModel.expDate,
+                                          isCountable: cartModel.isCountable,
+                                          categoryId: cartModel.categoryId,
+                                          productId: cartModel.productId,
+                                          productName: cartModel.productName,
+                                          count: cartModel.count + 1,
+                                          productPrice: cartModel.productPrice,
+                                          createdAt: cartModel.createdAt,
+                                          productImage: cartModel.productImage,
+                                          productDescription: cartModel.productDescription,
+                                          productQuantity: cartModel.productQuantity.toInt(),
                                         ),
                                       ),
                                     );
@@ -209,7 +206,7 @@ class _CartItemState extends State<CartItem> {
                                   child: SvgPicture.asset(
                                     AppIcons.plus,
                                     colorFilter: ColorFilter.mode(
-                                      widget.cartModel.productQuantity == widget.cartModel.count
+                                      cartModel.productQuantity == cartModel.count
                                           ? Colors.grey
                                           : Colors.black,
                                       BlendMode.srcIn,
@@ -231,7 +228,7 @@ class _CartItemState extends State<CartItem> {
                                       onTap: () {
                                         BlocProvider.of<CartBloc>(
                                           context,
-                                        ).add(DeleteCartById(id: widget.cartModel.id!));
+                                        ).add(DeleteCartById(id: cartModel.id!));
                                         BlocProvider.of<CartBloc>(context).add(FetchCarts());
                                         Navigator.pop(context);
                                       },
