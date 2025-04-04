@@ -156,6 +156,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   AddCart(
                                     cartModel: CartModel(
+                                      productActive: widget.productModel.productActive ? 1: 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
                                       isCountable: widget.productModel.isCountable ? 1 : 0,
@@ -175,6 +176,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   UpdateCart(
                                     cartModel: CartModel(
+                                      productActive: widget.productModel.productActive ? 1: 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
                                       id: widget.cartId,

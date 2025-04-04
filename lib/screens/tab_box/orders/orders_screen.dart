@@ -1,11 +1,15 @@
 import 'package:bek_shop/blocs/order/order_bloc.dart';
+import 'package:bek_shop/screens/router.dart';
 import 'package:bek_shop/screens/tab_box/orders/widgets/order_item.dart';
 import 'package:bek_shop/screens/widgets/app_bar/custom_appbar.dart';
 import 'package:bek_shop/utils/app_colors.dart';
+import 'package:bek_shop/utils/app_icons.dart';
 import 'package:bek_shop/utils/app_images.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -19,7 +23,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "orders".tr()),
+      appBar: CustomAppBar(
+        title: "orders".tr(),
+        showTrailing: true,
+        trailing: IconButton(
+          tooltip: "search".tr(),
+          onPressed: () => Navigator.pushNamed(context, AppRouterNames.searchOrders),
+          icon: SvgPicture.asset(
+            AppIcons.search,
+            width: 24.w,
+            height: 24.h,
+            colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
+          ),
+        ),
+      ),
       body: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           if (state is GetOrderLoadInProgress) {

@@ -1,6 +1,4 @@
-import 'package:bek_shop/data/models/category/category_model.dart';
 import 'package:bek_shop/data/models/order/order_model.dart';
-import 'package:bek_shop/data/models/product/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -47,5 +45,17 @@ class OrderRepository {
     ) {
       return data.docs.map((doc) => OrderModel.fromJson(doc.data())).toList();
     });
+  }
+
+  Stream<List<OrderModel>> searchOrdersByClientName({required String query}) {
+    return FirebaseFirestore.instance
+        .collection('orders')
+        .orderBy("search_keywords")
+        .startAt([query.toLowerCase()])
+        .endAt(["${query.toLowerCase()}\uf8ff"])
+        .snapshots()
+        .map((querySnapshot) {
+          return querySnapshot.docs.map((doc) => OrderModel.fromJson(doc.data())).toList();
+        });
   }
 }

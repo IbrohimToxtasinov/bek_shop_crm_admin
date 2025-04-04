@@ -1,6 +1,9 @@
 import 'package:bek_shop/blocs/cart/cart_bloc.dart';
 import 'package:bek_shop/blocs/category/category_bloc.dart';
+import 'package:bek_shop/blocs/connectivity/connectivity_bloc.dart';
 import 'package:bek_shop/blocs/order/order_bloc.dart';
+import 'package:bek_shop/blocs/order_edit_cart/order_edit_cart_bloc.dart';
+import 'package:bek_shop/blocs/order_search/order_search_bloc.dart';
 import 'package:bek_shop/blocs/product/product_bloc.dart';
 import 'package:bek_shop/blocs/search_products/search_products_bloc.dart';
 import 'package:bek_shop/blocs/tab/tab_cubit.dart';
@@ -41,12 +44,14 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SearchProductsBloc(context.read<ProductRepository>())),
+          BlocProvider(create: (context) => OrderSearchBloc(context.read<OrderRepository>())),
           BlocProvider(
             create:
                 (context) =>
                     OrderBloc(context.read<OrderRepository>(), context.read<ProductRepository>()),
           ),
           BlocProvider(create: (context) => TabCubit()),
+          BlocProvider(create: (context) => ConnectivityBloc()..add(CheckConnectivity())),
           BlocProvider(
             create:
                 (context) => CategoryBloc(
@@ -55,6 +60,7 @@ class _AppState extends State<App> {
                 ),
           ),
           BlocProvider(create: (context) => CartBloc(context.read<CartRepository>())),
+          BlocProvider(create: (context) => OrderEditCartBloc()),
           BlocProvider(
             create:
                 (context) => ProductBloc(

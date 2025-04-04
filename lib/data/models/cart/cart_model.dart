@@ -10,6 +10,7 @@ class CartFields {
   static String count = "count";
   static String createdAt = "created_at";
   static String isCountable = "is_countable";
+  static String productActive = "product_active";
   static String mfgDate = "mfg_date";
   static String expDate = "exp_date";
 }
@@ -25,6 +26,7 @@ class CartModel {
   final String productImage;
   final int productQuantity;
   final int isCountable;
+  final int productActive;
   final int count;
   final String? mfgDate;
   final String? expDate;
@@ -35,12 +37,13 @@ class CartModel {
     required this.categoryId,
     required this.productName,
     required this.productPrice,
-    required this.createdAt,
     required this.productImage,
-    required this.productDescription,
     required this.productQuantity,
     required this.isCountable,
     required this.count,
+    required this.createdAt,
+    required this.productDescription,
+    required this.productActive,
     this.mfgDate,
     this.expDate,
   });
@@ -57,6 +60,7 @@ class CartModel {
       productImage: json[CartFields.productImage] as String? ?? "",
       productQuantity: json[CartFields.productQuantity] as int? ?? 0,
       isCountable: json[CartFields.isCountable] as int? ?? 0,
+      productActive: json[CartFields.productActive] as int? ?? 0,
       count: json[CartFields.count] as int? ?? 0,
       mfgDate: json[CartFields.mfgDate] as String? ?? "",
       expDate: json[CartFields.expDate] as String? ?? "",
@@ -74,6 +78,7 @@ class CartModel {
       CartFields.productQuantity: productQuantity,
       CartFields.createdAt: createdAt,
       CartFields.isCountable: isCountable,
+      CartFields.productActive: productActive,
       CartFields.count: count,
       CartFields.mfgDate: mfgDate,
       CartFields.expDate: expDate,
@@ -93,11 +98,13 @@ class CartModel {
     String? expDate,
     int? productQuantity,
     int? isCountable,
+    int? productActive,
     int? count,
   }) {
     return CartModel(
       id: id ?? this.id,
       productId: productId ?? this.productId,
+      productActive: productActive ?? this.productActive,
       categoryId: categoryId ?? this.categoryId,
       productName: productName ?? this.productName,
       productDescription: productDescription ?? this.productDescription,

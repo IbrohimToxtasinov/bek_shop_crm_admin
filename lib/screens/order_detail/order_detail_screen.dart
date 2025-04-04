@@ -54,13 +54,28 @@ class OrderDetailScreen extends StatelessWidget {
               appBar: CustomAppBar(
                 title: "order_detail".tr(),
                 showTrailing: true,
-                trailing: IconButton(
-                  icon: SvgPicture.asset(AppIcons.download, width: 24.w, height: 24.h),
-                  onPressed: () {
-                    context.read<OrderPdfBloc>().add(
-                      GenerateAndSharePdfEvent(order: orderModel, share: true),
-                    );
-                  },
+                centerTitle: false,
+                trailing: Row(
+                  children: [
+                    IconButton(
+                      icon: SvgPicture.asset(AppIcons.edit, width: 24.w, height: 24.h),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRouterNames.editOrder,
+                          arguments: orderModel,
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: SvgPicture.asset(AppIcons.download, width: 24.w, height: 24.h),
+                      onPressed: () {
+                        context.read<OrderPdfBloc>().add(
+                          GenerateAndSharePdfEvent(order: orderModel, share: true),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
               body: SingleChildScrollView(

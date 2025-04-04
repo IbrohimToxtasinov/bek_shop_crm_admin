@@ -7,12 +7,16 @@ import 'package:bek_shop/screens/category_details/category_details_screen.dart';
 import 'package:bek_shop/screens/category_details/sub_screens/search_products/search_products_screen.dart';
 import 'package:bek_shop/screens/category_details/sub_screens/view_product_img/gallery_photo_view_wrapper.dart';
 import 'package:bek_shop/screens/create_new_order/create_new_order_screen.dart';
+import 'package:bek_shop/screens/edit_order/edit_order_screen.dart';
+import 'package:bek_shop/screens/edit_order/sub_screens/products_search_for_edit_order/products_search_screen_for_edit_order.dart';
+import 'package:bek_shop/screens/no_internet/no_internet_screen.dart';
 import 'package:bek_shop/screens/order_detail/order_detail_screen.dart';
 import 'package:bek_shop/screens/splash/splash_screen.dart';
 import 'package:bek_shop/screens/tab_box/cart/cart_screen.dart';
 import 'package:bek_shop/screens/tab_box/home/home_screen.dart';
 import 'package:bek_shop/screens/tab_box/home/sub_screens/global_product_search_screen.dart';
 import 'package:bek_shop/screens/tab_box/orders/orders_screen.dart';
+import 'package:bek_shop/screens/tab_box/orders/sub_screens/order_search_screen.dart';
 import 'package:bek_shop/screens/tab_box/tab_box.dart';
 import 'package:bek_shop/screens/update_category/update_category_screen.dart';
 import 'package:bek_shop/screens/update_product/update_product_screen.dart';
@@ -31,9 +35,13 @@ class AppRouterNames {
   static const String addCategoryRoute = "/add_category";
   static const String galleryPhotoViewWrapper = '/gallery_photo_view_wrapper';
   static const String searchProducts = '/search_products';
+  static const String searchProductsForEditOrder = '/search_products_for_edit_order';
+  static const String searchOrders = '/search_orders';
   static const String globalSearchProducts = '/global_search_products';
   static const String updateProduct = '/update_product';
   static const String updateCategory = '/update_category';
+  static const String editOrder = '/edit_order';
+  static const String noInternetRoute = '/no_internet_route';
 }
 
 class AppRouter {
@@ -41,8 +49,20 @@ class AppRouter {
     switch (settings.name) {
       case AppRouterNames.splashRoute:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case AppRouterNames.noInternetRoute:
+        return MaterialPageRoute(
+          builder: (_) => NoInternetScreen(voidCallback: settings.arguments as VoidCallback),
+        );
       case AppRouterNames.globalSearchProducts:
         return MaterialPageRoute(builder: (_) => const GlobalProductSearchScreen());
+      case AppRouterNames.searchProductsForEditOrder:
+        return MaterialPageRoute(builder: (_) => const ProductsSearchScreenForEditOrder());
+      case AppRouterNames.searchOrders:
+        return MaterialPageRoute(builder: (_) => const OrderSearchScreen());
+      case AppRouterNames.editOrder:
+        return MaterialPageRoute(
+          builder: (_) => EditOrderScreen(orderModel: settings.arguments as OrderModel),
+        );
       case AppRouterNames.createNewOrder:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(

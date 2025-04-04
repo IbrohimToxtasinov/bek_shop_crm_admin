@@ -15,6 +15,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc(this._orderRepository, this._productRepository) : super(OrderInitial()) {
     on<FetchOrders>(_fetchOrders);
     on<CreateOrder>(_createOrder);
+    on<EditOrder>(_editOrder);
+    on<DeleteOrderById>(_deleteOrderById);
   }
 
   final OrderRepository _orderRepository;
@@ -39,6 +41,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       for (int i = 0; i < event.products.length; i++) {
         totalPrice = totalPrice + event.products[i].productPrice * event.products[i].count;
         OrderProductModel product = OrderProductModel(
+          productQuantity: event.products[i].productQuantity,
           productImage: event.products[i].productImage,
           productName: event.products[i].productName,
           productPrice: event.products[i].productPrice,
@@ -46,6 +49,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           categoryId: event.products[i].categoryId,
           count: event.products[i].count,
           isCountable: event.products[i].isCountable == 1 ? true : false,
+          productActive: event.products[i].productActive == 1 ? true : false,
+          createdAt: event.products[i].createdAt,
+          productDescription: event.products[i].productDescription,
+          mfgDate: event.products[i].mfgDate ?? "",
+          expDate: event.products[i].expDate ?? "",
         );
         products.add(product);
       }
@@ -92,6 +100,121 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     } catch (errorMessage) {
       emit(CreateOrderInFailure(errorText: errorMessage.toString()));
+    }
+  }
+
+  _editOrder(EditOrder event, Emitter<OrderState> emit) async {
+    emit(EditOrderLoadInProgress());
+    try {
+      num totalPrice = 0;
+      for (int i = 0; i < event.orderModel.products.length; i++) {
+        totalPrice =
+            totalPrice +
+            event.orderModel.products[i].productPrice * event.orderModel.products[i].count;
+      }
+      await _orderRepository.updateOrder(
+        orderModel: OrderModel(
+          orderId: event.orderModel.orderId,
+          clientName: event.orderModel.clientName,
+          clientPhoneNumber: event.orderModel.clientPhoneNumber,
+          clientAddress: event.orderModel.clientAddress,
+          createAt: DateTime.now().toString(),
+          totalPrice: totalPrice,
+          latLong: event.orderModel.latLong,
+          products: event.orderModel.products,
+        ),
+      );
+      await Future.delayed(Duration(seconds: 2));
+      emit(EditOrderLoadInSuccess());
+      await Future.delayed(Duration(seconds: 1));
+      emit(UpdateProductLoadInProgress());
+      try {
+        for (int i = 0; i < event.deleteProducts.length; i++) {
+          await _productRepository.updateProduct(
+            productModel: ProductModel(
+              isCountable: event.deleteProducts[i].isCountable,
+              categoryId: event.deleteProducts[i].categoryId,
+              productId: event.deleteProducts[i].productId,
+              productName: event.deleteProducts[i].productName,
+              productPrice: event.deleteProducts[i].productPrice,
+              productImage: event.deleteProducts[i].productImage,
+              productQuantity: event.deleteProducts[i].productQuantity,
+              productActive: event.deleteProducts[i].productActive,
+              productDescription: event.deleteProducts[i].productDescription,
+              mfgDate: event.deleteProducts[i].mfgDate,
+              expDate: event.deleteProducts[i].expDate,
+              createdAt: event.deleteProducts[i].createdAt,
+            ),
+          );
+        }
+        for (int i = 0; i < event.orderModel.products.length; i++) {
+          await _productRepository.updateProduct(
+            productModel: ProductModel(
+              isCountable: event.orderModel.products[i].isCountable,
+              categoryId: event.orderModel.products[i].categoryId,
+              productId: event.orderModel.products[i].productId,
+              productName: event.orderModel.products[i].productName,
+              productPrice: event.orderModel.products[i].productPrice,
+              productActive:
+                  event.orderModel.products[i].productQuantity -
+                              event.orderModel.products[i].count ==
+                          0
+                      ? false
+                      : true,
+              productImage: event.orderModel.products[i].productImage,
+              productQuantity:
+                  event.orderModel.products[i].productQuantity - event.orderModel.products[i].count,
+              createdAt: event.orderModel.products[i].createdAt,
+              productDescription: event.orderModel.products[i].productDescription,
+              mfgDate: event.orderModel.products[i].mfgDate,
+              expDate: event.orderModel.products[i].expDate,
+            ),
+          );
+          await Future.delayed(Duration(seconds: 1));
+          emit(UpdateProductLoadInSuccess());
+        }
+      } catch (error) {
+        emit(UpdateProductInFailure(errorMessage: error.toString()));
+      }
+    } catch (errorMessage) {
+      emit(EditOrderInFailure(errorText: errorMessage.toString()));
+    }
+  }
+
+  _deleteOrderById(DeleteOrderById event, Emitter<OrderState> emit) async {
+    emit(DeleteOrderLoadInProgress());
+    try {
+      await _orderRepository.deleteOrderById(orderId: event.orderId);
+      await Future.delayed(Duration(seconds: 2));
+      emit(DeleteOrderLoadInSuccess());
+      await Future.delayed(Duration(seconds: 1));
+      emit(UpdateProductLoadInProgress());
+      try {
+        for (int i = 0; i < event.deleteProducts.length; i++) {
+          await _productRepository.updateProduct(
+            productModel: ProductModel(
+              isCountable: event.deleteProducts[i].isCountable,
+              categoryId: event.deleteProducts[i].categoryId,
+              productId: event.deleteProducts[i].productId,
+              productName: event.deleteProducts[i].productName,
+              productPrice: event.deleteProducts[i].productPrice,
+              productImage: event.deleteProducts[i].productImage,
+              productQuantity: event.deleteProducts[i].productQuantity,
+              productActive: event.deleteProducts[i].productActive,
+              productDescription: event.deleteProducts[i].productDescription,
+              mfgDate: event.deleteProducts[i].mfgDate,
+              expDate: event.deleteProducts[i].expDate,
+              createdAt: event.deleteProducts[i].createdAt,
+            ),
+          );
+        }
+        await Future.delayed(Duration(seconds: 1));
+        emit(UpdateProductLoadInSuccess());
+      } catch (error) {
+        emit(UpdateProductInFailure(errorMessage: error.toString()));
+      }
+    } catch (error) {
+      emit(DeleteOrderInFailure(errorText: error.toString()));
     }
   }
 }

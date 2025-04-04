@@ -103,7 +103,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                 buildWhen: (previous, current) => current is SearchProductsSuccess,
                 builder: (context, state) {
                   if (state is SearchProductsLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
                   } else if (state is SearchProductsSuccess) {
                     return state.products.isNotEmpty
                         ? SingleChildScrollView(

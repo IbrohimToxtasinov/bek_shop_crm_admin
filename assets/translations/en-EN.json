@@ -26,6 +26,7 @@
   "create_order": "Create order",
   "cancel": "Cancel",
   "items_found": "{} items found",
+  "order_items_found": "{} orders found",
   "search": "Search",
   "empty_cart": "There is no food yet",
   "delete_product_cart": "Do you really want to delete?",
@@ -111,6 +112,20 @@
   "available": "Available",
   "update_product": "Update product",
   "quantity": "Quantity",
-  "error_opening_address_on_map": "Error opening address on map"
-
+  "try_again": "Please try again",
+  "internet_error": "There was an issue with the internet connection. Please check your internet connection and try again.",
+  "error_opening_address_on_map": "Error opening address on map",
+  "edit_order": "Edit order",
+  "products_on_order": "Products on order",
+  "new_products": "New products",
+  "add_new_product": "Add new product",
+  "remove_order": "Remove order",
+  "remove_order_dialog": "Are you sure you want to cancel the order?",
+  "editing_order": "Editing order",
+  "order_edited": "Order edited",
+  "deleting_order": "Deleting order",
+  "order_deleted": "Order deleted",
+  "products_on_order_dialog": "You have deleted products from a previously added order!",
+  "new_products_dialog": "You haven't added a new product to your order yet!",
+  "add": "Add"
 }

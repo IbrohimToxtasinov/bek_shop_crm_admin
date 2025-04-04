@@ -42,6 +42,7 @@ class LocalDatabase {
     ${CartFields.productImage} $textType,
     ${CartFields.mfgDate} $textType,
     ${CartFields.expDate} $textType,
+    ${CartFields.productActive} $intType,
     ${CartFields.productQuantity} $intType,
     ${CartFields.isCountable} $intType,
     ${CartFields.count} $intType
@@ -90,6 +91,7 @@ class LocalDatabase {
         CartFields.isCountable,
         CartFields.mfgDate,
         CartFields.expDate,
+        CartFields.productActive,
       ],
     );
 

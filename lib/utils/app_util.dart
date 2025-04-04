@@ -1,4 +1,5 @@
 import 'package:bek_shop/data/models/cart/cart_model.dart';
+import 'package:bek_shop/data/models/order/order_product_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AppUtils {
@@ -30,7 +31,23 @@ class AppUtils {
     return sum;
   }
 
+  static num totalPriceForEdit(List<OrderProductModel> products) {
+    num sum = 0;
+    for (int i = 0; i < products.length; i++) {
+      sum = sum + products[i].productPrice * products[i].count;
+    }
+    return sum;
+  }
+
   static String cartProductsLength(List<CartModel> products) {
+    num sum = 0;
+    for (int i = 0; i < products.length; i++) {
+      sum = sum + products[i].count;
+    }
+    return sum.toString();
+  }
+
+  static String cartProductsLengthForEdit(List<OrderProductModel> products) {
     num sum = 0;
     for (int i = 0; i < products.length; i++) {
       sum = sum + products[i].count;

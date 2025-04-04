@@ -3,12 +3,12 @@ class ProductModel {
   final String productId;
   final String productName;
   final num productPrice;
-  final bool productActive;
   final String productImage;
   final num productQuantity;
+  final bool isCountable;
+  final bool productActive;
   final String createdAt;
   final String productDescription;
-  final bool isCountable;
   final String? mfgDate;
   final String? expDate;
 
@@ -53,10 +53,10 @@ class ProductModel {
       "product_active": productActive,
       "product_image": productImage,
       "product_quantity": productQuantity,
-      "created_at": createdAt,
-      "product_description": productDescription,
       "search_keywords": productName.toLowerCase(),
       "is_countable": isCountable,
+      "created_at": createdAt,
+      "product_description": productDescription,
       "mfg_date": mfgDate ?? "",
       "exp_date": expDate ?? "",
     };

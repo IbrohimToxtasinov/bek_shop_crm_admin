@@ -17,4 +17,5 @@ class AppIcons {
   static const String emptySearch = "assets/icons/empty_search.svg";
   static const String locationPermission = "assets/icons/location_permission.svg";
   static const String appSettings = "assets/icons/app_settings.svg";
+  static const String edit = "assets/icons/edit.svg";
 }
