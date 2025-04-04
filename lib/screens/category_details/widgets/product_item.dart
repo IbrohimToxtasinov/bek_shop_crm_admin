@@ -10,6 +10,7 @@ import 'package:bek_shop/utils/app_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProductItem extends StatefulWidget {
@@ -28,8 +29,9 @@ class _ProductItemState extends State<ProductItem> {
     return BlocBuilder<CartBloc, CartState>(
       buildWhen: (previous, current) => current is CartLoadInSuccessGet,
       builder: (context, state) {
-        List<CartModel> exists =
-            state.products.where((e) => e.productId == widget.productModel.productId).toList();
+        List<CartModel> exists = state.products
+            .where((e) => e.productId == widget.productModel.productId)
+            .toList();
         return Opacity(
           opacity: widget.productModel.productActive ? 1 : 0.5,
           child: Container(
@@ -53,7 +55,8 @@ class _ProductItemState extends State<ProductItem> {
                 if (exists.isNotEmpty) {
                   for (var element in state.products) {
                     CartModel cartModel = state.products.firstWhere(
-                      (element) => element.productId == widget.productModel.productId,
+                      (element) =>
+                          element.productId == widget.productModel.productId,
                     );
                     if (element.productId == widget.productModel.productId &&
                         cartModel.count != 0) {
@@ -61,7 +64,8 @@ class _ProductItemState extends State<ProductItem> {
                         context: context,
                         isScrollControlled: true,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30)),
                         ),
                         builder: (BuildContext context) {
                           return ProductDetailBottomSheetScreen(
@@ -80,7 +84,8 @@ class _ProductItemState extends State<ProductItem> {
                     context: context,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30)),
                     ),
                     builder: (BuildContext context) {
                       return ProductDetailBottomSheetScreen(
@@ -100,9 +105,9 @@ class _ProductItemState extends State<ProductItem> {
                 children: [
                   AppCachedNetworkImage(
                     image: widget.productModel.productImage,
-                    height: 150,
+                    height: 150.h,
                     width: double.infinity,
-                    radius: 20,
+                    radius: 20.r,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5),
@@ -112,7 +117,7 @@ class _ProductItemState extends State<ProductItem> {
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
@@ -124,18 +129,22 @@ class _ProductItemState extends State<ProductItem> {
                         if (exists.isNotEmpty) {
                           for (var element in state.products) {
                             CartModel cartModel = state.products.firstWhere(
-                              (element) => element.productId == widget.productModel.productId,
+                              (element) =>
+                                  element.productId ==
+                                  widget.productModel.productId,
                             );
-                            if (element.productId == widget.productModel.productId &&
+                            if (element.productId ==
+                                    widget.productModel.productId &&
                                 cartModel.count != 0) {
                               return Container(
-                                height: 40,
+                                height: 40.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
                                   color: Colors.white,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconButton(
                                       highlightColor: Colors.transparent,
@@ -143,9 +152,11 @@ class _ProductItemState extends State<ProductItem> {
                                         if (cartModel.count == 1) {
                                           BlocProvider.of<CartBloc>(
                                             context,
-                                          ).add(DeleteCartById(id: cartModel.id!));
+                                          ).add(DeleteCartById(
+                                              id: cartModel.id!));
                                         } else {
-                                          BlocProvider.of<CartBloc>(context).add(
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(
                                             UpdateCart(
                                               cartModel: CartModel(
                                                 id: element.id,
@@ -158,33 +169,51 @@ class _ProductItemState extends State<ProductItem> {
                                                 productId: widget.productModel.productId,
                                                 productName: widget.productModel.productName,
                                                 count: cartModel.count - 1,
-                                                productPrice: widget.productModel.productPrice,
-                                                createdAt: widget.productModel.createdAt,
-                                                productImage: widget.productModel.productImage,
-                                                productDescription:
-                                                    widget.productModel.productDescription,
-                                                productQuantity:
-                                                    widget.productModel.productQuantity.toInt(),
+                                                productPrice: widget
+                                                    .productModel.productPrice,
+                                                createdAt: widget
+                                                    .productModel.createdAt,
+                                                productImage: widget
+                                                    .productModel.productImage,
+                                                productDescription: widget
+                                                    .productModel
+                                                    .productDescription,
+                                                productQuantity: widget
+                                                    .productModel
+                                                    .productQuantity
+                                                    .toInt(),
                                               ),
                                             ),
                                           );
                                         }
-                                        BlocProvider.of<CartBloc>(context).add(FetchCarts());
+                                        BlocProvider.of<CartBloc>(context)
+                                            .add(FetchCarts());
                                       },
-                                      icon: SvgPicture.asset(AppIcons.minus),
+                                      icon: SvgPicture.asset(
+                                        AppIcons.minus,
+                                        height: 5.h,
+                                        width: 20.w,
+                                        colorFilter: ColorFilter.mode(
+                                          Colors.black,
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
                                     ),
                                     Text(
                                       cartModel.count.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: AppColors.cFFC34A,
-                                        fontSize: 20,
+                                        fontSize: 20.sp,
                                       ),
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        if (widget.productModel.productQuantity > cartModel.count) {
-                                          BlocProvider.of<CartBloc>(context).add(
+                                        if (widget
+                                                .productModel.productQuantity >
+                                            cartModel.count) {
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(
                                             UpdateCart(
                                               cartModel: CartModel(
                                                 productActive:
@@ -192,31 +221,47 @@ class _ProductItemState extends State<ProductItem> {
                                                 mfgDate: widget.productModel.mfgDate,
                                                 expDate: widget.productModel.expDate,
                                                 id: element.id,
-                                                isCountable:
-                                                    widget.productModel.isCountable ? 1 : 0,
-                                                categoryId: widget.productModel.categoryId,
-                                                productId: widget.productModel.productId,
-                                                productName: widget.productModel.productName,
+                                                isCountable: widget.productModel
+                                                        .isCountable
+                                                    ? 1
+                                                    : 0,
+                                                categoryId: widget
+                                                    .productModel.categoryId,
+                                                productId: widget
+                                                    .productModel.productId,
+                                                productName: widget
+                                                    .productModel.productName,
                                                 count: cartModel.count + 1,
-                                                productPrice: widget.productModel.productPrice,
-                                                createdAt: widget.productModel.createdAt,
-                                                productImage: widget.productModel.productImage,
-                                                productDescription:
-                                                    widget.productModel.productDescription,
-                                                productQuantity:
-                                                    widget.productModel.productQuantity.toInt(),
+                                                productPrice: widget
+                                                    .productModel.productPrice,
+                                                createdAt: widget
+                                                    .productModel.createdAt,
+                                                productImage: widget
+                                                    .productModel.productImage,
+                                                productDescription: widget
+                                                    .productModel
+                                                    .productDescription,
+                                                productQuantity: widget
+                                                    .productModel
+                                                    .productQuantity
+                                                    .toInt(),
                                               ),
                                             ),
                                           );
-                                          BlocProvider.of<CartBloc>(context).add(FetchCarts());
+                                          BlocProvider.of<CartBloc>(context)
+                                              .add(FetchCarts());
                                         } else {
-                                          showOverlayMessage(context, text: "no_product".tr());
+                                          showOverlayMessage(context,
+                                              text: "no_product".tr());
                                         }
                                       },
                                       icon: SvgPicture.asset(
                                         AppIcons.plus,
+                                        height: 20.h,
+                                        width: 20.w,
                                         colorFilter: ColorFilter.mode(
-                                          widget.productModel.productQuantity == cartModel.count
+                                          widget.productModel.productQuantity ==
+                                                  cartModel.count
                                               ? Colors.grey
                                               : Colors.black,
                                           BlendMode.srcIn,
@@ -240,16 +285,22 @@ class _ProductItemState extends State<ProductItem> {
                                   productActive: widget.productModel.productActive ? 1 : 0,
                                   mfgDate: widget.productModel.mfgDate,
                                   expDate: widget.productModel.expDate,
-                                  isCountable: widget.productModel.isCountable ? 1 : 0,
+                                  isCountable:
+                                      widget.productModel.isCountable ? 1 : 0,
                                   categoryId: widget.productModel.categoryId,
                                   productId: widget.productModel.productId,
                                   productName: widget.productModel.productName,
                                   count: 1,
-                                  productPrice: widget.productModel.productPrice,
+                                  productPrice:
+                                      widget.productModel.productPrice,
                                   createdAt: widget.productModel.createdAt,
-                                  productImage: widget.productModel.productImage,
-                                  productDescription: widget.productModel.productDescription,
-                                  productQuantity: widget.productModel.productQuantity.toInt(),
+                                  productImage:
+                                      widget.productModel.productImage,
+                                  productDescription:
+                                      widget.productModel.productDescription,
+                                  productQuantity: widget
+                                      .productModel.productQuantity
+                                      .toInt(),
                                 ),
                               ),
                             );
@@ -259,14 +310,14 @@ class _ProductItemState extends State<ProductItem> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            height: 40,
+                            height: 40.h,
                             alignment: Alignment.center,
                             child: Text(
                               '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.productPrice)} ${tr("sum")}',
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.c101828,
-                              ),
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.c101828,
+                                  fontSize: 14.sp),
                             ),
                           ),
                         );
@@ -274,7 +325,7 @@ class _ProductItemState extends State<ProductItem> {
                     )
                   else
                     Container(
-                      height: 40,
+                      height: 40.h,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
@@ -282,7 +333,10 @@ class _ProductItemState extends State<ProductItem> {
                       ),
                       child: Text(
                         "not_available".tr(),
-                        style: TextStyle(fontWeight: FontWeight.w500, color: AppColors.c101426),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.c101426,
+                            fontSize: 14.sp),
                       ),
                     ),
                 ],
