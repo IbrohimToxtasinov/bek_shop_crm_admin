@@ -150,7 +150,7 @@ class FruitsAndVegetablesCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:  EdgeInsets.symmetric(vertical: 8.h,horizontal: 10.w),
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 categoryModel.categoryName,
