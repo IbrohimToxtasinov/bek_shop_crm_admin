@@ -164,6 +164,8 @@ class OrderDetailScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           OrderProductModel product = orderModel.products[index];
                           return InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () async {
                               showModalBottomSheet<void>(
                                 context: context,

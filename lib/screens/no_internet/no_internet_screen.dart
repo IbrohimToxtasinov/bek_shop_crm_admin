@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 class NoInternetScreen extends StatelessWidget {
@@ -37,13 +38,13 @@ class NoInternetScreen extends StatelessWidget {
               body: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 70),
+                    padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 70.h),
                     child: Text(
                       textAlign: TextAlign.center,
                       "internet_error".tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 22,
+                        fontSize: 22.sp,
                         color: AppColors.c101828,
                       ),
                     ),
@@ -57,7 +58,7 @@ class NoInternetScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
+                    padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 50.h),
                     child: MainActionButton(
                       label: "try_again".tr(),
                       onTap: () {
