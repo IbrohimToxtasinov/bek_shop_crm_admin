@@ -26,13 +26,13 @@ class CartItem extends StatelessWidget {
         return InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(22.r),
           onTap: () async {
             showModalBottomSheet<void>(
               context: context,
               isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
               ),
               builder: (BuildContext context) {
                 return ProductDetailBottomSheetScreen(
@@ -63,13 +63,13 @@ class CartItem extends StatelessWidget {
             width: double.infinity.w,
             height: 110.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(22),
+              borderRadius: BorderRadius.circular(22.r),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 8,
+                  spreadRadius: 3.r,
+                  blurRadius: 8.r,
                   offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
@@ -78,44 +78,44 @@ class CartItem extends StatelessWidget {
               children: [
                 AppCachedNetworkImage(
                   image: cartModel.productImage,
-                  height: 82,
-                  width: 85,
-                  radius: 8,
-                  iconSize: 30,
+                  height: 82.h,
+                  width: 85.w,
+                  radius: 8.r,
+                  iconSize: 30.w,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 5),
+                      SizedBox(height: 5.h),
                       Text(
                         cartModel.productName.trim(),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.c101010,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         '${NumberFormat.decimalPattern('uz_UZ').format(cartModel.productPrice)} ${tr("sum")}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.cFFC34A,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
                               InkWell(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(15.sp),
                                 onTap: () {
                                   if (cartModel.count == 1) {
                                     BlocProvider.of<CartBloc>(
@@ -146,28 +146,28 @@ class CartItem extends StatelessWidget {
                                   BlocProvider.of<CartBloc>(context).add(FetchCarts());
                                 },
                                 child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  padding: const EdgeInsets.all(5),
+                                  width: 30.w,
+                                  height: 30.h,
+                                  padding: EdgeInsets.all(5.w),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(width: 2, color: AppColors.cEDEDED),
+                                    border: Border.all(width: 2.w, color: AppColors.cEDEDED),
                                   ),
                                   child: SvgPicture.asset(AppIcons.minus),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: 16.w),
                               Text(
                                 cartModel.count.toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101010,
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: 16.w),
                               InkWell(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(15.r),
                                 onTap: () {
                                   if (cartModel.productQuantity > cartModel.count) {
                                     BlocProvider.of<CartBloc>(context).add(
@@ -196,12 +196,12 @@ class CartItem extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  padding: const EdgeInsets.all(5),
+                                  width: 30.w,
+                                  height: 30.h,
+                                  padding: EdgeInsets.all(5.w),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(width: 2, color: AppColors.cEDEDED),
+                                    border: Border.all(width: 2.w, color: AppColors.cEDEDED),
                                   ),
                                   child: SvgPicture.asset(
                                     AppIcons.plus,
@@ -237,7 +237,7 @@ class CartItem extends StatelessWidget {
                                 },
                               );
                             },
-                            child: SvgPicture.asset(AppIcons.delete),
+                            child: SvgPicture.asset(AppIcons.delete, width: 20.w, height: 20.h),
                           ),
                         ],
                       ),

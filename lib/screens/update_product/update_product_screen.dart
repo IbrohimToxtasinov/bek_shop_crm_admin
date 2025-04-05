@@ -203,11 +203,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                       AppCachedNetworkImage(
                         image: widget.productModel.productImage,
                         width: double.infinity,
-                        height: 250,
+                        height: 250.h,
                       ),
                       SizedBox(height: 8.h),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Column(
                           children: [
                             SizedBox(height: 10.h),
@@ -249,7 +249,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                               title: Text(
                                 "product_activity".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -269,7 +269,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                               title: Text(
                                 "production_date".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -282,7 +282,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                         ? mfgDate!.toLocal().toString().split(' ')[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.green.shade700,
                                     ),
@@ -296,7 +296,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                         }
                                       });
                                     },
-                                    icon: SvgPicture.asset(AppIcons.clear),
+                                    icon: SvgPicture.asset(
+                                      AppIcons.clear,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -307,7 +311,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                               title: Text(
                                 "expiration_date".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -320,7 +324,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                         ? expDate!.toLocal().toString().split(' ')[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.blue.shade700,
                                     ),
@@ -334,7 +338,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                         }
                                       });
                                     },
-                                    icon: SvgPicture.asset(AppIcons.clear),
+                                    icon: SvgPicture.asset(
+                                      AppIcons.clear,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
                                   ),
                                 ],
                               ),

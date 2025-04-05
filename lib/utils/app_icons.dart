@@ -13,6 +13,7 @@ class AppIcons {
   static const String delete = "assets/icons/delete.svg";
   static const String deleteBold = "assets/icons/delete_bold.svg";
   static const String download = "assets/icons/download.svg";
+  static const String share = "assets/icons/share.svg";
   static const String emptyCart = "assets/icons/empty_cart.svg";
   static const String emptySearch = "assets/icons/empty_search.svg";
   static const String locationPermission = "assets/icons/location_permission.svg";

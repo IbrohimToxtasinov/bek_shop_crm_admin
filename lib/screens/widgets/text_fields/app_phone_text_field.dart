@@ -56,9 +56,9 @@ class _AppPhoneTextFieldState extends State<AppPhoneTextField> {
       children: [
         Text(
           "client_phone_number".tr(),
-          style: TextStyle(fontSize: 16, color: AppColors.c101426, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16.sp, color: AppColors.c101426, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         TextFormField(
           enabled: widget.enabled,
           autofocus: false,
@@ -76,11 +76,11 @@ class _AppPhoneTextFieldState extends State<AppPhoneTextField> {
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
             hintText: "enter_client_phone_number".tr(),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-            errorStyle: TextStyle(color: AppColors.cFF6345, fontSize: 16),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+            errorStyle: TextStyle(color: AppColors.cFF6345, fontSize: 16.sp),
             hintStyle: TextStyle(
               color: AppColors.c878787,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
             fillColor: Colors.white,

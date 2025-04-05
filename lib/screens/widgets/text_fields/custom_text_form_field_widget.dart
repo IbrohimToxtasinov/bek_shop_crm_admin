@@ -39,7 +39,7 @@ class CustomTexFormFiledWidget extends StatelessWidget {
       children: [
         Text(
           text ?? "",
-          style: TextStyle(fontSize: 16, color: AppColors.c101426, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16.sp, color: AppColors.c101426, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 5.h),
         TextFormField(
@@ -61,7 +61,7 @@ class CustomTexFormFiledWidget extends StatelessWidget {
           cursorColor: AppColors.c101426,
           decoration: InputDecoration(
             suffixIcon: Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: EdgeInsets.only(right: 10.w),
               child: InkWell(
                 focusColor: Colors.transparent,
                 splashColor: Colors.transparent,
@@ -71,19 +71,19 @@ class CustomTexFormFiledWidget extends StatelessWidget {
                 child: SvgPicture.asset(AppIcons.clear),
               ),
             ),
-            suffixIconConstraints: BoxConstraints(minWidth: 10, minHeight: 10),
+            suffixIconConstraints: BoxConstraints(minWidth: 10.w, minHeight: 10.h),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             hintText: hintText,
             labelStyle: TextStyle(
               color: AppColors.c101426,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
-            errorStyle: TextStyle(color: AppColors.cFF6345, fontSize: 16),
+            errorStyle: TextStyle(color: AppColors.cFF6345, fontSize: 16.sp),
             contentPadding: EdgeInsets.only(left: 10.w, right: 20.w).w,
             hintStyle: TextStyle(
               color: AppColors.c878787,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
             fillColor: Colors.white,

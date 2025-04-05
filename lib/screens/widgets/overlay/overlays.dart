@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void showOverlayMessage(
   BuildContext context, {
@@ -70,13 +71,13 @@ class _OverlaySnackBarState extends State<_OverlaySnackBar> {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: EdgeInsets.only(top: 50.h),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(32.r),
           child: Material(
             child: Container(
               color: widget.status == OverlayStatus.failed ? AppColors.error : AppColors.positive,
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
               child: Text(
                 widget.text,
                 style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),

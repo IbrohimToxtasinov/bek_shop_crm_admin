@@ -35,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
               tooltip: "search".tr(),
               icon: SvgPicture.asset(
                 AppIcons.search,
-                  width: 24.w, height: 24.h,
+                width: 24.w,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
               onPressed: () => Navigator.pushNamed(context, AppRouterNames.globalSearchProducts),
@@ -59,14 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state.categories.isNotEmpty) {
                   return Expanded(
                     child: GridView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                       itemCount: state.categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio:
-                        MediaQuery.of(context).size.width > 600 ? 1.3 : 0.8,
+                        mainAxisSpacing: 10.h,
+                        crossAxisSpacing: 10.w,
+                        childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.3 : 0.85,
                       ),
                       itemBuilder: (context, index) {
                         return FruitsAndVegetablesCard(categoryModel: state.categories[index]);
@@ -76,15 +76,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16).w,
                       child: Column(
                         children: [
                           Lottie.asset(AppImages.emptyBox, repeat: false),
-                          SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           Text(
                             "empty_cart".tr(),
                             style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               color: AppColors.c101426,
                               fontWeight: FontWeight.w600,
                             ),
@@ -116,7 +116,7 @@ class FruitsAndVegetablesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         color: Colors.grey.shade300,
       ),
       child: InkWell(
@@ -139,9 +139,9 @@ class FruitsAndVegetablesCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20.r),
+                topLeft: Radius.circular(20.r),
               ),
               child: AppCachedNetworkImage(
                 height: 150.h,
@@ -155,7 +155,7 @@ class FruitsAndVegetablesCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 categoryModel.categoryName,
                 maxLines: 2,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
               ),
             ),
           ],

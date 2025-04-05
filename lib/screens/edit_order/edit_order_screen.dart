@@ -92,7 +92,7 @@ class _EditOrderScreenState extends State<EditOrderScreen> {
                 buildWhen: (previous, current) => current is OrderEditCartGetSuccess,
                 builder: (context, state) {
                   return SizedBox(
-                    height: [...state.newProducts, ...state.oldProducts].isNotEmpty ? 120.h : 0,
+                    height: [...state.newProducts, ...state.oldProducts].isNotEmpty ? 122.h : 0,
                     width: double.infinity,
                     child: Column(
                       children: [
@@ -100,17 +100,17 @@ class _EditOrderScreenState extends State<EditOrderScreen> {
                         Text(
                           '${NumberFormat.decimalPattern('uz_UZ').format(AppUtils.totalPriceForEdit([...state.oldProducts, ...state.newProducts]))} ${tr("sum")}',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.c222B45,
                           ),
                         ),
                         Text(
                           "total".tr(),
-                          style: TextStyle(fontSize: 16, color: AppColors.c222B45),
+                          style: TextStyle(fontSize: 16.sp, color: AppColors.c222B45),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 6, 16, 16),
+                          padding: EdgeInsets.fromLTRB(16.w, 6.h, 16.w, 16.h),
                           child: MainActionButton(
                             label: "edit_order".tr(),
                             onTap: () {
@@ -154,7 +154,7 @@ class _EditOrderScreenState extends State<EditOrderScreen> {
                     ),
                     IconButton(
                       tooltip: "remove_order".tr(),
-                      icon: SvgPicture.asset(AppIcons.deleteBold),
+                      icon: SvgPicture.asset(AppIcons.deleteBold, width: 24.w, height: 24.h),
                       onPressed: () {
                         showDialog<void>(
                           context: context,

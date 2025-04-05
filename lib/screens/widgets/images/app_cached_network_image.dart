@@ -1,6 +1,7 @@
 import 'package:bek_shop/utils/app_images.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppCachedNetworkImage extends StatelessWidget {
   final String image;
@@ -51,7 +52,7 @@ class AppCachedNetworkImage extends StatelessWidget {
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(radius),
           ),
-          child: Icon(Icons.error, color: Colors.grey, size: 40),
+          child: Icon(Icons.error, color: Colors.grey, size: 40.sp),
         );
       },
     );

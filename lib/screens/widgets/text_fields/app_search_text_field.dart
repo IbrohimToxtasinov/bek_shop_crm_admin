@@ -1,6 +1,7 @@
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:bek_shop/utils/app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppSearchTextField extends StatefulWidget {
@@ -44,12 +45,12 @@ class _AppSearchTextFieldState extends State<AppSearchTextField> {
           alignment: Alignment.centerRight,
           children: [
             Container(
-              height: 50,
+              height: 50.h,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.transparent),
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                borderRadius: BorderRadius.all(Radius.circular(12.r)),
                 color: widget.color,
               ),
               child: Row(
@@ -64,13 +65,13 @@ class _AppSearchTextFieldState extends State<AppSearchTextField> {
                       focusNode: widget.focusNode,
                       onChanged: widget.onChanged,
                       cursorColor: AppColors.c101828,
-                      cursorHeight: 20,
+                      cursorHeight: 20.h,
                       cursorOpacityAnimates: true,
                       textInputAction: widget.textInputAction,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: AppColors.c101828,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       controller: widget.controller,
                       decoration: InputDecoration(
@@ -83,15 +84,15 @@ class _AppSearchTextFieldState extends State<AppSearchTextField> {
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.c878787,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 5),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 5.w),
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: widget.prefixTap,
-                    child: SvgPicture.asset(AppIcons.clear, width: 20, height: 20),
+                    child: SvgPicture.asset(AppIcons.clear, width: 20.w, height: 20.h),
                   ),
                 ],
               ),

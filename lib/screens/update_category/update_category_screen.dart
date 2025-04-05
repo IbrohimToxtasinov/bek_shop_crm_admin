@@ -123,7 +123,7 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                   AppCachedNetworkImage(
                     image: widget.categoryModel.categoryImage,
                     width: double.infinity,
-                    height: 250,
+                    height: 250.h,
                   ),
                   Padding(
                     padding: EdgeInsets.all(16.w),

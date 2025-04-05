@@ -9,6 +9,7 @@ import 'package:bek_shop/utils/app_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductItemForEdit extends StatelessWidget {
@@ -28,9 +29,9 @@ class ProductItemForEdit extends StatelessWidget {
         return Opacity(
           opacity: productModel.productActive ? 1 : 0.5,
           child: Container(
-            padding: const EdgeInsets.all(5),
+            padding: EdgeInsets.all(5.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               color: AppColors.cF2F2F2,
             ),
             child: InkWell(
@@ -113,19 +114,19 @@ class ProductItemForEdit extends StatelessWidget {
                 children: [
                   AppCachedNetworkImage(
                     image: productModel.productImage,
-                    height: 150,
+                    height: MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
                     width: double.infinity,
-                    radius: 20,
+                    radius: 20.r,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5),
+                    padding: EdgeInsets.all(5.w),
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       productModel.productName,
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
@@ -146,9 +147,9 @@ class ProductItemForEdit extends StatelessWidget {
                             if (element.productId == productModel.productId &&
                                 cartModel.count != 0) {
                               return Container(
-                                height: 40,
+                                height: 40.h,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
                                 ),
                                 child: Row(
@@ -185,14 +186,24 @@ class ProductItemForEdit extends StatelessWidget {
                                           );
                                         }
                                       },
-                                      icon: SvgPicture.asset(AppIcons.minus),
+                                      icon: SvgPicture.asset(
+                                        AppIcons.minus,
+                                        height:
+                                            MediaQuery.of(context).size.width > 600 ? 5.h : null,
+                                        width:
+                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
+                                        colorFilter: ColorFilter.mode(
+                                          Colors.black,
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
                                     ),
                                     Text(
                                       cartModel.count.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: AppColors.cFFC34A,
-                                        fontSize: 20,
+                                        fontSize: 20.sp,
                                       ),
                                     ),
                                     IconButton(
@@ -223,6 +234,10 @@ class ProductItemForEdit extends StatelessWidget {
                                       },
                                       icon: SvgPicture.asset(
                                         AppIcons.plus,
+                                        height:
+                                            MediaQuery.of(context).size.width > 600 ? 20.h : null,
+                                        width:
+                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
                                         colorFilter: ColorFilter.mode(
                                           cartModel.productQuantity == cartModel.count
                                               ? Colors.grey
@@ -265,9 +280,9 @@ class ProductItemForEdit extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(15.r),
                             ),
-                            height: 40,
+                            height: 40.h,
                             alignment: Alignment.center,
                             child: Text(
                               '${NumberFormat.decimalPattern('uz_UZ').format(productModel.productPrice)} ${tr("sum")}',
@@ -282,15 +297,19 @@ class ProductItemForEdit extends StatelessWidget {
                     )
                   else
                     Container(
-                      height: 40,
+                      height: 40.h,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         color: Colors.white,
                       ),
                       child: Text(
                         "not_available".tr(),
-                        style: TextStyle(fontWeight: FontWeight.w500, color: AppColors.c101426),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.c101426,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                 ],

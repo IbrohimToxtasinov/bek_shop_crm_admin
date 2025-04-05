@@ -169,7 +169,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ? Center(
                                   child: IconButton(
                                     onPressed: _pickImage,
-                                    icon: Icon(Icons.upload, size: 40, color: Colors.black54),
+                                    icon: Icon(Icons.upload, size: 40.sp, color: Colors.black54),
                                   ),
                                 )
                                 : Stack(
@@ -177,7 +177,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   children: [
                                     Positioned.fill(child: Image.file(_image!, fit: BoxFit.cover)),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0.w),
                                       child: CircleAvatar(
                                         backgroundColor: Colors.black54,
                                         child: IconButton(
@@ -190,7 +190,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Column(
                           children: [
                             SizedBox(height: 10.h),
@@ -232,7 +232,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               title: Text(
                                 "product_activity".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -250,7 +250,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               title: Text(
                                 "production_date".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -263,7 +263,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         ? mfgDate!.toLocal().toString().split(' ')[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.green.shade700,
                                     ),
@@ -274,7 +274,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         mfgDate = null;
                                       });
                                     },
-                                    icon: SvgPicture.asset(AppIcons.clear),
+                                    icon: SvgPicture.asset(
+                                      AppIcons.clear,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -285,7 +289,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               title: Text(
                                 "expiration_date".tr(),
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),
@@ -298,7 +302,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         ? expDate!.toLocal().toString().split(' ')[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.blue.shade700,
                                     ),
@@ -309,7 +313,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         expDate = null;
                                       });
                                     },
-                                    icon: SvgPicture.asset(AppIcons.clear),
+                                    icon: SvgPicture.asset(
+                                      AppIcons.clear,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
                                   ),
                                 ],
                               ),

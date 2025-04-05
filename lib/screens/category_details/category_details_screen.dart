@@ -69,37 +69,32 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state.status == FormStatus.productLoading) {
-            return Center(
-              child: CircularProgressIndicator(color: AppColors.cFFC34A),
-            );
+            return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
           } else if (state.status == FormStatus.productSuccess) {
             if (state.products.isNotEmpty) {
               return GridView.builder(
                 itemCount: state.products.length,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio:
-                      MediaQuery.of(context).size.width > 600 ? 0.8 : 0.7,
+                  mainAxisSpacing: 10.0.h,
+                  crossAxisSpacing: 10.0.w,
+                  childAspectRatio: MediaQuery.of(context).size.width > 600 ? 0.8 : 0.67,
                 ),
-                itemBuilder:
-                    (context, index) =>
-                        ProductItem(productModel: state.products[index]),
+                itemBuilder: (context, index) => ProductItem(productModel: state.products[index]),
               );
             } else {
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   child: Column(
                     children: [
                       Lottie.asset(AppImages.emptyBox, repeat: false),
-                      SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       Text(
                         "empty_cart".tr(),
                         style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 25.sp,
                           color: AppColors.c101426,
                           fontWeight: FontWeight.w600,
                         ),
@@ -122,41 +117,37 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
           return AnimatedContainer(
             curve: Curves.ease,
             duration: const Duration(milliseconds: 100),
-            height: state.products.isNotEmpty ? 85.h : 0,
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 2),
+            height: state.products.isNotEmpty ? 85.h : 0.h,
+            width: double.infinity.w,
+            padding: EdgeInsets.only(top: 2.h),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.r),
+                topLeft: Radius.circular(25.r),
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 10,
+                  spreadRadius: 3.r,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 0),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.r),
+                topLeft: Radius.circular(25.r),
               ),
               child: Container(
                 alignment: Alignment.topCenter,
-                width: double.infinity,
+                width: double.infinity.w,
                 color: Colors.white,
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(15.w),
                 child: TotalCostButton(
                   productCount: AppUtils.cartProductsLength(state.products),
                   totalCost: AppUtils.totalPrice(state.products),
-                  onTap:
-                      () => Navigator.pushNamed(
-                        context,
-                        AppRouterNames.cartRoute,
-                      ),
+                  onTap: () => Navigator.pushNamed(context, AppRouterNames.cartRoute),
                 ),
               ),
             ),

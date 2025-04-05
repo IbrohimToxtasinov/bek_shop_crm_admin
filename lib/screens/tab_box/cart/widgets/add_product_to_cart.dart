@@ -35,7 +35,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
     return Container(
       width: double.infinity,
       height: 90.h,
-      padding:  EdgeInsets.only(top: 5.h),
+      padding: EdgeInsets.only(top: 5.h),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -45,19 +45,19 @@ class _AddProductToCartState extends State<AddProductToCart> {
             offset: const Offset(0, 0),
           ),
         ],
-        borderRadius:  BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topRight: Radius.circular(30.r),
           topLeft: Radius.circular(30.r),
         ),
       ),
       child: ClipRRect(
-        borderRadius:BorderRadius.only(
+        borderRadius: BorderRadius.only(
           topRight: Radius.circular(25.r),
           topLeft: Radius.circular(25.r),
         ),
         child: Container(
           color: Colors.white,
-          padding:  EdgeInsets.all(10.w),
+          padding: EdgeInsets.all(10.w),
           child: Row(
             children: [
               Expanded(
@@ -93,8 +93,8 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 }
                                 : null,
                         icon: SvgPicture.asset(
-                          width: 5.w,
-                          height: 5.h,
+                          width: MediaQuery.of(context).size.width > 600 ? 5.w : null,
+                          height: MediaQuery.of(context).size.width > 600 ? 5.h : null,
                           AppIcons.minus,
                           colorFilter:
                               !widget.productModel.productActive
@@ -127,8 +127,8 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 }
                                 : null,
                         icon: SvgPicture.asset(
-                          width: 18.w,
-                          height: 18.h,
+                          width: MediaQuery.of(context).size.width > 600 ? 18.w : null,
+                          height: MediaQuery.of(context).size.width > 600 ? 18.h : null,
                           AppIcons.plus,
                           colorFilter:
                               !widget.productModel.productActive
@@ -145,7 +145,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                   ),
                 ),
               ),
-              SizedBox(width: 20.w),
+              SizedBox(width: 10.w),
               Expanded(
                 flex: 3,
                 child: InkWell(
@@ -161,7 +161,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   AddCart(
                                     cartModel: CartModel(
-                                      productActive: widget.productModel.productActive ? 1: 0,
+                                      productActive: widget.productModel.productActive ? 1 : 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
                                       isCountable: widget.productModel.isCountable ? 1 : 0,
@@ -181,7 +181,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   UpdateCart(
                                     cartModel: CartModel(
-                                      productActive: widget.productModel.productActive ? 1: 0,
+                                      productActive: widget.productModel.productActive ? 1 : 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
                                       id: widget.cartId,
@@ -210,7 +210,7 @@ class _AddProductToCartState extends State<AddProductToCart> {
                     decoration: BoxDecoration(
                       color:
                           widget.productModel.productActive ? AppColors.cFFC34A : AppColors.cF2F2F2,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Text(
                       widget.productModel.productActive

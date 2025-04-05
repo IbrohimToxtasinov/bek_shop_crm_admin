@@ -116,7 +116,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                               ? Center(
                                 child: IconButton(
                                   onPressed: _pickImage,
-                                  icon: Icon(Icons.upload, size: 40, color: Colors.black54),
+                                  icon: Icon(Icons.upload, size: 40.sp, color: Colors.black54),
                                 ),
                               )
                               : Stack(
@@ -124,7 +124,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                 children: [
                                   Positioned.fill(child: Image.file(_image!, fit: BoxFit.cover)),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(8.0.w),
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black54,
                                       child: IconButton(

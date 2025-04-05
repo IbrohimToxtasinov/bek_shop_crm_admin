@@ -1,6 +1,7 @@
 import 'package:bek_shop/data/models/order/order_product_model.dart';
 import 'package:bek_shop/screens/edit_order/widget/add_product_to_order_edit_cart.dart';
 import 'package:bek_shop/screens/router.dart';
+import 'package:bek_shop/screens/widgets/buttons/main_action_button.dart';
 import 'package:bek_shop/screens/widgets/buttons/main_back_button.dart';
 import 'package:bek_shop/screens/widgets/images/app_cached_network_image.dart';
 import 'package:bek_shop/utils/app_colors.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetailBottomSheetScreenForEdit extends StatefulWidget {
+  final bool isViewInOrderDetail;
   final OrderProductModel productModel;
   final int? cartCount;
   final String? cartId;
@@ -17,6 +19,7 @@ class ProductDetailBottomSheetScreenForEdit extends StatefulWidget {
   const ProductDetailBottomSheetScreenForEdit({
     super.key,
     required this.productModel,
+    this.isViewInOrderDetail = false,
     this.cartCount,
     this.cartId,
   });
@@ -31,11 +34,11 @@ class _ProductDetailBottomSheetScreenForEditState
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30.r),
+          topLeft: Radius.circular(30.r),
         ),
       ),
       child: Stack(
@@ -53,19 +56,19 @@ class _ProductDetailBottomSheetScreenForEditState
                   );
                 },
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(18.r),
+                    topLeft: Radius.circular(18.r),
                   ),
                   child: AppCachedNetworkImage(
                     image: widget.productModel.productImage,
                     width: double.infinity,
-                    height: 274,
+                    height: 274.h,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -73,18 +76,18 @@ class _ProductDetailBottomSheetScreenForEditState
                       widget.productModel.productName,
                       style: TextStyle(
                         color: AppColors.c101828,
-                        fontSize: 26,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Text(
                         '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.productPrice)} ${tr("sum")}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green.shade700,
-                          fontSize: 22,
+                          fontSize: 22.sp,
                         ),
                       ),
                     ),
@@ -94,62 +97,69 @@ class _ProductDetailBottomSheetScreenForEditState
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: AppColors.c878787,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                       ),
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      "${tr("available")}: ${widget.productModel.productQuantity.toInt()} ${widget.productModel.isCountable ? "dona" : "kg"}",
+                      "${tr(!widget.isViewInOrderDetail ? "available" : "quantity")}: ${widget.productModel.productQuantity.toInt()} ${widget.productModel.isCountable ? "dona" : "kg"}",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Colors.orange,
-                        fontSize: 20,
+                        fontSize: 20.sp,
                       ),
                     ),
                     if (widget.productModel.mfgDate.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                        padding: EdgeInsets.only(top: 5.h),
                         child: Text(
                           "${tr("mfg_date")}: ${AppUtils.formatProductDate(widget.productModel.mfgDate)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.blue.shade700,
-                            fontSize: 18,
+                            fontSize: 18.sp,
                           ),
                         ),
                       ),
                     if (widget.productModel.expDate.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                        padding: EdgeInsets.only(top: 5.h),
                         child: Text(
                           "${tr("exp_date")}: ${AppUtils.formatProductDate(widget.productModel.expDate)}",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.red.shade700,
-                            fontSize: 18,
+                            fontSize: 18.sp,
                           ),
                         ),
                       ),
                   ],
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: AddProductToOrderEditCart(
-                  productModel: widget.productModel,
-                  cartCount: widget.cartCount,
-                  cartId: widget.cartId,
-                ),
-              ),
+              !widget.isViewInOrderDetail
+                  ? Padding(
+                    padding: EdgeInsets.only(bottom: 0.h),
+                    child: AddProductToOrderEditCart(
+                      productModel: widget.productModel,
+                      cartCount: widget.cartCount,
+                      cartId: widget.cartId,
+                    ),
+                  )
+                  : Padding(
+                    padding: EdgeInsets.all(10.w),
+                    child: MainActionButton(
+                      onTap: () => Navigator.pop(context),
+                      label: "cancel".tr(),
+                    ),
+                  ),
             ],
           ),
           Positioned(
-            top: 10.0,
-            right: 10.0,
+            top: 10.0.h,
+            right: 10.0.w,
             child: MainBackButton(icon: Icons.clear, color: Colors.white),
           ),
         ],

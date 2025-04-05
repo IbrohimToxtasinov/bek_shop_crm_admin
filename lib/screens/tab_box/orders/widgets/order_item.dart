@@ -15,7 +15,7 @@ class OrderItem extends StatelessWidget {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      borderRadius: BorderRadius.circular(22),
+      borderRadius: BorderRadius.circular(22.r),
       onTap: () {
         Navigator.pushNamed(context, AppRouterNames.orderDetailRoute, arguments: orderModel);
       },
@@ -23,13 +23,13 @@ class OrderItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(22.r),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 6,
+              spreadRadius: 2.r,
+              blurRadius: 6.r,
               offset: const Offset(0, 2),
             ),
           ],

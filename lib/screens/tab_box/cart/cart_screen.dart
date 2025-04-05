@@ -34,7 +34,7 @@ class CartScreen extends StatelessWidget {
           showTrailing: true,
           trailing: IconButton(
             tooltip: "delete_cart".tr(),
-            icon: SvgPicture.asset(AppIcons.deleteBold),
+            icon: SvgPicture.asset(AppIcons.deleteBold, width: 24.w, height: 24.h),
             onPressed: () {
               showDialog<void>(
                 context: context,
@@ -67,10 +67,10 @@ class CartScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(AppIcons.emptyCart, height: 150.h, width: 200.w),
-                        SizedBox(height: 24),
+                        SizedBox(height: 24.h),
                         Text(
                           "empty_cart".tr(),
-                          style: TextStyle(fontSize: 25, color: AppColors.c8F9BB3),
+                          style: TextStyle(fontSize: 25.sp, color: AppColors.c8F9BB3),
                         ),
                       ],
                     ),
@@ -86,7 +86,7 @@ class CartScreen extends StatelessWidget {
           buildWhen: (previous, current) => current is CartLoadInSuccessGet,
           builder: (context, state) {
             return SizedBox(
-              height: state.products.isNotEmpty ? 120.h : 0,
+              height: state.products.isNotEmpty ? 122.h : 0.h,
               width: double.infinity,
               child: Column(
                 children: [
@@ -94,14 +94,14 @@ class CartScreen extends StatelessWidget {
                   Text(
                     '${NumberFormat.decimalPattern('uz_UZ').format(AppUtils.totalPrice(state.products))} ${tr("sum")}',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.c222B45,
                     ),
                   ),
-                  Text("total".tr(), style: TextStyle(fontSize: 16, color: AppColors.c222B45)),
+                  Text("total".tr(), style: TextStyle(fontSize: 16.sp, color: AppColors.c222B45)),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 6, 16, 16),
+                    padding: EdgeInsets.fromLTRB(16.w, 6.h, 16.w, 16.h),
                     child: BlocListener<LocationBloc, LocationState>(
                       listener: (context, locationState) {
                         if (locationState is LocationLoading) {
@@ -143,10 +143,10 @@ class CartScreen extends StatelessWidget {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(32),
-                                topLeft: Radius.circular(32),
+                                topRight: Radius.circular(32.r),
+                                topLeft: Radius.circular(32.r),
                               ),
                             ),
                             backgroundColor: Colors.white,
@@ -168,10 +168,10 @@ class CartScreen extends StatelessWidget {
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(32),
-                                topLeft: Radius.circular(32),
+                                topRight: Radius.circular(32.r),
+                                topLeft: Radius.circular(32.r),
                               ),
                             ),
                             backgroundColor: Colors.white,

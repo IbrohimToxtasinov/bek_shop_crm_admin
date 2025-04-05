@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppUiLoadingContainer extends StatelessWidget {
   final String? loadingText;
@@ -51,14 +52,14 @@ class AppUiLoadingContainer extends StatelessWidget {
                   children: [
                     Center(
                       child: SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(progressColor ?? Colors.white),
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Center(
                       child: Text(
                         textAlign: TextAlign.center,
@@ -66,7 +67,7 @@ class AppUiLoadingContainer extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                          fontSize: 20.sp,
                         ),
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'package:bek_shop/screens/widgets/buttons/main_action_outlined_button.dar
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LocationSettingsBottomSheet extends StatelessWidget {
@@ -25,12 +26,12 @@ class LocationSettingsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.all(24.w),
+      decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(32),
-          topRight: Radius.circular(32),
+          topLeft: Radius.circular(32.r),
+          topRight: Radius.circular(32.r),
         ),
       ),
       child: Column(
@@ -38,35 +39,32 @@ class LocationSettingsBottomSheet extends StatelessWidget {
         children: [
           Center(
             child: Container(
-              decoration: const BoxDecoration(
-                color: AppColors.cFFC34A,
-                shape: BoxShape.circle,
-              ),
+              decoration: const BoxDecoration(color: AppColors.cFFC34A, shape: BoxShape.circle),
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(15.w),
                 child: SvgPicture.asset(
                   icon,
-                  height: 32,
+                  height: 32.h,
                   colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             subTitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(fontSize: 16.sp, color: Colors.grey),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           MainActionButton(label: buttonText, onTap: () => onTap!.call()),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           MainActionOutlinedButton(label: "cancel".tr(), onTap: () => Navigator.pop(context)),
         ],
       ),

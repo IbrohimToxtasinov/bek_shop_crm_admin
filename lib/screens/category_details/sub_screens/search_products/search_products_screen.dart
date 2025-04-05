@@ -50,7 +50,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.w),
               child: Row(
                 children: [
                   Expanded(
@@ -71,25 +71,25 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  SizedBox(width: 7.w),
                   SizedBox(
-                    height: 50,
+                    height: 50.h,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       onTap: () => Navigator.pop(context),
                       child: Center(
                         child: Row(
                           children: [
-                            const SizedBox(width: 5),
+                            SizedBox(width: 5.w),
                             Text(
                               "cancel".tr(),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(width: 5),
+                            SizedBox(width: 5.w),
                           ],
                         ),
                       ),
@@ -111,14 +111,14 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
                                 child: Text(
                                   tr('items_found', args: [state.products.length.toString()]),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.c101828,
-                                    fontSize: 22,
+                                    fontSize: 22.sp,
                                   ),
                                 ),
                               ),
@@ -126,12 +126,13 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: state.products.length,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  mainAxisSpacing: 10.0,
-                                  crossAxisSpacing: 10.0,
-                                  childAspectRatio: 0.7,
+                                  mainAxisSpacing: 10.0.h,
+                                  crossAxisSpacing: 10.0.w,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.width > 600 ? 0.8 : 0.67,
                                 ),
                                 itemBuilder: (context, index) {
                                   return ProductItem(
@@ -140,7 +141,7 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                                   );
                                 },
                               ),
-                              SizedBox(height: 10.h),
+                              SizedBox(height: 5.h),
                             ],
                           ),
                         )
@@ -148,17 +149,17 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 150),
+                              SizedBox(height: 150.h),
                               SvgPicture.asset(AppIcons.emptySearch, height: 150.h, width: 200.w),
                               Padding(
-                                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                                padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
                                 child: Text(
                                   tr('items_found', args: [state.products.length.toString()]),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.c101828,
-                                    fontSize: 22,
+                                    fontSize: 22.sp,
                                   ),
                                 ),
                               ),
@@ -182,33 +183,33 @@ class _SearchProductsScreenState extends State<SearchProductsScreen> {
           return AnimatedContainer(
             curve: Curves.ease,
             duration: const Duration(milliseconds: 100),
-            height: state.products.isNotEmpty ? 85.h : 0,
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 2),
+            height: state.products.isNotEmpty ? 85.h : 0.h,
+            width: double.infinity.w,
+            padding: EdgeInsets.only(top: 2.h),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.r),
+                topLeft: Radius.circular(25.r),
               ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 10,
+                  spreadRadius: 3.r,
+                  blurRadius: 10.r,
                   offset: const Offset(0, 0),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(25),
-                topLeft: Radius.circular(25),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.r),
+                topLeft: Radius.circular(25.r),
               ),
               child: Container(
                 alignment: Alignment.topCenter,
-                width: double.infinity,
+                width: double.infinity.w,
                 color: Colors.white,
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(15.w),
                 child: TotalCostButton(
                   productCount: AppUtils.cartProductsLength(state.products),
                   totalCost: AppUtils.totalPrice(state.products),
