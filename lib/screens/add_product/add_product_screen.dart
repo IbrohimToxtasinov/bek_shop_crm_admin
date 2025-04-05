@@ -83,11 +83,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("product_unit".tr(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text("product_unit".tr(), style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         SegmentedButton<String>(
           segments: [
-            ButtonSegment(value: "dona", label: Text("piece".tr())),
-            ButtonSegment(value: "kg", label: Text("kg".tr())),
+            ButtonSegment(value: "dona", label: Text("piece".tr(),style: TextStyle(fontSize: 14.sp),)),
+            ButtonSegment(value: "kg", label: Text("kg".tr(),style: TextStyle(fontSize: 14.sp))),
           ],
           selected: {isCountable ? "dona" : "kg"},
           onSelectionChanged: (newValue) {

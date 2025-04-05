@@ -92,7 +92,7 @@ class _EditOrderScreenState extends State<EditOrderScreen> {
                 buildWhen: (previous, current) => current is OrderEditCartGetSuccess,
                 builder: (context, state) {
                   return SizedBox(
-                    height: [...state.newProducts, ...state.oldProducts].isNotEmpty ? 122.h : 0,
+                    height: [...state.newProducts, ...state.oldProducts].isNotEmpty ? 140.h : 0,
                     width: double.infinity,
                     child: Column(
                       children: [

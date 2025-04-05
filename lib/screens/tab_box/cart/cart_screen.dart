@@ -86,7 +86,7 @@ class CartScreen extends StatelessWidget {
           buildWhen: (previous, current) => current is CartLoadInSuccessGet,
           builder: (context, state) {
             return SizedBox(
-              height: state.products.isNotEmpty ? 122.h : 0.h,
+              height: state.products.isNotEmpty ? 140.h : 0.h,
               width: double.infinity,
               child: Column(
                 children: [

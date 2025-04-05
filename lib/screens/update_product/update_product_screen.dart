@@ -92,11 +92,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("product_unit".tr(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text("product_unit".tr(), style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         SegmentedButton<String>(
           segments: [
-            ButtonSegment(value: "dona", label: Text("piece".tr())),
-            ButtonSegment(value: "kg", label: Text("kg".tr())),
+            ButtonSegment(value: "dona", label: Text("piece".tr(),style: TextStyle(fontSize: 14.sp))),
+            ButtonSegment(value: "kg", label: Text("kg".tr(),style: TextStyle(fontSize: 14.sp))),
           ],
           selected: {isCountable ? "dona" : "kg"},
           onSelectionChanged: (newValue) {
@@ -173,6 +173,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   tooltip: "delete_product",
                   icon: SvgPicture.asset(
                     AppIcons.deleteBold,
+                    width: 24.w,
+                    height: 24.h,
                     colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                   ),
                   onPressed: () {
@@ -249,7 +251,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                               title: Text(
                                 "product_activity".tr(),
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 19.sp,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.c101426,
                                 ),

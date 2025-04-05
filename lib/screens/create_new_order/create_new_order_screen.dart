@@ -101,7 +101,7 @@ class _CreateNewOrderScreenState extends State<CreateNewOrderScreen> {
                 state is UpdateProductLoadInSuccess,
             child: Scaffold(
               bottomNavigationBar: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                padding:  EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 20.h),
                 child: MainActionButton(
                   label: "create".tr(),
                   onTap: () {
@@ -130,7 +130,7 @@ class _CreateNewOrderScreenState extends State<CreateNewOrderScreen> {
               body: Form(
                 key: formGlobalKey,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:  EdgeInsets.symmetric(horizontal: 20.w),
                   child: Column(
                     children: [
                       SizedBox(height: 32.h),

@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 10.h,
                         crossAxisSpacing: 10.w,
-                        childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1.3 : 0.85,
+                        childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1 : 0.85,
                       ),
                       itemBuilder: (context, index) {
                         return FruitsAndVegetablesCard(categoryModel: state.categories[index]);

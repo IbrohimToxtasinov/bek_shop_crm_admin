@@ -287,6 +287,7 @@ class ProductItemForEdit extends StatelessWidget {
                             child: Text(
                               '${NumberFormat.decimalPattern('uz_UZ').format(productModel.productPrice)} ${tr("sum")}',
                               style: TextStyle(
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.c101828,
                               ),

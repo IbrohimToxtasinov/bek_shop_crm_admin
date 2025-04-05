@@ -61,7 +61,7 @@ class CartItem extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
             width: double.infinity.w,
-            height: 110.h,
+            height: 123.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(22.r),
               color: Colors.white,

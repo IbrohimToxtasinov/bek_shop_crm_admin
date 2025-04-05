@@ -20,6 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
   Widget build(BuildContext context) {
     return AppBar(
       forceMaterialTransparency: true,
+      iconTheme: IconThemeData(size: 20.w),
       elevation: 0,
       title: Text(title),
       titleTextStyle: TextStyle(

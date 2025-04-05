@@ -94,6 +94,8 @@ class _UpdateCategoryScreenState extends State<UpdateCategoryScreen> {
                 trailing: IconButton(
                   tooltip: "delete_category".tr(),
                   icon: SvgPicture.asset(
+                    width: 24.w,
+                    height: 24.h,
                     AppIcons.deleteBold,
                     colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                   ),

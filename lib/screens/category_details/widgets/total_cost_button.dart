@@ -1,6 +1,7 @@
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TotalCostButton extends StatelessWidget {
   final void Function()? onTap;
@@ -17,14 +18,14 @@ class TotalCostButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(30.r),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        height: 50,
+        padding:  EdgeInsets.symmetric(horizontal: 10.w),
+        height: 50.h,
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           color: AppColors.cFFC34A,
         ),
         child: Center(
@@ -35,8 +36,8 @@ class TotalCostButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 35,
-                    width: 35,
+                    height: 35.h,
+                    width: 35.w,
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
@@ -45,16 +46,16 @@ class TotalCostButton extends StatelessWidget {
                     child: Text(
                       productCount,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,fontSize: 14.sp),
                     ),
                   ),
-                  const SizedBox(width: 5),
+                   SizedBox(width: 5.w),
                   Text(
                     "total_cost".tr(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.c101426,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                     ),
                   ),
                 ],
@@ -64,7 +65,7 @@ class TotalCostButton extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.c101426,
-                  fontSize: 20,
+                  fontSize: 20.sp,
                 ),
               ),
             ],

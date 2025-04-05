@@ -57,6 +57,7 @@ class _AppSearchTextFieldState extends State<AppSearchTextField> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
+                    width: 24.w,height: 24.h,
                     AppIcons.search,
                     colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                   ),

@@ -42,7 +42,7 @@ class _OrderSearchScreenState extends State<OrderSearchScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding:  EdgeInsets.all(20.w),
               child: Row(
                 children: [
                   Expanded(
@@ -63,25 +63,25 @@ class _OrderSearchScreenState extends State<OrderSearchScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 7),
+             SizedBox(width: 7.w),
                   SizedBox(
-                    height: 50,
+                    height: 50.h,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       onTap: () => Navigator.pop(context),
                       child: Center(
                         child: Row(
                           children: [
-                            const SizedBox(width: 5),
+                             SizedBox(width: 5.w),
                             Text(
                               "cancel".tr(),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(width: 5),
+                             SizedBox(width: 5.w),
                           ],
                         ),
                       ),
@@ -103,14 +103,14 @@ class _OrderSearchScreenState extends State<OrderSearchScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                                padding:  EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
                                 child: Text(
                                   tr('order_items_found', args: [state.orders.length.toString()]),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.c101828,
-                                    fontSize: 22,
+                                    fontSize: 16.sp,
                                   ),
                                 ),
                               ),
@@ -130,17 +130,17 @@ class _OrderSearchScreenState extends State<OrderSearchScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 150),
+                               SizedBox(height: 150.h),
                               SvgPicture.asset(AppIcons.emptySearch, height: 150.h, width: 200.w),
                               Padding(
-                                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                                padding:  EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
                                 child: Text(
                                   tr('order_items_found', args: [state.orders.length.toString()]),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.c101828,
-                                    fontSize: 22,
+                                    fontSize: 22.sp,
                                   ),
                                 ),
                               ),
