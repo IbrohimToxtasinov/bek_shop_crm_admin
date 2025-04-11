@@ -1,10 +1,14 @@
 import 'package:bek_shop/blocs/category/category_bloc.dart';
 import 'package:bek_shop/blocs/product/product_bloc.dart';
+import 'package:bek_shop/blocs/products_pdf/products_pdf_bloc.dart';
 import 'package:bek_shop/data/enums/form_status.dart';
 import 'package:bek_shop/data/models/category/category_model.dart';
+import 'package:bek_shop/data/repositories/product_repository.dart';
 import 'package:bek_shop/screens/router.dart';
 import 'package:bek_shop/screens/widgets/app_bar/custom_appbar.dart';
+import 'package:bek_shop/screens/widgets/containers/app_ui_loading_container.dart';
 import 'package:bek_shop/screens/widgets/images/app_cached_network_image.dart';
+import 'package:bek_shop/screens/widgets/overlay/overlays.dart';
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:bek_shop/utils/app_icons.dart';
 import 'package:bek_shop/utils/app_images.dart';
@@ -25,83 +29,124 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: "categories".tr(),
-        showTrailing: true,
-        trailing: Row(
-          children: [
-            IconButton(
-              tooltip: "search".tr(),
-              icon: SvgPicture.asset(
-                AppIcons.search,
-                width: 24.w,
-                height: 24.h,
-                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-              ),
-              onPressed: () => Navigator.pushNamed(context, AppRouterNames.globalSearchProducts),
-            ),
-            IconButton(
-              tooltip: "add_category".tr(),
-              onPressed: () => Navigator.pushNamed(context, AppRouterNames.addCategoryRoute),
-              icon: SvgPicture.asset(AppIcons.add, width: 24.w, height: 24.h),
-            ),
-          ],
-        ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BlocBuilder<CategoryBloc, CategoryState>(
-            builder: (context, state) {
-              if (state.status == FormStatus.categoryLoading) {
-                return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
-              } else if (state.status == FormStatus.categorySuccess) {
-                if (state.categories.isNotEmpty) {
-                  return Expanded(
-                    child: GridView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      itemCount: state.categories.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10.h,
-                        crossAxisSpacing: 10.w,
-                        childAspectRatio: MediaQuery.of(context).size.width > 600 ? 1 : 0.85,
+    return BlocProvider(
+      create: (context) => ProductsPdfBloc(context.read<ProductRepository>()),
+      child: BlocConsumer<ProductsPdfBloc, ProductsPdfState>(
+        listener: (context, pdfState) {
+          if (pdfState is ProductsPdfError) {
+            showOverlayMessage(context, text: pdfState.message);
+          }
+        },
+        builder: (context, pdfState) {
+          return AppUiLoadingContainer(
+            isLoading: pdfState is ProductsPdfLoading || pdfState is ProductsPdfGenerated,
+            loadingText:
+                pdfState is ProductsPdfLoading
+                    ? "${tr("creating_pdf")}..."
+                    : pdfState is ProductsPdfGenerated
+                    ? "${tr("pdf_file_created")}!"
+                    : null,
+            child: Scaffold(
+              appBar: CustomAppBar(
+                centerTitle: false,
+                title: "categories".tr(),
+                showTrailing: true,
+                trailing: Row(
+                  children: [
+                    IconButton(
+                      tooltip: "search".tr(),
+                      icon: SvgPicture.asset(
+                        AppIcons.search,
+                        width: 24.w,
+                        height: 24.h,
+                        colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                       ),
-                      itemBuilder: (context, index) {
-                        return FruitsAndVegetablesCard(categoryModel: state.categories[index]);
+                      onPressed:
+                          () => Navigator.pushNamed(context, AppRouterNames.globalSearchProducts),
+                    ),
+                    IconButton(
+                      tooltip: "add_category".tr(),
+                      onPressed:
+                          () => Navigator.pushNamed(context, AppRouterNames.addCategoryRoute),
+                      icon: SvgPicture.asset(AppIcons.add, width: 24.w, height: 24.h),
+                    ),
+                    IconButton(
+                      tooltip: "download".tr(),
+                      icon: SvgPicture.asset(AppIcons.download, width: 24.w, height: 24.h),
+                      onPressed: () {
+                        context.read<ProductsPdfBloc>().add(GenerateAndSharePdfEvent(share: false));
                       },
                     ),
-                  );
-                } else {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16).w,
-                      child: Column(
-                        children: [
-                          Lottie.asset(AppImages.emptyBox, repeat: false),
-                          SizedBox(height: 24.h),
-                          Text(
-                            "empty_cart".tr(),
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              color: AppColors.c101426,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                    IconButton(
+                      tooltip: "share".tr(),
+                      icon: SvgPicture.asset(AppIcons.share, width: 24.w, height: 24.h),
+                      onPressed: () {
+                        context.read<ProductsPdfBloc>().add(GenerateAndSharePdfEvent(share: true));
+                      },
                     ),
-                  );
-                }
-              } else if (state.status == FormStatus.categoryFail) {
-                return Center(child: Text(state.errorMessage));
-              } else {
-                return Center(child: Text("some_error".tr()));
-              }
-            },
-          ),
-        ],
+                  ],
+                ),
+              ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  BlocBuilder<CategoryBloc, CategoryState>(
+                    builder: (context, state) {
+                      if (state.status == FormStatus.categoryLoading) {
+                        return Center(child: CircularProgressIndicator(color: AppColors.cFFC34A));
+                      } else if (state.status == FormStatus.categorySuccess) {
+                        if (state.categories.isNotEmpty) {
+                          return Expanded(
+                            child: GridView.builder(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                              itemCount: state.categories.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10.h,
+                                crossAxisSpacing: 10.w,
+                                childAspectRatio:
+                                    MediaQuery.of(context).size.width > 600 ? 1 : 0.85,
+                              ),
+                              itemBuilder: (context, index) {
+                                return FruitsAndVegetablesCard(
+                                  categoryModel: state.categories[index],
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16).w,
+                              child: Column(
+                                children: [
+                                  Lottie.asset(AppImages.emptyBox, repeat: false),
+                                  SizedBox(height: 24.h),
+                                  Text(
+                                    "empty_cart".tr(),
+                                    style: TextStyle(
+                                      fontSize: 25.sp,
+                                      color: AppColors.c101426,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                      } else if (state.status == FormStatus.categoryFail) {
+                        return Center(child: Text(state.errorMessage));
+                      } else {
+                        return Center(child: Text("some_error".tr()));
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -150,7 +195,7 @@ class FruitsAndVegetablesCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(vertical: 8.h,horizontal: 10.w),
+              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 categoryModel.categoryName,

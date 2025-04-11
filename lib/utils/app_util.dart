@@ -1,5 +1,6 @@
 import 'package:bek_shop/data/models/cart/cart_model.dart';
 import 'package:bek_shop/data/models/order/order_product_model.dart';
+import 'package:bek_shop/data/models/product/product_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AppUtils {
@@ -27,6 +28,14 @@ class AppUtils {
     num sum = 0;
     for (int i = 0; i < products.length; i++) {
       sum = sum + products[i].productPrice * products[i].count;
+    }
+    return sum;
+  }
+
+  static num totalPriceForPDF(List<ProductModel> products) {
+    num sum = 0;
+    for (int i = 0; i < products.length; i++) {
+      sum = sum + products[i].productPrice * products[i].productQuantity;
     }
     return sum;
   }

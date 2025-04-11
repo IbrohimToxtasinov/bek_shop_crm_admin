@@ -45,6 +45,19 @@ class ProductRepository {
     }
   }
 
+  Future<List<ProductModel>> getAllProducts() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await _firestore.collection("products").orderBy("created_at", descending: true).get();
+
+      return querySnapshot.docs
+          .map((doc) => ProductModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Stream<List<ProductModel>> getProductsByCategoryId({required String categoryId}) => _firestore
       .collection("products")
       .where("category_id", isEqualTo: categoryId)
