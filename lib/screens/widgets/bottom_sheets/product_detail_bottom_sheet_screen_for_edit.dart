@@ -102,7 +102,7 @@ class _ProductDetailBottomSheetScreenForEditState
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      "${tr(!widget.isViewInOrderDetail ? "available" : "quantity")}: ${widget.productModel.productQuantity.toInt()} ${widget.productModel.isCountable ? "dona" : "kg"}",
+                      "${tr(!widget.isViewInOrderDetail ? "available" : "quantity")}: ${!widget.isViewInOrderDetail ? widget.productModel.productQuantity.toInt() : widget.productModel.count.toInt()} ${widget.productModel.isCountable ? "dona" : "kg"}",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,

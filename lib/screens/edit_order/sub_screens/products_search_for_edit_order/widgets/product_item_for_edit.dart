@@ -23,9 +23,14 @@ class ProductItemForEdit extends StatelessWidget {
     return BlocBuilder<OrderEditCartBloc, OrderEditCartState>(
       buildWhen: (previous, current) => current is OrderEditCartGetSuccess,
       builder: (context, state) {
-        List<OrderProductModel> products = [...state.oldProducts, ...state.newProducts];
+        List<OrderProductModel> products = [
+          ...state.oldProducts,
+          ...state.newProducts,
+        ];
         List<OrderProductModel> exists =
-            products.where((e) => e.productId == productModel.productId).toList();
+            products
+                .where((e) => e.productId == productModel.productId)
+                .toList();
         return Opacity(
           opacity: productModel.productActive ? 1 : 0.5,
           child: Container(
@@ -44,12 +49,15 @@ class ProductItemForEdit extends StatelessWidget {
                     OrderProductModel cartModel = products.firstWhere(
                       (element) => element.productId == productModel.productId,
                     );
-                    if (element.productId == productModel.productId && cartModel.count != 0) {
+                    if (element.productId == productModel.productId &&
+                        cartModel.count != 0) {
                       showModalBottomSheet<void>(
                         context: context,
                         isScrollControlled: true,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
                         ),
                         builder: (BuildContext context) {
                           return ProductDetailBottomSheetScreenForEdit(
@@ -60,13 +68,17 @@ class ProductItemForEdit extends StatelessWidget {
                               isCountable: productModel.isCountable,
                               productName: productModel.productName,
                               productImage: productModel.productImage,
-                              productPrice: productModel.productPrice.toDouble(),
-                              productDescription: productModel.productDescription,
+                              productPrice:
+                                  productModel.productPrice.toDouble(),
+                              productDescription:
+                                  productModel.productDescription,
                               productId: productModel.productId,
                               categoryId: productModel.categoryId,
                               createdAt: productModel.createdAt,
+                              updatedAt: productModel.updatedAt,
                               productActive: productModel.productActive,
-                              productQuantity: productModel.productQuantity.toInt(),
+                              productQuantity:
+                                  productModel.productQuantity.toInt(),
                             ),
                             cartCount: cartModel.count.toInt(),
                             cartId: cartModel.productId,
@@ -81,7 +93,9 @@ class ProductItemForEdit extends StatelessWidget {
                     context: context,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
                     ),
                     builder: (BuildContext context) {
                       return ProductDetailBottomSheetScreenForEdit(
@@ -97,6 +111,7 @@ class ProductItemForEdit extends StatelessWidget {
                           productId: productModel.productId,
                           categoryId: productModel.categoryId,
                           createdAt: productModel.createdAt,
+                          updatedAt: productModel.updatedAt,
                           productActive: productModel.productActive,
                           productQuantity: productModel.productQuantity.toInt(),
                         ),
@@ -114,7 +129,8 @@ class ProductItemForEdit extends StatelessWidget {
                 children: [
                   AppCachedNetworkImage(
                     image: productModel.productImage,
-                    height: MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
+                    height:
+                        MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
                     width: double.infinity,
                     radius: 20.r,
                   ),
@@ -142,7 +158,8 @@ class ProductItemForEdit extends StatelessWidget {
                         if (exists.isNotEmpty) {
                           for (var element in products) {
                             OrderProductModel cartModel = products.firstWhere(
-                              (element) => element.productId == productModel.productId,
+                              (element) =>
+                                  element.productId == productModel.productId,
                             );
                             if (element.productId == productModel.productId &&
                                 cartModel.count != 0) {
@@ -153,34 +170,55 @@ class ProductItemForEdit extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconButton(
                                       highlightColor: Colors.transparent,
                                       onPressed: () {
                                         if (cartModel.count == 1) {
-                                          BlocProvider.of<OrderEditCartBloc>(context).add(
+                                          BlocProvider.of<OrderEditCartBloc>(
+                                            context,
+                                          ).add(
                                             DeleteOrderEditCartProductById(
                                               productId: cartModel.productId,
                                             ),
                                           );
                                         } else {
-                                          BlocProvider.of<OrderEditCartBloc>(context).add(
+                                          BlocProvider.of<OrderEditCartBloc>(
+                                            context,
+                                          ).add(
                                             UpdateOrderEditCartProduct(
                                               product: OrderProductModel(
-                                                productQuantity: cartModel.productQuantity.toInt(),
-                                                productImage: productModel.productImage,
-                                                productName: productModel.productName,
-                                                productPrice: productModel.productPrice,
-                                                productId: productModel.productId,
-                                                categoryId: productModel.categoryId,
+                                                productQuantity:
+                                                    cartModel.productQuantity
+                                                        .toInt(),
+                                                productImage:
+                                                    productModel.productImage,
+                                                productName:
+                                                    productModel.productName,
+                                                productPrice:
+                                                    productModel.productPrice,
+                                                productId:
+                                                    productModel.productId,
+                                                categoryId:
+                                                    productModel.categoryId,
                                                 count: cartModel.count - 1,
-                                                isCountable: productModel.isCountable,
-                                                createdAt: productModel.createdAt,
-                                                productActive: productModel.productActive,
-                                                mfgDate: productModel.mfgDate ?? "",
-                                                expDate: productModel.expDate ?? "",
-                                                productDescription: productModel.productDescription,
+                                                isCountable:
+                                                    productModel.isCountable,
+                                                createdAt:
+                                                    productModel.createdAt,
+                                                updatedAt:
+                                                    productModel.updatedAt,
+                                                productActive:
+                                                    productModel.productActive,
+                                                mfgDate:
+                                                    productModel.mfgDate ?? "",
+                                                expDate:
+                                                    productModel.expDate ?? "",
+                                                productDescription:
+                                                    productModel
+                                                        .productDescription,
                                               ),
                                             ),
                                           );
@@ -189,9 +227,15 @@ class ProductItemForEdit extends StatelessWidget {
                                       icon: SvgPicture.asset(
                                         AppIcons.minus,
                                         height:
-                                            MediaQuery.of(context).size.width > 600 ? 5.h : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 5.h
+                                                : null,
                                         width:
-                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.w
+                                                : null,
                                         colorFilter: ColorFilter.mode(
                                           Colors.black,
                                           BlendMode.srcIn,
@@ -208,38 +252,67 @@ class ProductItemForEdit extends StatelessWidget {
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        if (cartModel.productQuantity > cartModel.count) {
-                                          BlocProvider.of<OrderEditCartBloc>(context).add(
+                                        if (cartModel.productQuantity >
+                                            cartModel.count) {
+                                          BlocProvider.of<OrderEditCartBloc>(
+                                            context,
+                                          ).add(
                                             UpdateOrderEditCartProduct(
                                               product: OrderProductModel(
-                                                productQuantity: cartModel.productQuantity.toInt(),
-                                                productImage: productModel.productImage,
-                                                productName: productModel.productName,
-                                                productPrice: productModel.productPrice,
-                                                productId: productModel.productId,
-                                                categoryId: productModel.categoryId,
+                                                productQuantity:
+                                                    cartModel.productQuantity
+                                                        .toInt(),
+                                                productImage:
+                                                    productModel.productImage,
+                                                productName:
+                                                    productModel.productName,
+                                                productPrice:
+                                                    productModel.productPrice,
+                                                productId:
+                                                    productModel.productId,
+                                                categoryId:
+                                                    productModel.categoryId,
                                                 count: cartModel.count + 1,
-                                                isCountable: productModel.isCountable,
-                                                createdAt: productModel.createdAt,
-                                                productActive: productModel.productActive,
-                                                mfgDate: productModel.mfgDate ?? "",
-                                                expDate: productModel.expDate ?? "",
-                                                productDescription: productModel.productDescription,
+                                                isCountable:
+                                                    productModel.isCountable,
+                                                createdAt:
+                                                    productModel.createdAt,
+                                                updatedAt:
+                                                    productModel.updatedAt,
+                                                productActive:
+                                                    productModel.productActive,
+                                                mfgDate:
+                                                    productModel.mfgDate ?? "",
+                                                expDate:
+                                                    productModel.expDate ?? "",
+                                                productDescription:
+                                                    productModel
+                                                        .productDescription,
                                               ),
                                             ),
                                           );
                                         } else {
-                                          showOverlayMessage(context, text: "no_product".tr());
+                                          showOverlayMessage(
+                                            context,
+                                            text: "no_product".tr(),
+                                          );
                                         }
                                       },
                                       icon: SvgPicture.asset(
                                         AppIcons.plus,
                                         height:
-                                            MediaQuery.of(context).size.width > 600 ? 20.h : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.h
+                                                : null,
                                         width:
-                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.w
+                                                : null,
                                         colorFilter: ColorFilter.mode(
-                                          cartModel.productQuantity == cartModel.count
+                                          cartModel.productQuantity ==
+                                                  cartModel.count
                                               ? Colors.grey
                                               : Colors.black,
                                           BlendMode.srcIn,
@@ -260,7 +333,8 @@ class ProductItemForEdit extends StatelessWidget {
                             BlocProvider.of<OrderEditCartBloc>(context).add(
                               AddProductOrderEditCartProducts(
                                 product: OrderProductModel(
-                                  productQuantity: productModel.productQuantity.toInt(),
+                                  productQuantity:
+                                      productModel.productQuantity.toInt(),
                                   productImage: productModel.productImage,
                                   productName: productModel.productName,
                                   productPrice: productModel.productPrice,
@@ -269,10 +343,12 @@ class ProductItemForEdit extends StatelessWidget {
                                   count: 1,
                                   isCountable: productModel.isCountable,
                                   createdAt: productModel.createdAt,
+                                  updatedAt: productModel.updatedAt,
                                   productActive: productModel.productActive,
                                   mfgDate: productModel.mfgDate ?? "",
                                   expDate: productModel.expDate ?? "",
-                                  productDescription: productModel.productDescription,
+                                  productDescription:
+                                      productModel.productDescription,
                                 ),
                               ),
                             );

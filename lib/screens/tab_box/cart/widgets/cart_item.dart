@@ -37,6 +37,7 @@ class CartItem extends StatelessWidget {
               builder: (BuildContext context) {
                 return ProductDetailBottomSheetScreen(
                   productModel: ProductModel(
+                    updatedAt: cartModel.updatedAt,
                     mfgDate: cartModel.mfgDate,
                     expDate: cartModel.expDate,
                     isCountable: cartModel.isCountable == 1 ? true : false,
@@ -125,6 +126,7 @@ class CartItem extends StatelessWidget {
                                     BlocProvider.of<CartBloc>(context).add(
                                       UpdateCart(
                                         cartModel: CartModel(
+                                          updatedAt: cartModel.updatedAt,
                                           productActive: cartModel.productActive,
                                           mfgDate: cartModel.mfgDate,
                                           expDate: cartModel.expDate,
@@ -173,6 +175,7 @@ class CartItem extends StatelessWidget {
                                     BlocProvider.of<CartBloc>(context).add(
                                       UpdateCart(
                                         cartModel: CartModel(
+                                          updatedAt: cartModel.updatedAt,
                                           productActive: cartModel.productActive,
                                           id: cartModel.id,
                                           mfgDate: cartModel.mfgDate,

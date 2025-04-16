@@ -18,6 +18,7 @@ part 'products_pdf_state.dart';
 class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
   ProductsPdfBloc(this._productRepository) : super(ProductsPdfInitial()) {
     on<GenerateAndSharePdfEvent>(_generateAndSharePdf);
+    on<GenerateAndSharePdfForCategoryEvent>(_generateAndSharePdfForCategory);
   }
 
   final ProductRepository _productRepository;
@@ -28,7 +29,9 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
   ) async {
     emit(ProductsPdfLoading());
     try {
-      final filePath = await _generatePDF(await _productRepository.getAllProducts());
+      final filePath = await _generatePDF(
+        products: await _productRepository.getAllProducts(),
+      );
       await Future.delayed(Duration(seconds: 2));
       emit(ProductsPdfGenerated(filePath));
 
@@ -44,7 +47,39 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
     }
   }
 
-  Future<String> _generatePDF(List<ProductModel> products) async {
+  Future<void> _generateAndSharePdfForCategory(
+    GenerateAndSharePdfForCategoryEvent event,
+    Emitter<ProductsPdfState> emit,
+  ) async {
+    emit(CategoryProductsPdfLoading());
+    try {
+      final filePath = await _generatePDF(
+        categoryName: event.categoryName,
+        products: await _productRepository.getAllProductsByCategoryId(
+          categoryId: event.categoryId,
+        ),
+      );
+      await Future.delayed(Duration(seconds: 2));
+      emit(CategoryProductsPdfGenerated(filePath));
+
+      await Future.delayed(Duration(seconds: 2));
+      emit(ProductsPdfInitial());
+      if (event.share) {
+        await Share.shareXFiles([
+          XFile(filePath),
+        ], text: "Barcha productlar: : ${event.categoryName}");
+      } else {
+        OpenFilex.open(filePath);
+      }
+    } catch (e) {
+      emit(CategoryProductsPdfError("PDF yaratishda xatolik yuz berdi!"));
+    }
+  }
+
+  Future<String> _generatePDF({
+    required List<ProductModel> products,
+    String? categoryName,
+  }) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -54,8 +89,11 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
             (pw.Context context) => [
               pw.Header(
                 level: 0,
-                text: "Do'kondagi barcha mahsulotlar",
-                textStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24),
+                text: categoryName ?? "Do'kondagi barcha mahsulotlar",
+                textStyle: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 24,
+                ),
               ),
               pw.Row(
                 children: [
@@ -72,12 +110,17 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
               ),
               pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
-                headers: ["Mahsulot", "Narxi", "Miqdori", "Jami"],
+                headers: ["Mahsulot", "Vaqti", "Narxi", "Miqdori", "Jami"],
                 data:
                     products
                         .map(
                           (product) => [
                             product.productName,
+                            product.updatedAt.isEmpty
+                                ? ""
+                                : (AppUtils.formatDateForPdf(
+                                  product.updatedAt,
+                                )),
                             "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice)} so'm",
                             "${product.productQuantity.toInt()} ${product.isCountable ? "dona" : "kg"}",
                             "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice * product.productQuantity)} so'm",
@@ -94,7 +137,10 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
                 alignment: pw.Alignment.centerRight,
                 child: pw.Text(
                   "Jami summa: ${NumberFormat.decimalPattern('uz_UZ').format(AppUtils.totalPriceForPDF(products))} so'm",
-                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16),
+                  style: pw.TextStyle(
+                    fontWeight: pw.FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
@@ -102,7 +148,8 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
     );
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/products.pdf';
+    final filePath =
+        '${directory.path}/${categoryName == null ? "" : "category_"}products.pdf';
     final file = File(filePath);
     await file.writeAsBytes(await pdf.save());
 

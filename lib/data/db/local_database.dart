@@ -12,7 +12,7 @@ class LocalDatabase {
 
   Future<Database> getDb() async {
     if (_database == null) {
-      _database = await _initDB("navvat_restaurant.db");
+      _database = await _initDB("bek_shop.db");
       return _database!;
     }
     return _database!;
@@ -38,6 +38,7 @@ class LocalDatabase {
     ${CartFields.productName} $textType,
     ${CartFields.productDescription} $textType,
     ${CartFields.createdAt} $textType,
+    ${CartFields.updatedAt} $textType,
     ${CartFields.productPrice} $intType,
     ${CartFields.productImage} $textType,
     ${CartFields.mfgDate} $textType,
@@ -54,14 +55,18 @@ class LocalDatabase {
   }
 
   /// ---------------------------Cart-------------------------------------------
-  static Future<CartModel> insertToCartProduct({required CartModel cartModel}) async {
+  static Future<CartModel> insertToCartProduct({
+    required CartModel cartModel,
+  }) async {
     var database = await getInstance.getDb();
     int id = await database.insert(tableName, cartModel.toJson());
     debugPrint("HAMMASI YAXSHI PRODUCT CARTGA QO'SHILDI");
     return cartModel.copyWith(id: id);
   }
 
-  static Future<CartModel> updateCartProductById({required CartModel cartModel}) async {
+  static Future<CartModel> updateCartProductById({
+    required CartModel cartModel,
+  }) async {
     var database = await getInstance.getDb();
     int id = await database.update(
       tableName,
@@ -88,6 +93,7 @@ class LocalDatabase {
         CartFields.categoryId,
         CartFields.productImage,
         CartFields.createdAt,
+        CartFields.updatedAt,
         CartFields.isCountable,
         CartFields.mfgDate,
         CartFields.expDate,

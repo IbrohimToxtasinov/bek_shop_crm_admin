@@ -7,6 +7,7 @@ import 'package:bek_shop/blocs/order_search/order_search_bloc.dart';
 import 'package:bek_shop/blocs/product/product_bloc.dart';
 import 'package:bek_shop/blocs/search_products/search_products_bloc.dart';
 import 'package:bek_shop/blocs/tab/tab_cubit.dart';
+import 'package:bek_shop/cubits/connectivity/connectivity_cubit.dart';
 import 'package:bek_shop/data/repositories/cart_repository.dart';
 import 'package:bek_shop/data/repositories/category_repository.dart';
 import 'package:bek_shop/data/repositories/order_repository.dart';
@@ -51,7 +52,7 @@ class _AppState extends State<App> {
                     OrderBloc(context.read<OrderRepository>(), context.read<ProductRepository>()),
           ),
           BlocProvider(create: (context) => TabCubit()),
-          BlocProvider(create: (context) => ConnectivityBloc()..add(CheckConnectivity())),
+          BlocProvider(create: (context) => ConnectivityCubit()),
           BlocProvider(
             create:
                 (context) => CategoryBloc(

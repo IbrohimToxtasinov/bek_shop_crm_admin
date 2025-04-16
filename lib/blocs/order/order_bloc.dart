@@ -12,7 +12,8 @@ part 'order_event.dart';
 part 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
-  OrderBloc(this._orderRepository, this._productRepository) : super(OrderInitial()) {
+  OrderBloc(this._orderRepository, this._productRepository)
+    : super(OrderInitial()) {
     on<FetchOrders>(_fetchOrders);
     on<CreateOrder>(_createOrder);
     on<EditOrder>(_editOrder);
@@ -39,7 +40,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       List<OrderProductModel> products = [];
       num totalPrice = 0;
       for (int i = 0; i < event.products.length; i++) {
-        totalPrice = totalPrice + event.products[i].productPrice * event.products[i].count;
+        print(
+          "${event.products[i].productName} >>>> ${event.products[i].updatedAt}",
+        );
+        totalPrice =
+            totalPrice +
+            event.products[i].productPrice * event.products[i].count;
         OrderProductModel product = OrderProductModel(
           productQuantity: event.products[i].productQuantity,
           productImage: event.products[i].productImage,
@@ -51,6 +57,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           isCountable: event.products[i].isCountable == 1 ? true : false,
           productActive: event.products[i].productActive == 1 ? true : false,
           createdAt: event.products[i].createdAt,
+          updatedAt: event.products[i].updatedAt,
           productDescription: event.products[i].productDescription,
           mfgDate: event.products[i].mfgDate ?? "",
           expDate: event.products[i].expDate ?? "",
@@ -83,10 +90,15 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               productName: event.products[i].productName,
               productPrice: event.products[i].productPrice,
               productActive:
-                  event.products[i].productQuantity - event.products[i].count == 0 ? false : true,
+                  event.products[i].productQuantity - event.products[i].count ==
+                          0
+                      ? false
+                      : true,
               productImage: event.products[i].productImage,
-              productQuantity: event.products[i].productQuantity - event.products[i].count,
+              productQuantity:
+                  event.products[i].productQuantity - event.products[i].count,
               createdAt: event.products[i].createdAt,
+              updatedAt: event.products[i].updatedAt,
               productDescription: event.products[i].productDescription,
               mfgDate: event.products[i].mfgDate,
               expDate: event.products[i].expDate,
@@ -110,7 +122,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       for (int i = 0; i < event.orderModel.products.length; i++) {
         totalPrice =
             totalPrice +
-            event.orderModel.products[i].productPrice * event.orderModel.products[i].count;
+            event.orderModel.products[i].productPrice *
+                event.orderModel.products[i].count;
       }
       await _orderRepository.updateOrder(
         orderModel: OrderModel(
@@ -144,6 +157,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               mfgDate: event.deleteProducts[i].mfgDate,
               expDate: event.deleteProducts[i].expDate,
               createdAt: event.deleteProducts[i].createdAt,
+              updatedAt: event.deleteProducts[i].updatedAt,
             ),
           );
         }
@@ -163,9 +177,12 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                       : true,
               productImage: event.orderModel.products[i].productImage,
               productQuantity:
-                  event.orderModel.products[i].productQuantity - event.orderModel.products[i].count,
+                  event.orderModel.products[i].productQuantity -
+                  event.orderModel.products[i].count,
               createdAt: event.orderModel.products[i].createdAt,
-              productDescription: event.orderModel.products[i].productDescription,
+              updatedAt: event.orderModel.products[i].updatedAt,
+              productDescription:
+                  event.orderModel.products[i].productDescription,
               mfgDate: event.orderModel.products[i].mfgDate,
               expDate: event.orderModel.products[i].expDate,
             ),
@@ -205,6 +222,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               mfgDate: event.deleteProducts[i].mfgDate,
               expDate: event.deleteProducts[i].expDate,
               createdAt: event.deleteProducts[i].createdAt,
+              updatedAt: event.deleteProducts[i].updatedAt,
             ),
           );
         }

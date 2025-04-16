@@ -54,6 +54,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             categoryId: event.categoryId,
             productName: event.productName,
             createdAt: DateTime.now().toString(),
+            updatedAt: DateTime.now().toString(),
             productImage: uploadImageResponse.data,
             productActive: event.productActive,
             productDescription: event.productDescription,

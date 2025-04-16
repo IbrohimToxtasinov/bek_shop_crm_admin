@@ -11,6 +11,14 @@ class AppUtils {
     return '${getFormattedTime(parsedDate)} ${parsedDate.formatDateTime("HH:mm")}';
   }
 
+  static String formatDateForPdf(String date) {
+    DateTime parsedDate = DateTime.parse(date);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(parsedDate);
+    String formattedTime = DateFormat('HH:mm').format(parsedDate);
+
+    return '$formattedDate, $formattedTime';
+  }
+
   static String formatProductDate(String date) {
     DateTime parsedDate = DateTime.parse(date);
     return getFormattedTime(parsedDate);

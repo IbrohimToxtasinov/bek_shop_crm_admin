@@ -26,3 +26,23 @@ class ProductsPdfError extends ProductsPdfState {
   @override
   List<Object> get props => [message];
 }
+
+class CategoryProductsPdfLoading extends ProductsPdfState {}
+
+class CategoryProductsPdfGenerated extends ProductsPdfState {
+  final String filePath;
+
+  CategoryProductsPdfGenerated(this.filePath);
+
+  @override
+  List<Object> get props => [filePath];
+}
+
+class CategoryProductsPdfError extends ProductsPdfState {
+  final String message;
+
+  CategoryProductsPdfError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

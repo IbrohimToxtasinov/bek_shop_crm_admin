@@ -9,6 +9,7 @@ class CartFields {
   static String productQuantity = "product_quantity";
   static String count = "count";
   static String createdAt = "created_at";
+  static String updatedAt = "updated_at";
   static String isCountable = "is_countable";
   static String productActive = "product_active";
   static String mfgDate = "mfg_date";
@@ -22,6 +23,7 @@ class CartModel {
   final String productName;
   final String productDescription;
   final String createdAt;
+  final String updatedAt;
   final num productPrice;
   final String productImage;
   final int productQuantity;
@@ -42,6 +44,7 @@ class CartModel {
     required this.isCountable,
     required this.count,
     required this.createdAt,
+    required this.updatedAt,
     required this.productDescription,
     required this.productActive,
     this.mfgDate,
@@ -56,6 +59,7 @@ class CartModel {
       productName: json[CartFields.productName] as String? ?? "",
       productDescription: json[CartFields.productDescription] as String? ?? "",
       createdAt: json[CartFields.createdAt] as String? ?? "",
+      updatedAt: json[CartFields.updatedAt] as String? ?? "",
       productPrice: json[CartFields.productPrice] as num? ?? 0,
       productImage: json[CartFields.productImage] as String? ?? "",
       productQuantity: json[CartFields.productQuantity] as int? ?? 0,
@@ -77,6 +81,7 @@ class CartModel {
       CartFields.productImage: productImage,
       CartFields.productQuantity: productQuantity,
       CartFields.createdAt: createdAt,
+      CartFields.updatedAt: updatedAt,
       CartFields.isCountable: isCountable,
       CartFields.productActive: productActive,
       CartFields.count: count,
@@ -92,6 +97,7 @@ class CartModel {
     String? productName,
     String? productDescription,
     String? createdAt,
+    String? updatedAt,
     double? productPrice,
     String? productImage,
     String? mfgDate,
@@ -109,6 +115,7 @@ class CartModel {
       productName: productName ?? this.productName,
       productDescription: productDescription ?? this.productDescription,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       productPrice: productPrice ?? this.productPrice,
       productImage: productImage ?? this.productImage,
       productQuantity: productQuantity ?? this.productQuantity,

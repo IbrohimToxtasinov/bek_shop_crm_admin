@@ -33,6 +33,7 @@ class EditOrderItem extends StatelessWidget {
           builder: (BuildContext context) {
             return ProductDetailBottomSheetScreenForEdit(
               productModel: OrderProductModel(
+                updatedAt: orderProductModel.updatedAt,
                 count: orderProductModel.count,
                 mfgDate: orderProductModel.mfgDate,
                 expDate: orderProductModel.expDate,
@@ -124,6 +125,7 @@ class EditOrderItem extends StatelessWidget {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   UpdateOrderEditCartProduct(
                                     product: OrderProductModel(
+                                      updatedAt: orderProductModel.updatedAt,
                                       productQuantity: orderProductModel.productQuantity,
                                       productImage: orderProductModel.productImage,
                                       productName: orderProductModel.productName,
@@ -170,6 +172,7 @@ class EditOrderItem extends StatelessWidget {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   UpdateOrderEditCartProduct(
                                     product: OrderProductModel(
+                                      updatedAt: orderProductModel.updatedAt,
                                       productQuantity: orderProductModel.productQuantity,
                                       productImage: orderProductModel.productImage,
                                       productName: orderProductModel.productName,

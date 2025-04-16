@@ -15,7 +15,12 @@ class AddProductToCart extends StatefulWidget {
   final int? cartId;
   final ProductModel productModel;
 
-  const AddProductToCart({required this.productModel, this.cartCount, this.cartId, super.key});
+  const AddProductToCart({
+    required this.productModel,
+    this.cartCount,
+    this.cartId,
+    super.key,
+  });
 
   @override
   State<AddProductToCart> createState() => _AddProductToCartState();
@@ -93,12 +98,21 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 }
                                 : null,
                         icon: SvgPicture.asset(
-                          width: MediaQuery.of(context).size.width > 600 ? 5.w : null,
-                          height: MediaQuery.of(context).size.width > 600 ? 5.h : null,
+                          width:
+                              MediaQuery.of(context).size.width > 600
+                                  ? 5.w
+                                  : null,
+                          height:
+                              MediaQuery.of(context).size.width > 600
+                                  ? 5.h
+                                  : null,
                           AppIcons.minus,
                           colorFilter:
                               !widget.productModel.productActive
-                                  ? const ColorFilter.mode(AppColors.c878787, BlendMode.srcIn)
+                                  ? const ColorFilter.mode(
+                                    AppColors.c878787,
+                                    BlendMode.srcIn,
+                                  )
                                   : null,
                         ),
                       ),
@@ -115,24 +129,37 @@ class _AddProductToCartState extends State<AddProductToCart> {
                         onPressed:
                             widget.productModel.productActive
                                 ? () {
-                                  if (widget.productModel.productQuantity > count) {
+                                  if (widget.productModel.productQuantity >
+                                      count) {
                                     setState(() {
                                       if (count != 1000) {
                                         count++;
                                       }
                                     });
                                   } else {
-                                    showOverlayMessage(context, text: "no_product".tr());
+                                    showOverlayMessage(
+                                      context,
+                                      text: "no_product".tr(),
+                                    );
                                   }
                                 }
                                 : null,
                         icon: SvgPicture.asset(
-                          width: MediaQuery.of(context).size.width > 600 ? 18.w : null,
-                          height: MediaQuery.of(context).size.width > 600 ? 18.h : null,
+                          width:
+                              MediaQuery.of(context).size.width > 600
+                                  ? 18.w
+                                  : null,
+                          height:
+                              MediaQuery.of(context).size.width > 600
+                                  ? 18.h
+                                  : null,
                           AppIcons.plus,
                           colorFilter:
                               !widget.productModel.productActive
-                                  ? ColorFilter.mode(AppColors.c878787, BlendMode.srcIn)
+                                  ? ColorFilter.mode(
+                                    AppColors.c878787,
+                                    BlendMode.srcIn,
+                                  )
                                   : ColorFilter.mode(
                                     widget.productModel.productQuantity == count
                                         ? Colors.grey
@@ -161,19 +188,35 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   AddCart(
                                     cartModel: CartModel(
-                                      productActive: widget.productModel.productActive ? 1 : 0,
+                                      productActive:
+                                          widget.productModel.productActive
+                                              ? 1
+                                              : 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
-                                      isCountable: widget.productModel.isCountable ? 1 : 0,
-                                      categoryId: widget.productModel.categoryId,
+                                      isCountable:
+                                          widget.productModel.isCountable
+                                              ? 1
+                                              : 0,
+                                      categoryId:
+                                          widget.productModel.categoryId,
                                       productId: widget.productModel.productId,
-                                      productName: widget.productModel.productName,
+                                      productName:
+                                          widget.productModel.productName,
                                       count: count.toInt(),
-                                      productPrice: widget.productModel.productPrice,
+                                      productPrice:
+                                          widget.productModel.productPrice,
                                       createdAt: widget.productModel.createdAt,
-                                      productImage: widget.productModel.productImage,
-                                      productDescription: widget.productModel.productDescription,
-                                      productQuantity: widget.productModel.productQuantity.toInt(),
+                                      updatedAt: widget.productModel.updatedAt,
+                                      productImage:
+                                          widget.productModel.productImage,
+                                      productDescription:
+                                          widget
+                                              .productModel
+                                              .productDescription,
+                                      productQuantity:
+                                          widget.productModel.productQuantity
+                                              .toInt(),
                                     ),
                                   ),
                                 );
@@ -181,26 +224,44 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   UpdateCart(
                                     cartModel: CartModel(
-                                      productActive: widget.productModel.productActive ? 1 : 0,
+                                      productActive:
+                                          widget.productModel.productActive
+                                              ? 1
+                                              : 0,
                                       mfgDate: widget.productModel.mfgDate,
                                       expDate: widget.productModel.expDate,
                                       id: widget.cartId,
-                                      isCountable: widget.productModel.isCountable ? 1 : 0,
-                                      categoryId: widget.productModel.categoryId,
+                                      isCountable:
+                                          widget.productModel.isCountable
+                                              ? 1
+                                              : 0,
+                                      categoryId:
+                                          widget.productModel.categoryId,
                                       productId: widget.productModel.productId,
-                                      productName: widget.productModel.productName,
+                                      productName:
+                                          widget.productModel.productName,
                                       count: count.toInt(),
                                       createdAt: widget.productModel.createdAt,
-                                      productPrice: widget.productModel.productPrice,
-                                      productImage: widget.productModel.productImage,
-                                      productDescription: widget.productModel.productDescription,
-                                      productQuantity: widget.productModel.productQuantity.toInt(),
+                                      updatedAt: widget.productModel.updatedAt,
+                                      productPrice:
+                                          widget.productModel.productPrice,
+                                      productImage:
+                                          widget.productModel.productImage,
+                                      productDescription:
+                                          widget
+                                              .productModel
+                                              .productDescription,
+                                      productQuantity:
+                                          widget.productModel.productQuantity
+                                              .toInt(),
                                     ),
                                   ),
                                 );
                               }
                             }
-                            BlocProvider.of<CartBloc>(context).add(FetchCarts());
+                            BlocProvider.of<CartBloc>(
+                              context,
+                            ).add(FetchCarts());
                             if (mounted) Navigator.pop(context);
                           }
                           : null,
@@ -209,7 +270,9 @@ class _AddProductToCartState extends State<AddProductToCart> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color:
-                          widget.productModel.productActive ? AppColors.cFFC34A : AppColors.cF2F2F2,
+                          widget.productModel.productActive
+                              ? AppColors.cFFC34A
+                              : AppColors.cF2F2F2,
                       borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Text(

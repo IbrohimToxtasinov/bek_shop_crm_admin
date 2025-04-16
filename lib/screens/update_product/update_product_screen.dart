@@ -30,10 +30,14 @@ class UpdateProductScreen extends StatefulWidget {
 }
 
 class _UpdateProductScreenState extends State<UpdateProductScreen> {
-  TextEditingController productNameTextEditingController = TextEditingController();
-  TextEditingController productDescriptionTextEditingController = TextEditingController();
-  TextEditingController productPriceTextEditingController = TextEditingController();
-  TextEditingController productQuantityTextEditingController = TextEditingController();
+  TextEditingController productNameTextEditingController =
+      TextEditingController();
+  TextEditingController productDescriptionTextEditingController =
+      TextEditingController();
+  TextEditingController productPriceTextEditingController =
+      TextEditingController();
+  TextEditingController productQuantityTextEditingController =
+      TextEditingController();
   bool isButtonEnabled = false;
   bool productActive = true;
   bool isCountable = true;
@@ -44,16 +48,20 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   void initState() {
     super.initState();
     productNameTextEditingController.text = widget.productModel.productName;
-    productDescriptionTextEditingController.text = widget.productModel.productDescription;
-    productPriceTextEditingController.text = widget.productModel.productPrice.toInt().toString();
+    productDescriptionTextEditingController.text =
+        widget.productModel.productDescription;
+    productPriceTextEditingController.text =
+        widget.productModel.productPrice.toInt().toString();
     productQuantityTextEditingController.text =
         widget.productModel.productQuantity.toInt().toString();
     productActive = widget.productModel.productActive;
     isCountable = widget.productModel.isCountable;
-    if (widget.productModel.mfgDate != null && widget.productModel.mfgDate!.isNotEmpty) {
+    if (widget.productModel.mfgDate != null &&
+        widget.productModel.mfgDate!.isNotEmpty) {
       mfgDate = DateTime.parse(widget.productModel.mfgDate!);
     }
-    if (widget.productModel.expDate != null && widget.productModel.expDate!.isNotEmpty) {
+    if (widget.productModel.expDate != null &&
+        widget.productModel.expDate!.isNotEmpty) {
       expDate = DateTime.parse(widget.productModel.expDate!);
     }
     productNameTextEditingController.addListener(_checkIfValuesChanged);
@@ -79,10 +87,14 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         productQuantityTextEditingController.text.isNotEmpty;
 
     bool valuesChanged =
-        productNameTextEditingController.text != widget.productModel.productName ||
-        productDescriptionTextEditingController.text != widget.productModel.productDescription ||
-        productPriceTextEditingController.text != widget.productModel.productPrice.toString() ||
-        productQuantityTextEditingController.text != widget.productModel.productQuantity.toString();
+        productNameTextEditingController.text !=
+            widget.productModel.productName ||
+        productDescriptionTextEditingController.text !=
+            widget.productModel.productDescription ||
+        productPriceTextEditingController.text !=
+            widget.productModel.productPrice.toString() ||
+        productQuantityTextEditingController.text !=
+            widget.productModel.productQuantity.toString();
     setState(() {
       isButtonEnabled = valuesChanged && fieldsNotEmpty;
     });
@@ -92,11 +104,20 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("product_unit".tr(), style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+        Text(
+          "product_unit".tr(),
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        ),
         SegmentedButton<String>(
           segments: [
-            ButtonSegment(value: "dona", label: Text("piece".tr(),style: TextStyle(fontSize: 14.sp))),
-            ButtonSegment(value: "kg", label: Text("kg".tr(),style: TextStyle(fontSize: 14.sp))),
+            ButtonSegment(
+              value: "dona",
+              label: Text("piece".tr(), style: TextStyle(fontSize: 14.sp)),
+            ),
+            ButtonSegment(
+              value: "kg",
+              label: Text("kg".tr(), style: TextStyle(fontSize: 14.sp)),
+            ),
           ],
           selected: {isCountable ? "dona" : "kg"},
           onSelectionChanged: (newValue) {
@@ -110,7 +131,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, Function(DateTime) onDateSelected) async {
+  Future<void> _selectDate(
+    BuildContext context,
+    Function(DateTime) onDateSelected,
+  ) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -147,7 +171,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             Navigator.pop(context);
           }
           if (state.status == FormStatus.updateProductSuccess) {
-            Timer(const Duration(milliseconds: 1000), () => Navigator.pop(context));
+            Timer(
+              const Duration(milliseconds: 1000),
+              () => Navigator.pop(context),
+            );
           }
           if (state.status == FormStatus.updateProductFail ||
               state.status == FormStatus.deleteProductFail) {
@@ -175,7 +202,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                     AppIcons.deleteBold,
                     width: 24.w,
                     height: 24.h,
-                    colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      Colors.black,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   onPressed: () {
                     showDialog<void>(
@@ -187,7 +217,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                             text: "delete_product_cart".tr(),
                             onTap: () {
                               context.read<ProductBloc>().add(
-                                DeleteProduct(productId: widget.productModel.productId),
+                                DeleteProduct(
+                                  productId: widget.productModel.productId,
+                                ),
                               );
                               Navigator.pop(context);
                             },
@@ -223,7 +255,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                             SizedBox(height: 10.h),
                             CustomTexFormFiledWidget(
                               text: "product_description".tr(),
-                              controller: productDescriptionTextEditingController,
+                              controller:
+                                  productDescriptionTextEditingController,
                               hintText: "enter_product_description".tr(),
                               isSuffixIconHave: true,
                               textInputAction: TextInputAction.next,
@@ -261,7 +294,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                 setState(() {
                                   productActive = value;
                                   isButtonEnabled =
-                                      productActive != widget.productModel.productActive;
+                                      productActive !=
+                                      widget.productModel.productActive;
                                 });
                               },
                             ),
@@ -281,7 +315,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                 children: [
                                   Text(
                                     mfgDate != null
-                                        ? mfgDate!.toLocal().toString().split(' ')[0]
+                                        ? mfgDate!.toLocal().toString().split(
+                                          ' ',
+                                        )[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
@@ -306,7 +342,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                   ),
                                 ],
                               ),
-                              onTap: () => _selectDate(context, (date) => mfgDate = date),
+                              onTap:
+                                  () => _selectDate(
+                                    context,
+                                    (date) => mfgDate = date,
+                                  ),
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
@@ -323,7 +363,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                 children: [
                                   Text(
                                     expDate != null
-                                        ? expDate!.toLocal().toString().split(' ')[0]
+                                        ? expDate!.toLocal().toString().split(
+                                          ' ',
+                                        )[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
@@ -348,7 +390,11 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                   ),
                                 ],
                               ),
-                              onTap: () => _selectDate(context, (date) => expDate = date),
+                              onTap:
+                                  () => _selectDate(
+                                    context,
+                                    (date) => expDate = date,
+                                  ),
                             ),
                           ],
                         ),
@@ -364,11 +410,22 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                     context.read<ProductBloc>().add(
                       UpdateProduct(
                         productModel: ProductModel(
+                          updatedAt:
+                              int.parse(
+                                        productQuantityTextEditingController
+                                            .text,
+                                      ) ==
+                                      widget.productModel.productQuantity
+                                          .toInt()
+                                  ? widget.productModel.updatedAt
+                                      .toString()
+                                  : DateTime.now().toString(),
                           mfgDate: mfgDate?.toString() ?? "",
                           expDate: expDate?.toString() ?? "",
                           categoryId: widget.productModel.categoryId,
                           productId: widget.productModel.productId,
-                          productName: productNameTextEditingController.text.trim(),
+                          productName:
+                              productNameTextEditingController.text.trim(),
                           productPrice: double.parse(
                             productPriceTextEditingController.text
                                 .trim()
@@ -384,7 +441,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                                 .toString(),
                           ),
                           createdAt: widget.productModel.createdAt,
-                          productDescription: productDescriptionTextEditingController.text.trim(),
+                          productDescription:
+                              productDescriptionTextEditingController.text
+                                  .trim(),
                           isCountable: isCountable,
                         ),
                       ),

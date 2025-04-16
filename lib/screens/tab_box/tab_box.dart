@@ -3,10 +3,12 @@ import 'package:bek_shop/blocs/category/category_bloc.dart';
 import 'package:bek_shop/blocs/connectivity/connectivity_bloc.dart';
 import 'package:bek_shop/blocs/order/order_bloc.dart';
 import 'package:bek_shop/blocs/tab/tab_cubit.dart';
+import 'package:bek_shop/cubits/connectivity/connectivity_cubit.dart';
 import 'package:bek_shop/screens/router.dart';
 import 'package:bek_shop/utils/app_colors.dart';
 import 'package:bek_shop/utils/app_icons.dart';
 import 'package:bek_shop/utils/app_util.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,10 +43,14 @@ class _TabBoxState extends State<TabBox> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ConnectivityBloc, ConnectivityState>(
+    return BlocListener<ConnectivityCubit, ConnectivityState>(
       listener: (context, state) {
-        if (!state.hasInternet) {
-          Navigator.pushNamed(context, AppRouterNames.noInternetRoute, arguments: _init);
+        if (state.connectivityResult == ConnectivityResult.none) {
+          Navigator.pushNamed(
+            context,
+            AppRouterNames.noInternetRoute,
+            arguments: _init,
+          );
         }
       },
       child: BlocBuilder<TabCubit, TabState>(
@@ -55,7 +61,10 @@ class _TabBoxState extends State<TabBox> {
               statusBarIconBrightness: Brightness.dark,
             ),
             child: Scaffold(
-              body: IndexedStack(index: state.currentIndex, children: tabBoxScreens),
+              body: IndexedStack(
+                index: state.currentIndex,
+                children: tabBoxScreens,
+              ),
               bottomNavigationBar: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -84,7 +93,11 @@ class _TabBoxState extends State<TabBox> {
                   },
                   items: [
                     BottomNavigationBarItem(
-                      icon: SvgPicture.asset(AppIcons.home, width: 24.w, height: 24.h),
+                      icon: SvgPicture.asset(
+                        AppIcons.home,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
                       activeIcon: SvgPicture.asset(
                         AppIcons.selectedHome,
                         width: 24.w,
@@ -96,23 +109,34 @@ class _TabBoxState extends State<TabBox> {
                       icon: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          SvgPicture.asset(AppIcons.cart, width: 24.w, height: 24.h),
+                          SvgPicture.asset(
+                            AppIcons.cart,
+                            width: 24.w,
+                            height: 24.h,
+                          ),
                           Positioned(
                             right: -4,
                             top: -4,
                             child: BlocBuilder<CartBloc, CartState>(
-                              buildWhen: (previous, current) => current is CartLoadInSuccessGet,
+                              buildWhen:
+                                  (previous, current) =>
+                                      current is CartLoadInSuccessGet,
                               builder: (context, state) {
                                 if (state.products.isNotEmpty) {
                                   return Container(
-                                    constraints: BoxConstraints(minWidth: 15.w, minHeight: 15.h),
+                                    constraints: BoxConstraints(
+                                      minWidth: 15.w,
+                                      minHeight: 15.h,
+                                    ),
                                     decoration: const BoxDecoration(
                                       color: AppColors.cF14141,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
                                       child: Text(
-                                        AppUtils.cartProductsLength(state.products),
+                                        AppUtils.cartProductsLength(
+                                          state.products,
+                                        ),
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 10.sp,
@@ -133,23 +157,34 @@ class _TabBoxState extends State<TabBox> {
                       activeIcon: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          SvgPicture.asset(AppIcons.selectedCart, width: 24.w, height: 24.h),
+                          SvgPicture.asset(
+                            AppIcons.selectedCart,
+                            width: 24.w,
+                            height: 24.h,
+                          ),
                           Positioned(
                             right: -4,
                             top: -4,
                             child: BlocBuilder<CartBloc, CartState>(
-                              buildWhen: (previous, current) => current is CartLoadInSuccessGet,
+                              buildWhen:
+                                  (previous, current) =>
+                                      current is CartLoadInSuccessGet,
                               builder: (context, state) {
                                 if (state.products.isNotEmpty) {
                                   return Container(
-                                    constraints: BoxConstraints(minWidth: 15.w, minHeight: 15.h),
+                                    constraints: BoxConstraints(
+                                      minWidth: 15.w,
+                                      minHeight: 15.h,
+                                    ),
                                     decoration: const BoxDecoration(
                                       color: AppColors.cF14141,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
                                       child: Text(
-                                        AppUtils.cartProductsLength(state.products),
+                                        AppUtils.cartProductsLength(
+                                          state.products,
+                                        ),
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 10.sp,
@@ -170,7 +205,11 @@ class _TabBoxState extends State<TabBox> {
                       label: "cart".tr(),
                     ),
                     BottomNavigationBarItem(
-                      icon: SvgPicture.asset(AppIcons.orders, width: 24.w, height: 24.h),
+                      icon: SvgPicture.asset(
+                        AppIcons.orders,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
                       activeIcon: SvgPicture.asset(
                         AppIcons.selectedOrders,
                         width: 24.w,

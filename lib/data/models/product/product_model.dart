@@ -8,6 +8,7 @@ class ProductModel {
   final bool isCountable;
   final bool productActive;
   final String createdAt;
+  final String updatedAt;
   final String productDescription;
   final String? mfgDate;
   final String? expDate;
@@ -21,6 +22,7 @@ class ProductModel {
     required this.productImage,
     required this.productQuantity,
     required this.createdAt,
+    required this.updatedAt,
     required this.productDescription,
     required this.isCountable,
     this.mfgDate,
@@ -37,6 +39,7 @@ class ProductModel {
       productImage: json["product_image"] as String? ?? "",
       productQuantity: json["product_quantity"] as num? ?? 0,
       createdAt: json["created_at"] as String? ?? "",
+      updatedAt: json["update_at"] as String? ?? "",
       productDescription: json["product_description"] as String? ?? "",
       isCountable: json["is_countable"] as bool? ?? true,
       mfgDate: json["mfg_date"] as String? ?? "",
@@ -56,6 +59,7 @@ class ProductModel {
       "search_keywords": productName.toLowerCase(),
       "is_countable": isCountable,
       "created_at": createdAt,
+      "update_at": updatedAt,
       "product_description": productDescription,
       "mfg_date": mfgDate ?? "",
       "exp_date": expDate ?? "",

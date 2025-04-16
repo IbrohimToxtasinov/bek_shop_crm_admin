@@ -9,6 +9,7 @@ class OrderProductModel {
   final int productQuantity;
   final bool productActive;
   final String createdAt;
+  final String updatedAt;
   final String productDescription;
   final String mfgDate;
   final String expDate;
@@ -23,6 +24,7 @@ class OrderProductModel {
     required this.isCountable,
     required this.productQuantity,
     required this.createdAt,
+    required this.updatedAt,
     required this.productDescription,
     required this.mfgDate,
     required this.expDate,
@@ -43,6 +45,7 @@ class OrderProductModel {
       mfgDate: json["mfg_date"] as String? ?? "",
       expDate: json["exp_date"] as String? ?? "",
       createdAt: json["created_at"] as String? ?? "",
+      updatedAt: json["updated_at"] as String? ?? "",
       productDescription: json["product_description"] as String? ?? "",
     );
   }
@@ -58,6 +61,7 @@ class OrderProductModel {
       "is_countable": isCountable,
       "product_quantity": productQuantity,
       "created_at": createdAt,
+      "updated_at": updatedAt,
       "product_description": productDescription,
       "mfg_date": mfgDate,
       "exp_date": expDate,

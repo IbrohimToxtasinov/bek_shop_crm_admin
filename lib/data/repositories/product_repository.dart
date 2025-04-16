@@ -10,7 +10,9 @@ class ProductRepository {
 
   Future<void> addProduct({required ProductModel productModel}) async {
     try {
-      var newProduct = await _firestore.collection("products").add(productModel.toJson());
+      var newProduct = await _firestore
+          .collection("products")
+          .add(productModel.toJson());
       await _firestore.collection("products").doc(newProduct.id).update({
         "product_id": newProduct.id,
       });
@@ -48,23 +50,53 @@ class ProductRepository {
   Future<List<ProductModel>> getAllProducts() async {
     try {
       QuerySnapshot querySnapshot =
-          await _firestore.collection("products").orderBy("created_at", descending: true).get();
+          await _firestore
+              .collection("products")
+              .orderBy("created_at", descending: true)
+              .get();
 
       return querySnapshot.docs
-          .map((doc) => ProductModel.fromJson(doc.data() as Map<String, dynamic>))
+          .map(
+            (doc) => ProductModel.fromJson(doc.data() as Map<String, dynamic>),
+          )
           .toList();
     } catch (e) {
       rethrow;
     }
   }
 
-  Stream<List<ProductModel>> getProductsByCategoryId({required String categoryId}) => _firestore
+  Future<List<ProductModel>> getAllProductsByCategoryId({
+    required String categoryId,
+  }) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await _firestore
+              .collection("products")
+              .where("category_id", isEqualTo: categoryId)
+              .orderBy("created_at", descending: true)
+              .get();
+
+      return querySnapshot.docs
+          .map(
+            (doc) => ProductModel.fromJson(doc.data() as Map<String, dynamic>),
+          )
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Stream<List<ProductModel>> getProductsByCategoryId({
+    required String categoryId,
+  }) => _firestore
       .collection("products")
       .where("category_id", isEqualTo: categoryId)
       .orderBy("created_at", descending: true)
       .snapshots()
       .map((querySnapshot) {
-        return querySnapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList();
+        return querySnapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList();
       });
 
   Stream<List<ProductModel>> searchProductsByCategoryIdAndName({
@@ -79,11 +111,15 @@ class ProductRepository {
         .endAt(["${query.toLowerCase()}\uf8ff"])
         .snapshots()
         .map((querySnapshot) {
-          return querySnapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList();
+          return querySnapshot.docs
+              .map((doc) => ProductModel.fromJson(doc.data()))
+              .toList();
         });
   }
 
-  Stream<List<ProductModel>> globalSearchProductsByCategoryIdAndName({required String query}) {
+  Stream<List<ProductModel>> globalSearchProductsByCategoryIdAndName({
+    required String query,
+  }) {
     return FirebaseFirestore.instance
         .collection('products')
         .orderBy("search_keywords")
@@ -91,7 +127,9 @@ class ProductRepository {
         .endAt(["${query.toLowerCase()}\uf8ff"])
         .snapshots()
         .map((querySnapshot) {
-          return querySnapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList();
+          return querySnapshot.docs
+              .map((doc) => ProductModel.fromJson(doc.data()))
+              .toList();
         });
   }
 }

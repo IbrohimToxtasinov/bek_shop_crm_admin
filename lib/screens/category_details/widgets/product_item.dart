@@ -30,7 +30,9 @@ class _ProductItemState extends State<ProductItem> {
       buildWhen: (previous, current) => current is CartLoadInSuccessGet,
       builder: (context, state) {
         List<CartModel> exists =
-            state.products.where((e) => e.productId == widget.productModel.productId).toList();
+            state.products
+                .where((e) => e.productId == widget.productModel.productId)
+                .toList();
         return Opacity(
           opacity: widget.productModel.productActive ? 1 : 0.5,
           child: Container(
@@ -54,7 +56,8 @@ class _ProductItemState extends State<ProductItem> {
                 if (exists.isNotEmpty) {
                   for (var element in state.products) {
                     CartModel cartModel = state.products.firstWhere(
-                      (element) => element.productId == widget.productModel.productId,
+                      (element) =>
+                          element.productId == widget.productModel.productId,
                     );
                     if (element.productId == widget.productModel.productId &&
                         cartModel.count != 0) {
@@ -62,7 +65,9 @@ class _ProductItemState extends State<ProductItem> {
                         context: context,
                         isScrollControlled: true,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
+                          ),
                         ),
                         builder: (BuildContext context) {
                           return ProductDetailBottomSheetScreen(
@@ -81,7 +86,9 @@ class _ProductItemState extends State<ProductItem> {
                     context: context,
                     isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
                     ),
                     builder: (BuildContext context) {
                       return ProductDetailBottomSheetScreen(
@@ -101,7 +108,8 @@ class _ProductItemState extends State<ProductItem> {
                 children: [
                   AppCachedNetworkImage(
                     image: widget.productModel.productImage,
-                    height: MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
+                    height:
+                        MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
                     width: double.infinity,
                     radius: 20.r,
                   ),
@@ -125,9 +133,12 @@ class _ProductItemState extends State<ProductItem> {
                         if (exists.isNotEmpty) {
                           for (var element in state.products) {
                             CartModel cartModel = state.products.firstWhere(
-                              (element) => element.productId == widget.productModel.productId,
+                              (element) =>
+                                  element.productId ==
+                                  widget.productModel.productId,
                             );
-                            if (element.productId == widget.productModel.productId &&
+                            if (element.productId ==
+                                    widget.productModel.productId &&
                                 cartModel.count != 0) {
                               return Container(
                                 height: 40.h,
@@ -136,7 +147,8 @@ class _ProductItemState extends State<ProductItem> {
                                   color: Colors.white,
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconButton(
                                       highlightColor: Colors.transparent,
@@ -144,40 +156,86 @@ class _ProductItemState extends State<ProductItem> {
                                         if (cartModel.count == 1) {
                                           BlocProvider.of<CartBloc>(
                                             context,
-                                          ).add(DeleteCartById(id: cartModel.id!));
+                                          ).add(
+                                            DeleteCartById(id: cartModel.id!),
+                                          );
                                         } else {
-                                          BlocProvider.of<CartBloc>(context).add(
+                                          BlocProvider.of<CartBloc>(
+                                            context,
+                                          ).add(
                                             UpdateCart(
                                               cartModel: CartModel(
+                                                updatedAt:
+                                                    widget
+                                                        .productModel
+                                                        .updatedAt,
                                                 id: element.id,
                                                 productActive:
-                                                    widget.productModel.productActive ? 1 : 0,
-                                                mfgDate: widget.productModel.mfgDate,
-                                                expDate: widget.productModel.expDate,
-                                                isCountable: element.isCountable,
-                                                categoryId: widget.productModel.categoryId,
-                                                productId: widget.productModel.productId,
-                                                productName: widget.productModel.productName,
+                                                    widget
+                                                            .productModel
+                                                            .productActive
+                                                        ? 1
+                                                        : 0,
+                                                mfgDate:
+                                                    widget.productModel.mfgDate,
+                                                expDate:
+                                                    widget.productModel.expDate,
+                                                isCountable:
+                                                    element.isCountable,
+                                                categoryId:
+                                                    widget
+                                                        .productModel
+                                                        .categoryId,
+                                                productId:
+                                                    widget
+                                                        .productModel
+                                                        .productId,
+                                                productName:
+                                                    widget
+                                                        .productModel
+                                                        .productName,
                                                 count: cartModel.count - 1,
-                                                productPrice: widget.productModel.productPrice,
-                                                createdAt: widget.productModel.createdAt,
-                                                productImage: widget.productModel.productImage,
+                                                productPrice:
+                                                    widget
+                                                        .productModel
+                                                        .productPrice,
+                                                createdAt:
+                                                    widget
+                                                        .productModel
+                                                        .createdAt,
+                                                productImage:
+                                                    widget
+                                                        .productModel
+                                                        .productImage,
                                                 productDescription:
-                                                    widget.productModel.productDescription,
+                                                    widget
+                                                        .productModel
+                                                        .productDescription,
                                                 productQuantity:
-                                                    widget.productModel.productQuantity.toInt(),
+                                                    widget
+                                                        .productModel
+                                                        .productQuantity
+                                                        .toInt(),
                                               ),
                                             ),
                                           );
                                         }
-                                        BlocProvider.of<CartBloc>(context).add(FetchCarts());
+                                        BlocProvider.of<CartBloc>(
+                                          context,
+                                        ).add(FetchCarts());
                                       },
                                       icon: SvgPicture.asset(
                                         AppIcons.minus,
                                         height:
-                                            MediaQuery.of(context).size.width > 600 ? 5.h : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 5.h
+                                                : null,
                                         width:
-                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.w
+                                                : null,
                                         colorFilter: ColorFilter.mode(
                                           Colors.black,
                                           BlendMode.srcIn,
@@ -194,44 +252,98 @@ class _ProductItemState extends State<ProductItem> {
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        if (widget.productModel.productQuantity > cartModel.count) {
-                                          BlocProvider.of<CartBloc>(context).add(
+                                        if (widget
+                                                .productModel
+                                                .productQuantity >
+                                            cartModel.count) {
+                                          BlocProvider.of<CartBloc>(
+                                            context,
+                                          ).add(
                                             UpdateCart(
                                               cartModel: CartModel(
+                                                updatedAt:
+                                                    widget
+                                                        .productModel
+                                                        .updatedAt,
                                                 productActive:
-                                                    widget.productModel.productActive ? 1 : 0,
-                                                mfgDate: widget.productModel.mfgDate,
-                                                expDate: widget.productModel.expDate,
+                                                    widget
+                                                            .productModel
+                                                            .productActive
+                                                        ? 1
+                                                        : 0,
+                                                mfgDate:
+                                                    widget.productModel.mfgDate,
+                                                expDate:
+                                                    widget.productModel.expDate,
                                                 id: element.id,
                                                 isCountable:
-                                                    widget.productModel.isCountable ? 1 : 0,
-                                                categoryId: widget.productModel.categoryId,
-                                                productId: widget.productModel.productId,
-                                                productName: widget.productModel.productName,
+                                                    widget
+                                                            .productModel
+                                                            .isCountable
+                                                        ? 1
+                                                        : 0,
+                                                categoryId:
+                                                    widget
+                                                        .productModel
+                                                        .categoryId,
+                                                productId:
+                                                    widget
+                                                        .productModel
+                                                        .productId,
+                                                productName:
+                                                    widget
+                                                        .productModel
+                                                        .productName,
                                                 count: cartModel.count + 1,
-                                                productPrice: widget.productModel.productPrice,
-                                                createdAt: widget.productModel.createdAt,
-                                                productImage: widget.productModel.productImage,
+                                                productPrice:
+                                                    widget
+                                                        .productModel
+                                                        .productPrice,
+                                                createdAt:
+                                                    widget
+                                                        .productModel
+                                                        .createdAt,
+                                                productImage:
+                                                    widget
+                                                        .productModel
+                                                        .productImage,
                                                 productDescription:
-                                                    widget.productModel.productDescription,
+                                                    widget
+                                                        .productModel
+                                                        .productDescription,
                                                 productQuantity:
-                                                    widget.productModel.productQuantity.toInt(),
+                                                    widget
+                                                        .productModel
+                                                        .productQuantity
+                                                        .toInt(),
                                               ),
                                             ),
                                           );
-                                          BlocProvider.of<CartBloc>(context).add(FetchCarts());
+                                          BlocProvider.of<CartBloc>(
+                                            context,
+                                          ).add(FetchCarts());
                                         } else {
-                                          showOverlayMessage(context, text: "no_product".tr());
+                                          showOverlayMessage(
+                                            context,
+                                            text: "no_product".tr(),
+                                          );
                                         }
                                       },
                                       icon: SvgPicture.asset(
                                         AppIcons.plus,
                                         height:
-                                            MediaQuery.of(context).size.width > 600 ? 20.h : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.h
+                                                : null,
                                         width:
-                                            MediaQuery.of(context).size.width > 600 ? 20.w : null,
+                                            MediaQuery.of(context).size.width >
+                                                    600
+                                                ? 20.w
+                                                : null,
                                         colorFilter: ColorFilter.mode(
-                                          widget.productModel.productQuantity == cartModel.count
+                                          widget.productModel.productQuantity ==
+                                                  cartModel.count
                                               ? Colors.grey
                                               : Colors.black,
                                           BlendMode.srcIn,
@@ -252,19 +364,27 @@ class _ProductItemState extends State<ProductItem> {
                             BlocProvider.of<CartBloc>(context).add(
                               AddCart(
                                 cartModel: CartModel(
-                                  productActive: widget.productModel.productActive ? 1 : 0,
+                                  updatedAt: widget.productModel.updatedAt,
+                                  productActive:
+                                      widget.productModel.productActive ? 1 : 0,
                                   mfgDate: widget.productModel.mfgDate,
                                   expDate: widget.productModel.expDate,
-                                  isCountable: widget.productModel.isCountable ? 1 : 0,
+                                  isCountable:
+                                      widget.productModel.isCountable ? 1 : 0,
                                   categoryId: widget.productModel.categoryId,
                                   productId: widget.productModel.productId,
                                   productName: widget.productModel.productName,
                                   count: 1,
-                                  productPrice: widget.productModel.productPrice,
+                                  productPrice:
+                                      widget.productModel.productPrice,
                                   createdAt: widget.productModel.createdAt,
-                                  productImage: widget.productModel.productImage,
-                                  productDescription: widget.productModel.productDescription,
-                                  productQuantity: widget.productModel.productQuantity.toInt(),
+                                  productImage:
+                                      widget.productModel.productImage,
+                                  productDescription:
+                                      widget.productModel.productDescription,
+                                  productQuantity:
+                                      widget.productModel.productQuantity
+                                          .toInt(),
                                 ),
                               ),
                             );
