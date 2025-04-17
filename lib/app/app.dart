@@ -35,21 +35,37 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => CategoryRepository(firebaseFirestore: _firestore)),
+        RepositoryProvider(
+          create:
+              (context) => CategoryRepository(firebaseFirestore: _firestore),
+        ),
         RepositoryProvider(create: (context) => UploadImageRepository()),
-        RepositoryProvider(create: (context) => ProductRepository(firebaseFirestore: _firestore)),
+        RepositoryProvider(
+          create: (context) => ProductRepository(firebaseFirestore: _firestore),
+        ),
         RepositoryProvider(create: (context) => CartRepository()),
         RepositoryProvider(create: (context) => YandexGeoRepository()),
-        RepositoryProvider(create: (context) => OrderRepository(firebaseFirestore: _firestore)),
+        RepositoryProvider(
+          create: (context) => OrderRepository(firebaseFirestore: _firestore),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => SearchProductsBloc(context.read<ProductRepository>())),
-          BlocProvider(create: (context) => OrderSearchBloc(context.read<OrderRepository>())),
           BlocProvider(
             create:
                 (context) =>
-                    OrderBloc(context.read<OrderRepository>(), context.read<ProductRepository>()),
+                    SearchProductsBloc(context.read<ProductRepository>()),
+          ),
+          BlocProvider(
+            create:
+                (context) => OrderSearchBloc(context.read<OrderRepository>()),
+          ),
+          BlocProvider(
+            create:
+                (context) => OrderBloc(
+                  context.read<OrderRepository>(),
+                  context.read<ProductRepository>(),
+                ),
           ),
           BlocProvider(create: (context) => TabCubit()),
           BlocProvider(create: (context) => ConnectivityCubit()),
@@ -60,7 +76,9 @@ class _AppState extends State<App> {
                   context.read<UploadImageRepository>(),
                 ),
           ),
-          BlocProvider(create: (context) => CartBloc(context.read<CartRepository>())),
+          BlocProvider(
+            create: (context) => CartBloc(context.read<CartRepository>()),
+          ),
           BlocProvider(create: (context) => OrderEditCartBloc()),
           BlocProvider(
             create:
@@ -89,7 +107,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           builder: (context, child) {
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.85)),
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(0.85)),
               child: child!,
             );
           },

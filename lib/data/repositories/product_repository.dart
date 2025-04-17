@@ -86,6 +86,28 @@ class ProductRepository {
     }
   }
 
+  Future<ProductModel?> getProductByProductId({
+    required String productId,
+  }) async {
+    try {
+      final querySnapshot =
+          await _firestore
+              .collection("products")
+              .where("product_id", isEqualTo: productId)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final doc = querySnapshot.docs.first;
+        return ProductModel.fromJson(doc.data());
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   Stream<List<ProductModel>> getProductsByCategoryId({
     required String categoryId,
   }) => _firestore

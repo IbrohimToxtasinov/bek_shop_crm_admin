@@ -40,9 +40,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       List<OrderProductModel> products = [];
       num totalPrice = 0;
       for (int i = 0; i < event.products.length; i++) {
-        print(
-          "${event.products[i].productName} >>>> ${event.products[i].updatedAt}",
-        );
         totalPrice =
             totalPrice +
             event.products[i].productPrice * event.products[i].count;
@@ -82,31 +79,34 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(UpdateProductLoadInProgress());
       try {
         for (int i = 0; i < event.products.length; i++) {
-          await _productRepository.updateProduct(
-            productModel: ProductModel(
-              isCountable: event.products[i].isCountable == 1 ? true : false,
-              categoryId: event.products[i].categoryId,
-              productId: event.products[i].productId,
-              productName: event.products[i].productName,
-              productPrice: event.products[i].productPrice,
-              productActive:
-                  event.products[i].productQuantity - event.products[i].count ==
-                          0
-                      ? false
-                      : true,
-              productImage: event.products[i].productImage,
-              productQuantity:
-                  event.products[i].productQuantity - event.products[i].count,
-              createdAt: event.products[i].createdAt,
-              updatedAt: event.products[i].updatedAt,
-              productDescription: event.products[i].productDescription,
-              mfgDate: event.products[i].mfgDate,
-              expDate: event.products[i].expDate,
-            ),
-          );
-          await Future.delayed(Duration(seconds: 1));
-          emit(UpdateProductLoadInSuccess());
+          ProductModel? product = await _productRepository
+              .getProductByProductId(productId: event.products[i].productId);
+          if (product != null) {
+            await _productRepository.updateProduct(
+              productModel: ProductModel(
+                categoryId: product.categoryId,
+                productId: product.productId,
+                createdAt: product.createdAt,
+                isCountable: product.isCountable,
+                productDescription: product.productDescription,
+                updatedAt: product.updatedAt,
+                productImage: product.productImage,
+                productName: product.productName,
+                productPrice: product.productPrice,
+                expDate: product.expDate,
+                mfgDate: product.mfgDate,
+                productQuantity:
+                    product.productQuantity - event.products[i].count,
+                productActive:
+                    product.productQuantity - event.products[i].count > 0
+                        ? true
+                        : false,
+              ),
+            );
+          }
         }
+        await Future.delayed(Duration(seconds: 1));
+        emit(UpdateProductLoadInSuccess());
       } catch (error) {
         emit(UpdateProductInFailure(errorMessage: error.toString()));
       }
@@ -143,53 +143,65 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(UpdateProductLoadInProgress());
       try {
         for (int i = 0; i < event.deleteProducts.length; i++) {
-          await _productRepository.updateProduct(
-            productModel: ProductModel(
-              isCountable: event.deleteProducts[i].isCountable,
-              categoryId: event.deleteProducts[i].categoryId,
-              productId: event.deleteProducts[i].productId,
-              productName: event.deleteProducts[i].productName,
-              productPrice: event.deleteProducts[i].productPrice,
-              productImage: event.deleteProducts[i].productImage,
-              productQuantity: event.deleteProducts[i].productQuantity,
-              productActive: event.deleteProducts[i].productActive,
-              productDescription: event.deleteProducts[i].productDescription,
-              mfgDate: event.deleteProducts[i].mfgDate,
-              expDate: event.deleteProducts[i].expDate,
-              createdAt: event.deleteProducts[i].createdAt,
-              updatedAt: event.deleteProducts[i].updatedAt,
-            ),
-          );
+          ProductModel? product = await _productRepository
+              .getProductByProductId(
+                productId: event.deleteProducts[i].productId,
+              );
+          if (product != null) {
+            await _productRepository.updateProduct(
+              productModel: ProductModel(
+                isCountable: product.isCountable,
+                categoryId: product.categoryId,
+                productId: product.productId,
+                productName: product.productName,
+                productPrice: product.productPrice,
+                productImage: product.productImage,
+                productQuantity:
+                    product.productQuantity + event.deleteProducts[i].count,
+                productActive: product.productActive,
+                productDescription: product.productDescription,
+                mfgDate: product.mfgDate,
+                expDate: product.expDate,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+              ),
+            );
+          }
         }
         for (int i = 0; i < event.orderModel.products.length; i++) {
-          await _productRepository.updateProduct(
-            productModel: ProductModel(
-              isCountable: event.orderModel.products[i].isCountable,
-              categoryId: event.orderModel.products[i].categoryId,
-              productId: event.orderModel.products[i].productId,
-              productName: event.orderModel.products[i].productName,
-              productPrice: event.orderModel.products[i].productPrice,
-              productActive:
-                  event.orderModel.products[i].productQuantity -
-                              event.orderModel.products[i].count ==
-                          0
-                      ? false
-                      : true,
-              productImage: event.orderModel.products[i].productImage,
-              productQuantity:
-                  event.orderModel.products[i].productQuantity -
-                  event.orderModel.products[i].count,
-              createdAt: event.orderModel.products[i].createdAt,
-              updatedAt: event.orderModel.products[i].updatedAt,
-              productDescription:
-                  event.orderModel.products[i].productDescription,
-              mfgDate: event.orderModel.products[i].mfgDate,
-              expDate: event.orderModel.products[i].expDate,
-            ),
-          );
-          await Future.delayed(Duration(seconds: 1));
-          emit(UpdateProductLoadInSuccess());
+          ProductModel? product = await _productRepository
+              .getProductByProductId(
+                productId: event.orderModel.products[i].productId,
+              );
+          if (product != null) {
+            await _productRepository.updateProduct(
+              productModel: ProductModel(
+                isCountable: product.isCountable,
+                categoryId: product.categoryId,
+                productId: product.productId,
+                productName: product.productName,
+                productDescription: product.productDescription,
+                productPrice: product.productPrice,
+                productActive:
+                    product.productQuantity -
+                                event.orderModel.products[i].count >
+                            0
+                        ? true
+                        : false,
+                productImage: product.productImage,
+                productQuantity:
+                    product.productQuantity -
+                    event.orderModel.products[i].count,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+                mfgDate: product.mfgDate,
+                expDate: product.expDate,
+              ),
+            );
+          }
         }
+        await Future.delayed(Duration(seconds: 1));
+        emit(UpdateProductLoadInSuccess());
       } catch (error) {
         emit(UpdateProductInFailure(errorMessage: error.toString()));
       }
@@ -208,23 +220,33 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(UpdateProductLoadInProgress());
       try {
         for (int i = 0; i < event.deleteProducts.length; i++) {
-          await _productRepository.updateProduct(
-            productModel: ProductModel(
-              isCountable: event.deleteProducts[i].isCountable,
-              categoryId: event.deleteProducts[i].categoryId,
-              productId: event.deleteProducts[i].productId,
-              productName: event.deleteProducts[i].productName,
-              productPrice: event.deleteProducts[i].productPrice,
-              productImage: event.deleteProducts[i].productImage,
-              productQuantity: event.deleteProducts[i].productQuantity,
-              productActive: event.deleteProducts[i].productActive,
-              productDescription: event.deleteProducts[i].productDescription,
-              mfgDate: event.deleteProducts[i].mfgDate,
-              expDate: event.deleteProducts[i].expDate,
-              createdAt: event.deleteProducts[i].createdAt,
-              updatedAt: event.deleteProducts[i].updatedAt,
-            ),
-          );
+          ProductModel? product = await _productRepository
+              .getProductByProductId(
+                productId: event.deleteProducts[i].productId,
+              );
+          if (product != null) {
+            await _productRepository.updateProduct(
+              productModel: ProductModel(
+                isCountable: product.isCountable,
+                categoryId: product.categoryId,
+                productId: product.productId,
+                productName: product.productName,
+                productPrice: product.productPrice,
+                productImage: product.productImage,
+                productQuantity:
+                    product.productQuantity + event.deleteProducts[i].count,
+                productActive:
+                    product.productQuantity + event.deleteProducts[i].count > 0
+                        ? true
+                        : false,
+                productDescription: product.productDescription,
+                mfgDate: product.mfgDate,
+                expDate: product.expDate,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+              ),
+            );
+          }
         }
         await Future.delayed(Duration(seconds: 1));
         emit(UpdateProductLoadInSuccess());

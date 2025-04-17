@@ -5,12 +5,47 @@ import 'package:flutter/material.dart';
 class OrderRepository {
   final FirebaseFirestore _firestore;
 
-  OrderRepository({required FirebaseFirestore firebaseFirestore}) : _firestore = firebaseFirestore;
+  OrderRepository({required FirebaseFirestore firebaseFirestore})
+    : _firestore = firebaseFirestore;
+
+  Future<void> deleteOldOrders() async {
+    try {
+      final now = DateTime.now();
+      final sevenDaysAgo = now.subtract(Duration(days: 7));
+
+      final snapshot = await _firestore.collection("orders").get();
+
+      for (final doc in snapshot.docs) {
+        final data = doc.data();
+        final createdAtRaw = data['create_at'];
+
+        if (createdAtRaw == null) {
+          continue;
+        }
+
+        try {
+          final createdAt = DateTime.parse(createdAtRaw);
+
+          if (createdAt.isBefore(sevenDaysAgo)) {
+            await doc.reference.delete();
+          }
+        } catch (e) {
+          rethrow;
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<void> createOrder({required OrderModel orderModel}) async {
     try {
-      var newStudent = await _firestore.collection("orders").add(orderModel.toJson());
-      await _firestore.collection("orders").doc(newStudent.id).update({"order_id": newStudent.id});
+      var newStudent = await _firestore
+          .collection("orders")
+          .add(orderModel.toJson());
+      await _firestore.collection("orders").doc(newStudent.id).update({
+        "order_id": newStudent.id,
+      });
       debugPrint("HAMMASI YAXSHI ORDER ADDED SUCCESS");
     } on FirebaseException catch (error) {
       debugPrint("ISHKAL BRATAN ORDER ADDED FAIL");
@@ -30,7 +65,10 @@ class OrderRepository {
 
   Future<void> updateOrder({required OrderModel orderModel}) async {
     try {
-      await _firestore.collection("orders").doc(orderModel.orderId).update(orderModel.toJson());
+      await _firestore
+          .collection("orders")
+          .doc(orderModel.orderId)
+          .update(orderModel.toJson());
 
       debugPrint("HAMMASI YAXSHI ORDER UPDATED SUCCESS");
     } on FirebaseException catch (error) {
@@ -40,11 +78,15 @@ class OrderRepository {
   }
 
   Stream<List<OrderModel>> getAllOrders() {
-    return _firestore.collection("orders").orderBy("create_at", descending: true).snapshots().map((
-      data,
-    ) {
-      return data.docs.map((doc) => OrderModel.fromJson(doc.data())).toList();
-    });
+    return _firestore
+        .collection("orders")
+        .orderBy("create_at", descending: true)
+        .snapshots()
+        .map((data) {
+          return data.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList();
+        });
   }
 
   Stream<List<OrderModel>> searchOrdersByClientName({required String query}) {
@@ -55,7 +97,9 @@ class OrderRepository {
         .endAt(["${query.toLowerCase()}\uf8ff"])
         .snapshots()
         .map((querySnapshot) {
-          return querySnapshot.docs.map((doc) => OrderModel.fromJson(doc.data())).toList();
+          return querySnapshot.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList();
         });
   }
 }
