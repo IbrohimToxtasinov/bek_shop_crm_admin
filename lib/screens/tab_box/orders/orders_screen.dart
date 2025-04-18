@@ -33,7 +33,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       },
       child: BlocConsumer<DeleteOldOrdersCubit, DeleteOldOrdersState>(
         listener: (context, deleteState) {
-
           if (deleteState is DeleteOldOrdersLoadInFailure) {
             showErrorDialog(context, "${tr("error_occurred")}!");
           }
@@ -74,7 +73,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       .deleteOldOrders();
                                   Navigator.pop(context);
                                 },
-                                text: "remove_order_dialog".tr(),
+                                text:
+                                    "Eski buyurtmalarni o'chirishni xohlaysizmi?",
                               ),
                             );
                           },

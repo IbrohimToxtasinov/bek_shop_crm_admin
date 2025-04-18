@@ -45,11 +45,33 @@ class OrderDetailScreen extends StatelessWidget {
             child: Scaffold(
               bottomNavigationBar: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-                child: MainActionButton(
-                  label: "view_address_on_map".tr(),
-                  onTap: () {
-                    _openMapsSheet(context, activeOrders: orderModel);
-                  },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: MainActionButton(
+                        label: ("view_address_on_map").tr(),
+                        onTap: () {
+                          _openMapsSheet(context, activeOrders: orderModel);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      flex: 2,
+                      child: MainActionButton(
+                        label: "Chek yaratish",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRouterNames.createCheckRoute,
+                            arguments: orderModel,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               appBar: CustomAppBar(
@@ -59,7 +81,11 @@ class OrderDetailScreen extends StatelessWidget {
                 trailing: Row(
                   children: [
                     IconButton(
-                      icon: SvgPicture.asset(AppIcons.edit, width: 24.w, height: 24.h),
+                      icon: SvgPicture.asset(
+                        AppIcons.edit,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
                       onPressed: () {
                         Navigator.pushNamed(
                           context,
@@ -69,18 +95,32 @@ class OrderDetailScreen extends StatelessWidget {
                       },
                     ),
                     IconButton(
-                      icon: SvgPicture.asset(AppIcons.download, width: 24.w, height: 24.h),
+                      icon: SvgPicture.asset(
+                        AppIcons.download,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
                       onPressed: () {
                         context.read<OrderPdfBloc>().add(
-                          GenerateAndSharePdfEvent(order: orderModel, share: false),
+                          GenerateAndSharePdfEvent(
+                            order: orderModel,
+                            share: false,
+                          ),
                         );
                       },
                     ),
                     IconButton(
-                      icon: SvgPicture.asset(AppIcons.share, width: 24.w, height: 24.h),
+                      icon: SvgPicture.asset(
+                        AppIcons.share,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
                       onPressed: () {
                         context.read<OrderPdfBloc>().add(
-                          GenerateAndSharePdfEvent(order: orderModel, share: true),
+                          GenerateAndSharePdfEvent(
+                            order: orderModel,
+                            share: true,
+                          ),
                         );
                       },
                     ),
@@ -162,7 +202,8 @@ class OrderDetailScreen extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: orderModel.products.length,
                         itemBuilder: (context, index) {
-                          OrderProductModel product = orderModel.products[index];
+                          OrderProductModel product =
+                              orderModel.products[index];
                           return InkWell(
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -171,7 +212,9 @@ class OrderDetailScreen extends StatelessWidget {
                                 context: context,
                                 isScrollControlled: true,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(30.r),
+                                  ),
                                 ),
                                 builder: (BuildContext context) {
                                   return ProductDetailBottomSheetScreenForEdit(
@@ -184,7 +227,10 @@ class OrderDetailScreen extends StatelessWidget {
                             },
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
-                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 12.h,
+                              ),
                               width: double.infinity.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(22.r),
@@ -219,7 +265,8 @@ class OrderDetailScreen extends StatelessWidget {
                                   SizedBox(width: 16.w),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           product.productName.trim(),
@@ -281,9 +328,15 @@ class OrderDetailScreen extends StatelessWidget {
   }
 }
 
-Future<void> _openMapsSheet(BuildContext context, {required OrderModel activeOrders}) async {
+Future<void> _openMapsSheet(
+  BuildContext context, {
+  required OrderModel activeOrders,
+}) async {
   try {
-    final coords = Coords(activeOrders.latLong.latitude, activeOrders.latLong.longitude);
+    final coords = Coords(
+      activeOrders.latLong.latitude,
+      activeOrders.latLong.longitude,
+    );
     final availableMaps = await MapLauncher.installedMaps;
     showModalBottomSheet(
       context: context,
@@ -294,12 +347,20 @@ Future<void> _openMapsSheet(BuildContext context, {required OrderModel activeOrd
               children: [
                 for (var map in availableMaps)
                   ListTile(
-                    onTap: () => map.showMarker(coords: coords, title: activeOrders.orderId),
+                    onTap:
+                        () => map.showMarker(
+                          coords: coords,
+                          title: activeOrders.orderId,
+                        ),
                     title: Text(
                       map.mapName,
                       style: TextStyle(color: Colors.black, fontSize: 18.sp),
                     ),
-                    leading: SvgPicture.asset(map.icon, height: 30.0.h, width: 30.0.w),
+                    leading: SvgPicture.asset(
+                      map.icon,
+                      height: 30.0.h,
+                      width: 30.0.w,
+                    ),
                   ),
               ],
             ),

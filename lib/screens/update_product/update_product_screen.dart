@@ -413,12 +413,14 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                           updatedAt:
                               int.parse(
                                         productQuantityTextEditingController
-                                            .text,
+                                            .text
+                                            .trim()
+                                            .replaceAll(" ", "")
+                                            .toString(),
                                       ) ==
                                       widget.productModel.productQuantity
                                           .toInt()
-                                  ? widget.productModel.updatedAt
-                                      .toString()
+                                  ? widget.productModel.updatedAt.toString()
                                   : DateTime.now().toString(),
                           mfgDate: mfgDate?.toString() ?? "",
                           expDate: expDate?.toString() ?? "",

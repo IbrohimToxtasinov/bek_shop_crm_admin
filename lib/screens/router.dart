@@ -1,3 +1,4 @@
+import 'package:bek_shop/blocs/create_check/create_check_screen.dart';
 import 'package:bek_shop/data/models/category/category_model.dart';
 import 'package:bek_shop/data/models/order/order_model.dart';
 import 'package:bek_shop/data/models/product/product_model.dart';
@@ -35,13 +36,15 @@ class AppRouterNames {
   static const String addCategoryRoute = "/add_category";
   static const String galleryPhotoViewWrapper = '/gallery_photo_view_wrapper';
   static const String searchProducts = '/search_products';
-  static const String searchProductsForEditOrder = '/search_products_for_edit_order';
+  static const String searchProductsForEditOrder =
+      '/search_products_for_edit_order';
   static const String searchOrders = '/search_orders';
   static const String globalSearchProducts = '/global_search_products';
   static const String updateProduct = '/update_product';
   static const String updateCategory = '/update_category';
   static const String editOrder = '/edit_order';
   static const String noInternetRoute = '/no_internet_route';
+  static const String createCheckRoute = '/create_check_route';
 }
 
 class AppRouter {
@@ -51,17 +54,26 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case AppRouterNames.noInternetRoute:
         return MaterialPageRoute(
-          builder: (_) => NoInternetScreen(voidCallback: settings.arguments as VoidCallback),
+          builder:
+              (_) => NoInternetScreen(
+                voidCallback: settings.arguments as VoidCallback,
+              ),
         );
       case AppRouterNames.globalSearchProducts:
-        return MaterialPageRoute(builder: (_) => const GlobalProductSearchScreen());
+        return MaterialPageRoute(
+          builder: (_) => const GlobalProductSearchScreen(),
+        );
       case AppRouterNames.searchProductsForEditOrder:
-        return MaterialPageRoute(builder: (_) => const ProductsSearchScreenForEditOrder());
+        return MaterialPageRoute(
+          builder: (_) => const ProductsSearchScreenForEditOrder(),
+        );
       case AppRouterNames.searchOrders:
         return MaterialPageRoute(builder: (_) => const OrderSearchScreen());
       case AppRouterNames.editOrder:
         return MaterialPageRoute(
-          builder: (_) => EditOrderScreen(orderModel: settings.arguments as OrderModel),
+          builder:
+              (_) =>
+                  EditOrderScreen(orderModel: settings.arguments as OrderModel),
         );
       case AppRouterNames.createNewOrder:
         final args = settings.arguments as Map<String, dynamic>;
@@ -77,11 +89,17 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TabBox());
       case AppRouterNames.searchProducts:
         return MaterialPageRoute(
-          builder: (_) => SearchProductsScreen(categoryId: settings.arguments as String),
+          builder:
+              (_) => SearchProductsScreen(
+                categoryId: settings.arguments as String,
+              ),
         );
       case AppRouterNames.galleryPhotoViewWrapper:
         return MaterialPageRoute(
-          builder: (_) => GalleryPhotoViewWrapper(productImage: settings.arguments as String),
+          builder:
+              (_) => GalleryPhotoViewWrapper(
+                productImage: settings.arguments as String,
+              ),
         );
       case AppRouterNames.cartRoute:
         return MaterialPageRoute(builder: (_) => const CartScreen());
@@ -91,30 +109,55 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case AppRouterNames.updateProduct:
         return MaterialPageRoute(
-          builder: (_) => UpdateProductScreen(productModel: settings.arguments as ProductModel),
+          builder:
+              (_) => UpdateProductScreen(
+                productModel: settings.arguments as ProductModel,
+              ),
+        );
+
+      case AppRouterNames.createCheckRoute:
+        return MaterialPageRoute(
+          builder:
+              (_) => CreateCheckScreen(
+                orderModel: settings.arguments as OrderModel,
+              ),
         );
       case AppRouterNames.updateCategory:
         return MaterialPageRoute(
-          builder: (_) => UpdateCategoryScreen(categoryModel: settings.arguments as CategoryModel),
+          builder:
+              (_) => UpdateCategoryScreen(
+                categoryModel: settings.arguments as CategoryModel,
+              ),
         );
       case AppRouterNames.orderDetailRoute:
         return MaterialPageRoute(
-          builder: (_) => OrderDetailScreen(orderModel: settings.arguments as OrderModel),
+          builder:
+              (_) => OrderDetailScreen(
+                orderModel: settings.arguments as OrderModel,
+              ),
         );
       case AppRouterNames.categoryDetailsRoute:
         return MaterialPageRoute(
-          builder: (_) => CategoryDetailsScreen(categoryModel: settings.arguments as CategoryModel),
+          builder:
+              (_) => CategoryDetailsScreen(
+                categoryModel: settings.arguments as CategoryModel,
+              ),
         );
       case AppRouterNames.addCategoryRoute:
         return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
       case AppRouterNames.addProductRoute:
         return MaterialPageRoute(
-          builder: (_) => AddProductScreen(categoryId: settings.arguments as String),
+          builder:
+              (_) => AddProductScreen(categoryId: settings.arguments as String),
         );
       default:
         return MaterialPageRoute(
           builder: (_) {
-            return Scaffold(body: Center(child: Text('No route defined for ${settings.name}')));
+            return Scaffold(
+              body: Center(
+                child: Text('No route defined for ${settings.name}'),
+              ),
+            );
           },
         );
     }
