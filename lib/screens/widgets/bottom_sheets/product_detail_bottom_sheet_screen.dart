@@ -14,9 +14,11 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
   final bool? isEditView;
   final int? cartCount;
   final int? cartId;
+  final int isExpensive;
 
   const ProductDetailBottomSheetScreen({
     super.key,
+    this.isExpensive = 0,
     required this.productModel,
     this.cartCount,
     this.cartId,
@@ -26,7 +28,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(30.r),
@@ -48,7 +50,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                   );
                 },
                 child: ClipRRect(
-                  borderRadius:  BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topRight: Radius.circular(18.r),
                     topLeft: Radius.circular(18.r),
                   ),
@@ -60,7 +62,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.all(10.w),
+                padding: EdgeInsets.all(10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,7 +77,7 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Text(
-                        '${NumberFormat.decimalPattern('uz_UZ').format(productModel.productPrice)} ${tr("sum")}',
+                        '${NumberFormat.decimalPattern('uz_UZ').format(isExpensive == 1 ? productModel.productPrice + productModel.expensivePrice : productModel.productPrice + productModel.cheapPrice)} ${tr("sum")}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green.shade700,
@@ -102,9 +104,10 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                         fontSize: 20.sp,
                       ),
                     ),
-                    if (productModel.mfgDate != null && productModel.mfgDate!.isNotEmpty)
+                    if (productModel.mfgDate != null &&
+                        productModel.mfgDate!.isNotEmpty)
                       Padding(
-                        padding:  EdgeInsets.only(top: 5.h),
+                        padding: EdgeInsets.only(top: 5.h),
                         child: Text(
                           "${tr("mfg_date")}: ${AppUtils.formatProductDate(productModel.mfgDate!)}",
                           textAlign: TextAlign.start,
@@ -115,7 +118,8 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (productModel.expDate != null && productModel.expDate!.isNotEmpty)
+                    if (productModel.expDate != null &&
+                        productModel.expDate!.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.only(top: 5.h),
                         child: Text(
@@ -133,8 +137,9 @@ class ProductDetailBottomSheetScreen extends StatelessWidget {
               ),
 
               Padding(
-                padding:  EdgeInsets.only(bottom: 0.h),
+                padding: EdgeInsets.only(bottom: 0.h),
                 child: AddProductToCart(
+                  isExpensive: isExpensive,
                   productModel: productModel,
                   cartCount: cartCount,
                   cartId: cartId,

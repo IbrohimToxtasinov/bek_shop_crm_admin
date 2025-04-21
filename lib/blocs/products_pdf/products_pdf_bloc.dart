@@ -110,7 +110,15 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
               ),
               pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
-                headers: ["Mahsulot", "Vaqti", "Narxi", "Miqdori", "Jami"],
+                headers: [
+                  "Mahsulot",
+                  "Vaqti",
+                  "Arzon",
+                  "Qimmat",
+                  "Tan Narxi",
+                  "Miqdori",
+                  "Jami",
+                ],
                 data:
                     products
                         .map(
@@ -121,6 +129,8 @@ class ProductsPdfBloc extends Bloc<ProductsPdfEvent, ProductsPdfState> {
                                 : (AppUtils.formatDateForPdf(
                                   product.updatedAt,
                                 )),
+                            "${NumberFormat.decimalPattern('uz_UZ').format(product.cheapPrice)} so'm",
+                            "${NumberFormat.decimalPattern('uz_UZ').format(product.expensivePrice)} so'm",
                             "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice)} so'm",
                             "${product.productQuantity.toInt()} ${product.isCountable ? "dona" : "kg"}",
                             "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice * product.productQuantity)} so'm",

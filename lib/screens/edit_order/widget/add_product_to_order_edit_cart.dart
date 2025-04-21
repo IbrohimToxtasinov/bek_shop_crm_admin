@@ -189,6 +189,12 @@ class _AddProductToOrderEditCartState extends State<AddProductToOrderEditCart> {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   AddProductOrderEditCartProducts(
                                     product: OrderProductModel(
+                                      isExpensive:
+                                          widget.productModel.isExpensive,
+                                      cheapPrice:
+                                          widget.productModel.cheapPrice,
+                                      expensivePrice:
+                                          widget.productModel.expensivePrice,
                                       updatedAt: widget.productModel.updatedAt,
                                       productActive:
                                           widget.productModel.productActive,
@@ -221,6 +227,12 @@ class _AddProductToOrderEditCartState extends State<AddProductToOrderEditCart> {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   UpdateOrderEditCartProduct(
                                     product: OrderProductModel(
+                                      isExpensive:
+                                          widget.productModel.isExpensive,
+                                      cheapPrice:
+                                          widget.productModel.cheapPrice,
+                                      expensivePrice:
+                                          widget.productModel.expensivePrice,
                                       updatedAt: widget.productModel.updatedAt,
                                       productActive:
                                           widget.productModel.productActive,

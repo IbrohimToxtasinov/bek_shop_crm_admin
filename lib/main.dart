@@ -1,4 +1,5 @@
 import 'package:bek_shop/app/app.dart';
+import 'package:bek_shop/data/repositories/storage_repository.dart';
 import 'package:bek_shop/firebase_options.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,6 +15,7 @@ void main() async {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1aG1mcmFjZWpuYXRwam1rc29hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NzcxNjIsImV4cCI6MjA1NjE1MzE2Mn0.QxOvFZrYtMkRoyDpCk4FzkoEOgIGe7QChse2HkttYUc",
   );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await StorageRepository.getInstance();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -22,7 +24,11 @@ void main() async {
     runApp(
       EasyLocalization(
         startLocale: const Locale('uz', 'UZ'),
-        supportedLocales: const [Locale('uz', 'UZ'), Locale('ru', 'RU'), Locale('en', 'EN')],
+        supportedLocales: const [
+          Locale('uz', 'UZ'),
+          Locale('ru', 'RU'),
+          Locale('en', 'EN'),
+        ],
         path: 'assets/translations',
         fallbackLocale: const Locale('uz', 'UZ'),
         saveLocale: true,

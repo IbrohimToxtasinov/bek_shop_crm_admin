@@ -40,10 +40,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       List<OrderProductModel> products = [];
       num totalPrice = 0;
       for (int i = 0; i < event.products.length; i++) {
-        totalPrice =
-            totalPrice +
-            event.products[i].productPrice * event.products[i].count;
+        num productPrice =
+            event.products[i].isExpensive == 1
+                ? event.products[i].productPrice +
+                    event.products[i].expensivePrice
+                : event.products[i].productPrice + event.products[i].cheapPrice;
+        totalPrice = totalPrice + productPrice * event.products[i].count;
         OrderProductModel product = OrderProductModel(
+          isExpensive: event.products[i].isExpensive == 1 ? true : false,
+          cheapPrice: event.products[i].cheapPrice,
+          expensivePrice: event.products[i].expensivePrice,
           productQuantity: event.products[i].productQuantity,
           productImage: event.products[i].productImage,
           productName: event.products[i].productName,
@@ -84,6 +90,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           if (product != null) {
             await _productRepository.updateProduct(
               productModel: ProductModel(
+                cheapPrice: product.cheapPrice,
+                expensivePrice: product.expensivePrice,
                 categoryId: product.categoryId,
                 productId: product.productId,
                 createdAt: product.createdAt,
@@ -108,9 +116,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         await Future.delayed(Duration(seconds: 1));
         emit(UpdateProductLoadInSuccess());
       } catch (error) {
+        print("error product: $error");
         emit(UpdateProductInFailure(errorMessage: error.toString()));
       }
     } catch (errorMessage) {
+      print("error order: $errorMessage");
       emit(CreateOrderInFailure(errorText: errorMessage.toString()));
     }
   }
@@ -120,10 +130,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     try {
       num totalPrice = 0;
       for (int i = 0; i < event.orderModel.products.length; i++) {
+        num productPrice =
+              event.orderModel.products[i].isExpensive
+                ? event.orderModel.products[i].productPrice +
+                    event.orderModel.products[i].expensivePrice
+                : event.orderModel.products[i].productPrice +
+                    event.orderModel.products[i].cheapPrice;
         totalPrice =
-            totalPrice +
-            event.orderModel.products[i].productPrice *
-                event.orderModel.products[i].count;
+            totalPrice + productPrice * event.orderModel.products[i].count;
       }
       await _orderRepository.updateOrder(
         orderModel: OrderModel(
@@ -150,6 +164,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           if (product != null) {
             await _productRepository.updateProduct(
               productModel: ProductModel(
+                cheapPrice: product.cheapPrice,
+                expensivePrice: product.expensivePrice,
                 isCountable: product.isCountable,
                 categoryId: product.categoryId,
                 productId: product.productId,
@@ -176,6 +192,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           if (product != null) {
             await _productRepository.updateProduct(
               productModel: ProductModel(
+                cheapPrice: product.cheapPrice,
+                expensivePrice: product.expensivePrice,
                 isCountable: product.isCountable,
                 categoryId: product.categoryId,
                 productId: product.productId,
@@ -227,6 +245,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           if (product != null) {
             await _productRepository.updateProduct(
               productModel: ProductModel(
+                cheapPrice: product.cheapPrice,
+                expensivePrice: product.expensivePrice,
                 isCountable: product.isCountable,
                 categoryId: product.categoryId,
                 productId: product.productId,

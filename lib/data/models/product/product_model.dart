@@ -3,6 +3,8 @@ class ProductModel {
   final String productId;
   final String productName;
   final num productPrice;
+  final num expensivePrice;
+  final num cheapPrice;
   final String productImage;
   final num productQuantity;
   final bool isCountable;
@@ -18,6 +20,8 @@ class ProductModel {
     required this.productId,
     required this.productName,
     required this.productPrice,
+    required this.expensivePrice,
+    required this.cheapPrice,
     required this.productActive,
     required this.productImage,
     required this.productQuantity,
@@ -35,6 +39,8 @@ class ProductModel {
       productId: json["product_id"] as String? ?? "",
       productName: json["product_name"] as String? ?? "",
       productPrice: json["product_price"] as num? ?? 0,
+      expensivePrice: json["expensive_price"] as num? ?? 0,
+      cheapPrice: json["cheap_price"] as num? ?? 0,
       productActive: json["product_active"] as bool? ?? false,
       productImage: json["product_image"] as String? ?? "",
       productQuantity: json["product_quantity"] as num? ?? 0,
@@ -53,6 +59,8 @@ class ProductModel {
       "product_id": productId,
       "product_name": productName,
       "product_price": productPrice,
+      "expensive_price": expensivePrice,
+      "cheap_price": cheapPrice,
       "product_active": productActive,
       "product_image": productImage,
       "product_quantity": productQuantity,

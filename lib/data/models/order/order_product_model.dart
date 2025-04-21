@@ -1,4 +1,7 @@
 class OrderProductModel {
+  final bool isExpensive;
+  final num cheapPrice;
+  final num expensivePrice;
   final String productImage;
   final String productName;
   final num productPrice;
@@ -15,6 +18,9 @@ class OrderProductModel {
   final String expDate;
 
   OrderProductModel({
+    required this.isExpensive,
+    required this.cheapPrice,
+    required this.expensivePrice,
     required this.productImage,
     required this.productName,
     required this.productPrice,
@@ -33,6 +39,9 @@ class OrderProductModel {
 
   factory OrderProductModel.fromJson(Map<String, dynamic> json) {
     return OrderProductModel(
+      isExpensive: json["is_expensive"] as bool? ?? false,
+      cheapPrice: json["cheap_price"] as num? ?? 0,
+      expensivePrice: json["expensive_price"] as num? ?? 0,
       productImage: json["product_image"] as String? ?? "",
       productName: json["product_name"] as String? ?? "",
       productPrice: json["product_price"] as num? ?? 0,
@@ -54,7 +63,10 @@ class OrderProductModel {
     return {
       "product_image": productImage,
       "product_name": productName,
+      "is_expensive": isExpensive,
       "product_price": productPrice,
+      "cheap_price": cheapPrice,
+      "expensive_price": expensivePrice,
       "product_id": productId,
       "category_id": categoryId,
       "count": count,

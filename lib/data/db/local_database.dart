@@ -40,12 +40,15 @@ class LocalDatabase {
     ${CartFields.createdAt} $textType,
     ${CartFields.updatedAt} $textType,
     ${CartFields.productPrice} $intType,
+    ${CartFields.expensivePrice} $intType,
+    ${CartFields.cheapPrice} $intType,
     ${CartFields.productImage} $textType,
     ${CartFields.mfgDate} $textType,
     ${CartFields.expDate} $textType,
     ${CartFields.productActive} $intType,
     ${CartFields.productQuantity} $intType,
     ${CartFields.isCountable} $intType,
+    ${CartFields.isExpensive} $intType,
     ${CartFields.count} $intType
 )
             ''');
@@ -87,6 +90,8 @@ class LocalDatabase {
         CartFields.productName,
         CartFields.productId,
         CartFields.productPrice,
+        CartFields.expensivePrice,
+        CartFields.cheapPrice,
         CartFields.productDescription,
         CartFields.count,
         CartFields.productQuantity,
@@ -95,6 +100,7 @@ class LocalDatabase {
         CartFields.createdAt,
         CartFields.updatedAt,
         CartFields.isCountable,
+        CartFields.isExpensive,
         CartFields.mfgDate,
         CartFields.expDate,
         CartFields.productActive,

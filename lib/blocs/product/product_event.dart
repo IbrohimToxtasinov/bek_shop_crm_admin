@@ -13,6 +13,8 @@ class AddProduct extends ProductEvent {
   final String productName;
   final String productDescription;
   final double productPrice;
+  final double expensivePrice;
+  final double cheapPrice;
   final double productQuantity;
   final bool isCountable;
   final bool productActive;
@@ -23,6 +25,8 @@ class AddProduct extends ProductEvent {
   AddProduct({
     required this.productDescription,
     required this.productPrice,
+    required this.expensivePrice,
+    required this.cheapPrice,
     required this.productQuantity,
     required this.categoryId,
     required this.productName,

@@ -32,7 +32,9 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
       await Future.delayed(Duration(seconds: 2));
       emit(OrderPdfInitial());
       if (event.share) {
-        await Share.shareXFiles([XFile(filePath)], text: "Buyurtma tafsilotlari PDF");
+        await Share.shareXFiles([
+          XFile(filePath),
+        ], text: "Buyurtma tafsilotlari PDF");
       } else {
         OpenFilex.open(filePath);
       }
@@ -62,7 +64,10 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
               pw.Header(
                 level: 0,
                 text: "Buyurtma Tafsilotlari",
-                textStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24),
+                textStyle: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 24,
+                ),
               ),
               pw.SizedBox(height: 10),
 
@@ -70,7 +75,10 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
               _buildDetailRow("Mijoz:", order.clientName),
               _buildDetailRow("Telefon:", order.clientPhoneNumber),
               _buildDetailRow("Manzil:", order.clientAddress),
-              _buildDetailRow("Buyurtma vaqti:", AppUtils.formatDate(order.createAt)),
+              _buildDetailRow(
+                "Buyurtma vaqti:",
+                AppUtils.formatDate(order.createAt),
+              ),
 
               pw.SizedBox(height: 10),
 
@@ -81,9 +89,9 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
                         .map(
                           (product) => [
                             product.productName,
-                            "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice)} so'm",
+                            "${NumberFormat.decimalPattern('uz_UZ').format(product.isExpensive ? product.productPrice + product.expensivePrice : product.productPrice + product.cheapPrice)} so'm",
                             "${product.count} ${product.isCountable ? "dona" : "kg"}",
-                            "${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice * product.count)} so'm",
+                            "${NumberFormat.decimalPattern('uz_UZ').format(product.isExpensive ? (product.productPrice + product.expensivePrice) * product.count : (product.productPrice + product.cheapPrice) * product.count)} so'm",
                           ],
                         )
                         .toList(),
@@ -98,14 +106,20 @@ class OrderPdfBloc extends Bloc<OrderPdfEvent, OrderPdfState> {
                 alignment: pw.Alignment.centerRight,
                 child: pw.Text(
                   "Jami summa: ${NumberFormat.decimalPattern('uz_UZ').format(order.totalPrice)} so'm",
-                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16),
+                  style: pw.TextStyle(
+                    fontWeight: pw.FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
 
               pw.SizedBox(height: 20),
               pw.Text(
                 "Aloqa uchun:",
-                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 14),
+                style: pw.TextStyle(
+                  fontWeight: pw.FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
               pw.SizedBox(height: 5),
               pw.Text("+998 (99) 666-88-89", style: pw.TextStyle(fontSize: 14)),

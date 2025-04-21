@@ -13,7 +13,9 @@ part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc(this._productRepository, this._uploadImageRepository)
-    : super(ProductState(products: [], status: FormStatus.pure, errorMessage: "")) {
+    : super(
+        ProductState(products: [], status: FormStatus.pure, errorMessage: ""),
+      ) {
     on<FetchProductByCategoryId>(_fetchProductByCategoryId);
     on<AddProduct>(_addProduct);
     on<UpdateProduct>(_updateProduct);
@@ -23,24 +25,33 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository _productRepository;
   final UploadImageRepository _uploadImageRepository;
 
-  _fetchProductByCategoryId(FetchProductByCategoryId event, Emitter<ProductState> emit) async {
+  _fetchProductByCategoryId(
+    FetchProductByCategoryId event,
+    Emitter<ProductState> emit,
+  ) async {
     emit(state.copyWith(status: FormStatus.productLoading));
     try {
       await for (var products in _productRepository.getProductsByCategoryId(
         categoryId: event.categoryId,
       )) {
-        emit(state.copyWith(status: FormStatus.productSuccess, products: products));
+        emit(
+          state.copyWith(status: FormStatus.productSuccess, products: products),
+        );
       }
     } catch (error) {
-      emit(state.copyWith(errorMessage: state.errorMessage, status: FormStatus.productFail));
+      emit(
+        state.copyWith(
+          errorMessage: state.errorMessage,
+          status: FormStatus.productFail,
+        ),
+      );
     }
   }
 
   _addProduct(AddProduct event, Emitter<ProductState> emit) async {
     emit(state.copyWith(status: FormStatus.uploadImageProductLoading));
-    UploadImageResponse uploadImageResponse = await _uploadImageRepository.uploadProductImage(
-      imageFile: event.imageFile,
-    );
+    UploadImageResponse uploadImageResponse = await _uploadImageRepository
+        .uploadProductImage(imageFile: event.imageFile);
     await Future.delayed(Duration(seconds: 2));
     if (uploadImageResponse.errorMessage.isEmpty) {
       emit(state.copyWith(status: FormStatus.uploadImageProductSuccess));
@@ -50,6 +61,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       try {
         await _productRepository.addProduct(
           productModel: ProductModel(
+            cheapPrice: event.cheapPrice,
+            expensivePrice: event.expensivePrice,
             productId: "",
             categoryId: event.categoryId,
             productName: event.productName,
@@ -67,7 +80,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         );
         emit(state.copyWith(status: FormStatus.addProductSuccess));
       } catch (error) {
-        emit(state.copyWith(errorMessage: state.errorMessage, status: FormStatus.addProductFail));
+        emit(
+          state.copyWith(
+            errorMessage: state.errorMessage,
+            status: FormStatus.addProductFail,
+          ),
+        );
       }
     } else {
       emit(
@@ -85,16 +103,20 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       await _productRepository.deleteProduct(productId: event.productId);
       emit(state.copyWith(status: FormStatus.deleteProductSuccess));
     } catch (error) {
-      emit(state.copyWith(status: FormStatus.deleteProductFail, errorMessage: error.toString()));
+      emit(
+        state.copyWith(
+          status: FormStatus.deleteProductFail,
+          errorMessage: error.toString(),
+        ),
+      );
     }
   }
 
   _updateProduct(UpdateProduct event, Emitter<ProductState> emit) async {
     if (event.imageFile != null) {
       emit(state.copyWith(status: FormStatus.uploadImageProductLoading));
-      UploadImageResponse uploadImageResponse = await _uploadImageRepository.uploadProductImage(
-        imageFile: event.imageFile,
-      );
+      UploadImageResponse uploadImageResponse = await _uploadImageRepository
+          .uploadProductImage(imageFile: event.imageFile);
       await Future.delayed(Duration(seconds: 2));
       if (uploadImageResponse.errorMessage.isEmpty) {
         emit(state.copyWith(status: FormStatus.uploadImageProductSuccess));
@@ -102,11 +124,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(state.copyWith(status: FormStatus.updateProductLoading));
         await Future.delayed(Duration(seconds: 2));
         try {
-          await _productRepository.updateProduct(productModel: event.productModel);
+          await _productRepository.updateProduct(
+            productModel: event.productModel,
+          );
           emit(state.copyWith(status: FormStatus.updateProductSuccess));
         } catch (error) {
           emit(
-            state.copyWith(status: FormStatus.updateProductFail, errorMessage: error.toString()),
+            state.copyWith(
+              status: FormStatus.updateProductFail,
+              errorMessage: error.toString(),
+            ),
           );
         }
       } else {
@@ -121,10 +148,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(status: FormStatus.updateProductLoading));
       await Future.delayed(Duration(seconds: 2));
       try {
-        await _productRepository.updateProduct(productModel: event.productModel);
+        await _productRepository.updateProduct(
+          productModel: event.productModel,
+        );
         emit(state.copyWith(status: FormStatus.updateProductSuccess));
       } catch (error) {
-        emit(state.copyWith(status: FormStatus.updateProductFail, errorMessage: error.toString()));
+        emit(
+          state.copyWith(
+            status: FormStatus.updateProductFail,
+            errorMessage: error.toString(),
+          ),
+        );
       }
     }
   }

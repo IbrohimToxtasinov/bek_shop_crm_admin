@@ -36,6 +36,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       TextEditingController();
   TextEditingController productPriceTextEditingController =
       TextEditingController();
+  TextEditingController expensivePriceTextEditingController =
+      TextEditingController();
+  TextEditingController cheapPriceTextEditingController =
+      TextEditingController();
   TextEditingController productQuantityTextEditingController =
       TextEditingController();
   bool isButtonEnabled = false;
@@ -52,6 +56,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         widget.productModel.productDescription;
     productPriceTextEditingController.text =
         widget.productModel.productPrice.toInt().toString();
+    expensivePriceTextEditingController.text =
+        widget.productModel.expensivePrice.toInt().toString();
+    cheapPriceTextEditingController.text =
+        widget.productModel.cheapPrice.toInt().toString();
     productQuantityTextEditingController.text =
         widget.productModel.productQuantity.toInt().toString();
     productActive = widget.productModel.productActive;
@@ -67,6 +75,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     productNameTextEditingController.addListener(_checkIfValuesChanged);
     productDescriptionTextEditingController.addListener(_checkIfValuesChanged);
     productPriceTextEditingController.addListener(_checkIfValuesChanged);
+    expensivePriceTextEditingController.addListener(_checkIfValuesChanged);
+    cheapPriceTextEditingController.addListener(_checkIfValuesChanged);
     productQuantityTextEditingController.addListener(_checkIfValuesChanged);
   }
 
@@ -75,6 +85,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     productNameTextEditingController.dispose();
     productDescriptionTextEditingController.dispose();
     productPriceTextEditingController.dispose();
+    expensivePriceTextEditingController.dispose();
+    cheapPriceTextEditingController.dispose();
     productQuantityTextEditingController.dispose();
     super.dispose();
   }
@@ -84,6 +96,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         productNameTextEditingController.text.isNotEmpty &&
         productDescriptionTextEditingController.text.isNotEmpty &&
         productPriceTextEditingController.text.isNotEmpty &&
+        expensivePriceTextEditingController.text.isNotEmpty &&
+        cheapPriceTextEditingController.text.isNotEmpty &&
         productQuantityTextEditingController.text.isNotEmpty;
 
     bool valuesChanged =
@@ -93,6 +107,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             widget.productModel.productDescription ||
         productPriceTextEditingController.text !=
             widget.productModel.productPrice.toString() ||
+        expensivePriceTextEditingController.text !=
+            widget.productModel.expensivePrice.toString() ||
+        cheapPriceTextEditingController.text !=
+            widget.productModel.cheapPrice.toString() ||
         productQuantityTextEditingController.text !=
             widget.productModel.productQuantity.toString();
     setState(() {
@@ -272,6 +290,24 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                             ),
                             SizedBox(height: 10.h),
                             CustomTexFormFiledWidget(
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
+                              controller: expensivePriceTextEditingController,
+                              text: "Qimmat narx",
+                              hintText: "Qimmat narx narxni kiriting",
+                              isSuffixIconHave: true,
+                            ),
+                            SizedBox(height: 10.h),
+                            CustomTexFormFiledWidget(
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
+                              controller: cheapPriceTextEditingController,
+                              text: "Arzon narx",
+                              hintText: "Arzon narxni kiriting",
+                              isSuffixIconHave: true,
+                            ),
+                            SizedBox(height: 10.h),
+                            CustomTexFormFiledWidget(
                               keyboardType: TextInputType.number,
                               text: "product_quantity".tr(),
                               controller: productQuantityTextEditingController,
@@ -410,6 +446,18 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                     context.read<ProductBloc>().add(
                       UpdateProduct(
                         productModel: ProductModel(
+                          cheapPrice: double.parse(
+                            cheapPriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", "")
+                                .toString(),
+                          ),
+                          expensivePrice: double.parse(
+                            expensivePriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", "")
+                                .toString(),
+                          ),
                           updatedAt:
                               int.parse(
                                         productQuantityTextEditingController

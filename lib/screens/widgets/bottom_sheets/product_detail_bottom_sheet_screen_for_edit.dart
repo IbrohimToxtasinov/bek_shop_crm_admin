@@ -83,7 +83,7 @@ class _ProductDetailBottomSheetScreenForEditState
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Text(
-                        '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.productPrice)} ${tr("sum")}',
+                        '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.isExpensive ? widget.productModel.productPrice + widget.productModel.expensivePrice : widget.productModel.productPrice + widget.productModel.cheapPrice)} ${tr("sum")}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green.shade700,

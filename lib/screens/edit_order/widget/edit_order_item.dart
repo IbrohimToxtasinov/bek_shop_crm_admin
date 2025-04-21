@@ -33,6 +33,9 @@ class EditOrderItem extends StatelessWidget {
           builder: (BuildContext context) {
             return ProductDetailBottomSheetScreenForEdit(
               productModel: OrderProductModel(
+                isExpensive: orderProductModel.isExpensive,
+                cheapPrice: orderProductModel.cheapPrice,
+                expensivePrice: orderProductModel.expensivePrice,
                 updatedAt: orderProductModel.updatedAt,
                 count: orderProductModel.count,
                 mfgDate: orderProductModel.mfgDate,
@@ -98,7 +101,7 @@ class EditOrderItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    '${NumberFormat.decimalPattern('uz_UZ').format(orderProductModel.productPrice)} ${tr("sum")}',
+                    '${NumberFormat.decimalPattern('uz_UZ').format(orderProductModel.isExpensive ? orderProductModel.productPrice + orderProductModel.expensivePrice : orderProductModel.productPrice + orderProductModel.cheapPrice)} ${tr("sum")}',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -125,20 +128,32 @@ class EditOrderItem extends StatelessWidget {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   UpdateOrderEditCartProduct(
                                     product: OrderProductModel(
+                                      isExpensive:
+                                          orderProductModel.isExpensive,
+                                      expensivePrice:
+                                          orderProductModel.expensivePrice,
+                                      cheapPrice: orderProductModel.cheapPrice,
                                       updatedAt: orderProductModel.updatedAt,
-                                      productQuantity: orderProductModel.productQuantity,
-                                      productImage: orderProductModel.productImage,
-                                      productName: orderProductModel.productName,
-                                      productPrice: orderProductModel.productPrice,
+                                      productQuantity:
+                                          orderProductModel.productQuantity,
+                                      productImage:
+                                          orderProductModel.productImage,
+                                      productName:
+                                          orderProductModel.productName,
+                                      productPrice:
+                                          orderProductModel.productPrice,
                                       productId: orderProductModel.productId,
                                       categoryId: orderProductModel.categoryId,
                                       count: orderProductModel.count - 1,
-                                      isCountable: orderProductModel.isCountable,
+                                      isCountable:
+                                          orderProductModel.isCountable,
                                       createdAt: orderProductModel.createdAt,
-                                      productActive: orderProductModel.productActive,
+                                      productActive:
+                                          orderProductModel.productActive,
                                       mfgDate: orderProductModel.mfgDate,
                                       expDate: orderProductModel.expDate,
-                                      productDescription: orderProductModel.productDescription,
+                                      productDescription:
+                                          orderProductModel.productDescription,
                                     ),
                                   ),
                                 );
@@ -150,7 +165,10 @@ class EditOrderItem extends StatelessWidget {
                               padding: EdgeInsets.all(5.w),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(width: 2.w, color: AppColors.cEDEDED),
+                                border: Border.all(
+                                  width: 2.w,
+                                  color: AppColors.cEDEDED,
+                                ),
                               ),
                               child: SvgPicture.asset(AppIcons.minus),
                             ),
@@ -168,29 +186,45 @@ class EditOrderItem extends StatelessWidget {
                           InkWell(
                             borderRadius: BorderRadius.circular(15.r),
                             onTap: () {
-                              if (orderProductModel.productQuantity > orderProductModel.count) {
+                              if (orderProductModel.productQuantity >
+                                  orderProductModel.count) {
                                 BlocProvider.of<OrderEditCartBloc>(context).add(
                                   UpdateOrderEditCartProduct(
                                     product: OrderProductModel(
+                                      isExpensive:
+                                          orderProductModel.isExpensive,
+                                      cheapPrice: orderProductModel.cheapPrice,
+                                      expensivePrice:
+                                          orderProductModel.expensivePrice,
                                       updatedAt: orderProductModel.updatedAt,
-                                      productQuantity: orderProductModel.productQuantity,
-                                      productImage: orderProductModel.productImage,
-                                      productName: orderProductModel.productName,
-                                      productPrice: orderProductModel.productPrice,
+                                      productQuantity:
+                                          orderProductModel.productQuantity,
+                                      productImage:
+                                          orderProductModel.productImage,
+                                      productName:
+                                          orderProductModel.productName,
+                                      productPrice:
+                                          orderProductModel.productPrice,
                                       productId: orderProductModel.productId,
                                       categoryId: orderProductModel.categoryId,
                                       count: orderProductModel.count + 1,
-                                      isCountable: orderProductModel.isCountable,
+                                      isCountable:
+                                          orderProductModel.isCountable,
                                       createdAt: orderProductModel.createdAt,
-                                      productActive: orderProductModel.productActive,
+                                      productActive:
+                                          orderProductModel.productActive,
                                       mfgDate: orderProductModel.mfgDate,
                                       expDate: orderProductModel.expDate,
-                                      productDescription: orderProductModel.productDescription,
+                                      productDescription:
+                                          orderProductModel.productDescription,
                                     ),
                                   ),
                                 );
                               } else {
-                                showOverlayMessage(context, text: "no_product".tr());
+                                showOverlayMessage(
+                                  context,
+                                  text: "no_product".tr(),
+                                );
                               }
                             },
                             child: Container(
@@ -199,12 +233,16 @@ class EditOrderItem extends StatelessWidget {
                               padding: EdgeInsets.all(5.w),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(width: 2.w, color: AppColors.cEDEDED),
+                                border: Border.all(
+                                  width: 2.w,
+                                  color: AppColors.cEDEDED,
+                                ),
                               ),
                               child: SvgPicture.asset(
                                 AppIcons.plus,
                                 colorFilter: ColorFilter.mode(
-                                  orderProductModel.productQuantity == orderProductModel.count
+                                  orderProductModel.productQuantity ==
+                                          orderProductModel.count
                                       ? Colors.grey
                                       : Colors.black,
                                   BlendMode.srcIn,
@@ -224,7 +262,9 @@ class EditOrderItem extends StatelessWidget {
                                 content: DeleteDialog(
                                   text: "delete_product_cart".tr(),
                                   onTap: () {
-                                    BlocProvider.of<OrderEditCartBloc>(context).add(
+                                    BlocProvider.of<OrderEditCartBloc>(
+                                      context,
+                                    ).add(
                                       DeleteOrderEditCartProductById(
                                         productId: orderProductModel.productId,
                                       ),
@@ -236,7 +276,11 @@ class EditOrderItem extends StatelessWidget {
                             },
                           );
                         },
-                        child: SvgPicture.asset(AppIcons.delete, width: 20.w, height: 20.h),
+                        child: SvgPicture.asset(
+                          AppIcons.delete,
+                          width: 20.w,
+                          height: 20.h,
+                        ),
                       ),
                     ],
                   ),

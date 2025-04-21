@@ -1,4 +1,5 @@
 import 'package:bek_shop/blocs/cart/cart_bloc.dart';
+import 'package:bek_shop/cubits/change_products_cost/change_products_cost_cubit.dart';
 import 'package:bek_shop/data/models/cart/cart_model.dart';
 import 'package:bek_shop/data/models/product/product_model.dart';
 import 'package:bek_shop/screens/router.dart';
@@ -26,410 +27,491 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
-      buildWhen: (previous, current) => current is CartLoadInSuccessGet,
-      builder: (context, state) {
-        List<CartModel> exists =
-            state.products
-                .where((e) => e.productId == widget.productModel.productId)
-                .toList();
-        return Opacity(
-          opacity: widget.productModel.productActive ? 1 : 0.5,
-          child: Container(
-            padding: EdgeInsets.all(5.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              color: AppColors.cF2F2F2,
-            ),
-            child: InkWell(
-              onLongPress: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRouterNames.updateProduct,
-                  arguments: widget.productModel,
-                );
-              },
-              onTap: () {
-                if (widget.onTap != null) {
-                  widget.onTap!();
-                }
-                if (exists.isNotEmpty) {
-                  for (var element in state.products) {
-                    CartModel cartModel = state.products.firstWhere(
-                      (element) =>
-                          element.productId == widget.productModel.productId,
-                    );
-                    if (element.productId == widget.productModel.productId &&
-                        cartModel.count != 0) {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(30),
-                          ),
-                        ),
-                        builder: (BuildContext context) {
-                          return ProductDetailBottomSheetScreen(
-                            isEditView: true,
-                            productModel: widget.productModel,
-                            cartCount: cartModel.count,
-                            cartId: cartModel.id,
-                          );
-                        },
-                      );
-                      return;
-                    }
-                  }
-                } else {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(30),
-                      ),
-                    ),
-                    builder: (BuildContext context) {
-                      return ProductDetailBottomSheetScreen(
-                        isEditView: true,
-                        productModel: widget.productModel,
+    return BlocBuilder<ChangeProductsCostCubit, ChangeProductsCostState>(
+      builder: (context, productPriceState) {
+        if (productPriceState is GetProductsCostSuccess) {
+          return BlocBuilder<CartBloc, CartState>(
+            buildWhen: (previous, current) => current is CartLoadInSuccessGet,
+            builder: (context, state) {
+              List<CartModel> exists =
+                  state.products
+                      .where(
+                        (e) => e.productId == widget.productModel.productId,
+                      )
+                      .toList();
+              return Opacity(
+                opacity: widget.productModel.productActive ? 1 : 0.5,
+                child: Container(
+                  padding: EdgeInsets.all(5.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.r),
+                    color: AppColors.cF2F2F2,
+                  ),
+                  child: InkWell(
+                    onLongPress: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRouterNames.updateProduct,
+                        arguments: widget.productModel,
                       );
                     },
-                  );
-                  return;
-                }
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppCachedNetworkImage(
-                    image: widget.productModel.productImage,
-                    height:
-                        MediaQuery.of(context).size.width > 600 ? 180.h : 165.h,
-                    width: double.infinity,
-                    radius: 20.r,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      widget.productModel.productName,
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  if (widget.productModel.productActive)
-                    Builder(
-                      builder: (context) {
-                        if (exists.isNotEmpty) {
-                          for (var element in state.products) {
-                            CartModel cartModel = state.products.firstWhere(
-                              (element) =>
-                                  element.productId ==
-                                  widget.productModel.productId,
-                            );
-                            if (element.productId ==
-                                    widget.productModel.productId &&
-                                cartModel.count != 0) {
-                              return Container(
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.r),
-                                  color: Colors.white,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconButton(
-                                      highlightColor: Colors.transparent,
-                                      onPressed: () {
-                                        if (cartModel.count == 1) {
-                                          BlocProvider.of<CartBloc>(
-                                            context,
-                                          ).add(
-                                            DeleteCartById(id: cartModel.id!),
-                                          );
-                                        } else {
-                                          BlocProvider.of<CartBloc>(
-                                            context,
-                                          ).add(
-                                            UpdateCart(
-                                              cartModel: CartModel(
-                                                updatedAt:
-                                                    widget
-                                                        .productModel
-                                                        .updatedAt,
-                                                id: element.id,
-                                                productActive:
-                                                    widget
-                                                            .productModel
-                                                            .productActive
-                                                        ? 1
-                                                        : 0,
-                                                mfgDate:
-                                                    widget.productModel.mfgDate,
-                                                expDate:
-                                                    widget.productModel.expDate,
-                                                isCountable:
-                                                    element.isCountable,
-                                                categoryId:
-                                                    widget
-                                                        .productModel
-                                                        .categoryId,
-                                                productId:
-                                                    widget
-                                                        .productModel
-                                                        .productId,
-                                                productName:
-                                                    widget
-                                                        .productModel
-                                                        .productName,
-                                                count: cartModel.count - 1,
-                                                productPrice:
-                                                    widget
-                                                        .productModel
-                                                        .productPrice,
-                                                createdAt:
-                                                    widget
-                                                        .productModel
-                                                        .createdAt,
-                                                productImage:
-                                                    widget
-                                                        .productModel
-                                                        .productImage,
-                                                productDescription:
-                                                    widget
-                                                        .productModel
-                                                        .productDescription,
-                                                productQuantity:
-                                                    widget
-                                                        .productModel
-                                                        .productQuantity
-                                                        .toInt(),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        BlocProvider.of<CartBloc>(
-                                          context,
-                                        ).add(FetchCarts());
-                                      },
-                                      icon: SvgPicture.asset(
-                                        AppIcons.minus,
-                                        height:
-                                            MediaQuery.of(context).size.width >
-                                                    600
-                                                ? 5.h
-                                                : null,
-                                        width:
-                                            MediaQuery.of(context).size.width >
-                                                    600
-                                                ? 20.w
-                                                : null,
-                                        colorFilter: ColorFilter.mode(
-                                          Colors.black,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      cartModel.count.toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.cFFC34A,
-                                        fontSize: 20.sp,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        if (widget
-                                                .productModel
-                                                .productQuantity >
-                                            cartModel.count) {
-                                          BlocProvider.of<CartBloc>(
-                                            context,
-                                          ).add(
-                                            UpdateCart(
-                                              cartModel: CartModel(
-                                                updatedAt:
-                                                    widget
-                                                        .productModel
-                                                        .updatedAt,
-                                                productActive:
-                                                    widget
-                                                            .productModel
-                                                            .productActive
-                                                        ? 1
-                                                        : 0,
-                                                mfgDate:
-                                                    widget.productModel.mfgDate,
-                                                expDate:
-                                                    widget.productModel.expDate,
-                                                id: element.id,
-                                                isCountable:
-                                                    widget
-                                                            .productModel
-                                                            .isCountable
-                                                        ? 1
-                                                        : 0,
-                                                categoryId:
-                                                    widget
-                                                        .productModel
-                                                        .categoryId,
-                                                productId:
-                                                    widget
-                                                        .productModel
-                                                        .productId,
-                                                productName:
-                                                    widget
-                                                        .productModel
-                                                        .productName,
-                                                count: cartModel.count + 1,
-                                                productPrice:
-                                                    widget
-                                                        .productModel
-                                                        .productPrice,
-                                                createdAt:
-                                                    widget
-                                                        .productModel
-                                                        .createdAt,
-                                                productImage:
-                                                    widget
-                                                        .productModel
-                                                        .productImage,
-                                                productDescription:
-                                                    widget
-                                                        .productModel
-                                                        .productDescription,
-                                                productQuantity:
-                                                    widget
-                                                        .productModel
-                                                        .productQuantity
-                                                        .toInt(),
-                                              ),
-                                            ),
-                                          );
-                                          BlocProvider.of<CartBloc>(
-                                            context,
-                                          ).add(FetchCarts());
-                                        } else {
-                                          showOverlayMessage(
-                                            context,
-                                            text: "no_product".tr(),
-                                          );
-                                        }
-                                      },
-                                      icon: SvgPicture.asset(
-                                        AppIcons.plus,
-                                        height:
-                                            MediaQuery.of(context).size.width >
-                                                    600
-                                                ? 20.h
-                                                : null,
-                                        width:
-                                            MediaQuery.of(context).size.width >
-                                                    600
-                                                ? 20.w
-                                                : null,
-                                        colorFilter: ColorFilter.mode(
-                                          widget.productModel.productQuantity ==
-                                                  cartModel.count
-                                              ? Colors.grey
-                                              : Colors.black,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      highlightColor: Colors.transparent,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }
-                        }
-                        return InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            BlocProvider.of<CartBloc>(context).add(
-                              AddCart(
-                                cartModel: CartModel(
-                                  updatedAt: widget.productModel.updatedAt,
-                                  productActive:
-                                      widget.productModel.productActive ? 1 : 0,
-                                  mfgDate: widget.productModel.mfgDate,
-                                  expDate: widget.productModel.expDate,
-                                  isCountable:
-                                      widget.productModel.isCountable ? 1 : 0,
-                                  categoryId: widget.productModel.categoryId,
-                                  productId: widget.productModel.productId,
-                                  productName: widget.productModel.productName,
-                                  count: 1,
-                                  productPrice:
-                                      widget.productModel.productPrice,
-                                  createdAt: widget.productModel.createdAt,
-                                  productImage:
-                                      widget.productModel.productImage,
-                                  productDescription:
-                                      widget.productModel.productDescription,
-                                  productQuantity:
-                                      widget.productModel.productQuantity
-                                          .toInt(),
+                    onTap: () {
+                      if (widget.onTap != null) {
+                        widget.onTap!();
+                      }
+                      if (exists.isNotEmpty) {
+                        for (var element in state.products) {
+                          CartModel cartModel = state.products.firstWhere(
+                            (element) =>
+                                element.productId ==
+                                widget.productModel.productId,
+                          );
+                          if (element.productId ==
+                                  widget.productModel.productId &&
+                              cartModel.count != 0) {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(30),
                                 ),
                               ),
+                              builder: (BuildContext context) {
+                                return ProductDetailBottomSheetScreen(
+                                  isExpensive: cartModel.isExpensive,
+                                  isEditView: true,
+                                  productModel: widget.productModel,
+                                  cartCount: cartModel.count,
+                                  cartId: cartModel.id,
+                                );
+                              },
+                            );
+                            return;
+                          }
+                        }
+                      } else {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return ProductDetailBottomSheetScreen(
+                              isExpensive:
+                                  productPriceState.isExpensive ? 1 : 0,
+                              isEditView: true,
+                              productModel: widget.productModel,
                             );
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15.r),
+                        );
+                        return;
+                      }
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppCachedNetworkImage(
+                          image: widget.productModel.productImage,
+                          height:
+                              MediaQuery.of(context).size.width > 600
+                                  ? 180.h
+                                  : 165.h,
+                          width: double.infinity,
+                          radius: 20.r,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5.w),
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            widget.productModel.productName,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
                             ),
+                          ),
+                        ),
+                        if (widget.productModel.productActive)
+                          Builder(
+                            builder: (context) {
+                              if (exists.isNotEmpty) {
+                                for (var element in state.products) {
+                                  CartModel cartModel = state.products
+                                      .firstWhere(
+                                        (element) =>
+                                            element.productId ==
+                                            widget.productModel.productId,
+                                      );
+                                  if (element.productId ==
+                                          widget.productModel.productId &&
+                                      cartModel.count != 0) {
+                                    return Container(
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          IconButton(
+                                            highlightColor: Colors.transparent,
+                                            onPressed: () {
+                                              if (cartModel.count == 1) {
+                                                BlocProvider.of<CartBloc>(
+                                                  context,
+                                                ).add(
+                                                  DeleteCartById(
+                                                    id: cartModel.id!,
+                                                  ),
+                                                );
+                                              } else {
+                                                BlocProvider.of<CartBloc>(
+                                                  context,
+                                                ).add(
+                                                  UpdateCart(
+                                                    cartModel: CartModel(
+                                                      cheapPrice:
+                                                          widget
+                                                              .productModel
+                                                              .cheapPrice,
+                                                      isExpensive:
+                                                          cartModel.isExpensive,
+                                                      expensivePrice:
+                                                          widget
+                                                              .productModel
+                                                              .expensivePrice,
+                                                      updatedAt:
+                                                          widget
+                                                              .productModel
+                                                              .updatedAt,
+                                                      id: element.id,
+                                                      productActive:
+                                                          widget
+                                                                  .productModel
+                                                                  .productActive
+                                                              ? 1
+                                                              : 0,
+                                                      mfgDate:
+                                                          widget
+                                                              .productModel
+                                                              .mfgDate,
+                                                      expDate:
+                                                          widget
+                                                              .productModel
+                                                              .expDate,
+                                                      isCountable:
+                                                          element.isCountable,
+                                                      categoryId:
+                                                          widget
+                                                              .productModel
+                                                              .categoryId,
+                                                      productId:
+                                                          widget
+                                                              .productModel
+                                                              .productId,
+                                                      productName:
+                                                          widget
+                                                              .productModel
+                                                              .productName,
+                                                      count:
+                                                          cartModel.count - 1,
+                                                      productPrice:
+                                                          widget
+                                                              .productModel
+                                                              .productPrice,
+                                                      createdAt:
+                                                          widget
+                                                              .productModel
+                                                              .createdAt,
+                                                      productImage:
+                                                          widget
+                                                              .productModel
+                                                              .productImage,
+                                                      productDescription:
+                                                          widget
+                                                              .productModel
+                                                              .productDescription,
+                                                      productQuantity:
+                                                          widget
+                                                              .productModel
+                                                              .productQuantity
+                                                              .toInt(),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              BlocProvider.of<CartBloc>(
+                                                context,
+                                              ).add(FetchCarts());
+                                            },
+                                            icon: SvgPicture.asset(
+                                              AppIcons.minus,
+                                              height:
+                                                  MediaQuery.of(
+                                                            context,
+                                                          ).size.width >
+                                                          600
+                                                      ? 5.h
+                                                      : null,
+                                              width:
+                                                  MediaQuery.of(
+                                                            context,
+                                                          ).size.width >
+                                                          600
+                                                      ? 20.w
+                                                      : null,
+                                              colorFilter: ColorFilter.mode(
+                                                Colors.black,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            cartModel.count.toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.cFFC34A,
+                                              fontSize: 20.sp,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              if (widget
+                                                      .productModel
+                                                      .productQuantity >
+                                                  cartModel.count) {
+                                                BlocProvider.of<CartBloc>(
+                                                  context,
+                                                ).add(
+                                                  UpdateCart(
+                                                    cartModel: CartModel(
+                                                      cheapPrice:
+                                                          widget
+                                                              .productModel
+                                                              .cheapPrice,
+                                                      isExpensive:
+                                                          cartModel.isExpensive,
+                                                      expensivePrice:
+                                                          widget
+                                                              .productModel
+                                                              .expensivePrice,
+                                                      updatedAt:
+                                                          widget
+                                                              .productModel
+                                                              .updatedAt,
+                                                      productActive:
+                                                          widget
+                                                                  .productModel
+                                                                  .productActive
+                                                              ? 1
+                                                              : 0,
+                                                      mfgDate:
+                                                          widget
+                                                              .productModel
+                                                              .mfgDate,
+                                                      expDate:
+                                                          widget
+                                                              .productModel
+                                                              .expDate,
+                                                      id: element.id,
+                                                      isCountable:
+                                                          widget
+                                                                  .productModel
+                                                                  .isCountable
+                                                              ? 1
+                                                              : 0,
+                                                      categoryId:
+                                                          widget
+                                                              .productModel
+                                                              .categoryId,
+                                                      productId:
+                                                          widget
+                                                              .productModel
+                                                              .productId,
+                                                      productName:
+                                                          widget
+                                                              .productModel
+                                                              .productName,
+                                                      count:
+                                                          cartModel.count + 1,
+                                                      productPrice:
+                                                          widget
+                                                              .productModel
+                                                              .productPrice,
+                                                      createdAt:
+                                                          widget
+                                                              .productModel
+                                                              .createdAt,
+                                                      productImage:
+                                                          widget
+                                                              .productModel
+                                                              .productImage,
+                                                      productDescription:
+                                                          widget
+                                                              .productModel
+                                                              .productDescription,
+                                                      productQuantity:
+                                                          widget
+                                                              .productModel
+                                                              .productQuantity
+                                                              .toInt(),
+                                                    ),
+                                                  ),
+                                                );
+                                                BlocProvider.of<CartBloc>(
+                                                  context,
+                                                ).add(FetchCarts());
+                                              } else {
+                                                showOverlayMessage(
+                                                  context,
+                                                  text: "no_product".tr(),
+                                                );
+                                              }
+                                            },
+                                            icon: SvgPicture.asset(
+                                              AppIcons.plus,
+                                              height:
+                                                  MediaQuery.of(
+                                                            context,
+                                                          ).size.width >
+                                                          600
+                                                      ? 20.h
+                                                      : null,
+                                              width:
+                                                  MediaQuery.of(
+                                                            context,
+                                                          ).size.width >
+                                                          600
+                                                      ? 20.w
+                                                      : null,
+                                              colorFilter: ColorFilter.mode(
+                                                widget
+                                                            .productModel
+                                                            .productQuantity ==
+                                                        cartModel.count
+                                                    ? Colors.grey
+                                                    : Colors.black,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                            highlightColor: Colors.transparent,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                }
+                              }
+                              return InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  BlocProvider.of<CartBloc>(context).add(
+                                    AddCart(
+                                      cartModel: CartModel(
+                                        cheapPrice:
+                                            widget.productModel.cheapPrice,
+                                        isExpensive:
+                                            productPriceState.isExpensive
+                                                ? 1
+                                                : 0,
+                                        expensivePrice:
+                                            widget.productModel.expensivePrice,
+                                        updatedAt:
+                                            widget.productModel.updatedAt,
+                                        productActive:
+                                            widget.productModel.productActive
+                                                ? 1
+                                                : 0,
+                                        mfgDate: widget.productModel.mfgDate,
+                                        expDate: widget.productModel.expDate,
+                                        isCountable:
+                                            widget.productModel.isCountable
+                                                ? 1
+                                                : 0,
+                                        categoryId:
+                                            widget.productModel.categoryId,
+                                        productId:
+                                            widget.productModel.productId,
+                                        productName:
+                                            widget.productModel.productName,
+                                        count: 1,
+                                        productPrice:
+                                            widget.productModel.productPrice,
+                                        createdAt:
+                                            widget.productModel.createdAt,
+                                        productImage:
+                                            widget.productModel.productImage,
+                                        productDescription:
+                                            widget
+                                                .productModel
+                                                .productDescription,
+                                        productQuantity:
+                                            widget.productModel.productQuantity
+                                                .toInt(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15.r),
+                                  ),
+                                  height: 40.h,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '${NumberFormat.decimalPattern('uz_UZ').format(productPriceState.isExpensive ? widget.productModel.productPrice + widget.productModel.expensivePrice : widget.productModel.productPrice + widget.productModel.cheapPrice)} ${tr("sum")}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.c101828,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        else
+                          Container(
                             height: 40.h,
                             alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: Colors.white,
+                            ),
                             child: Text(
-                              '${NumberFormat.decimalPattern('uz_UZ').format(widget.productModel.productPrice)} ${tr("sum")}',
+                              "not_available".tr(),
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.c101828,
+                                color: AppColors.c101426,
                                 fontSize: 14.sp,
                               ),
                             ),
                           ),
-                        );
-                      },
-                    )
-                  else
-                    Container(
-                      height: 40.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.r),
-                        color: Colors.white,
-                      ),
-                      child: Text(
-                        "not_available".tr(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.c101426,
-                          fontSize: 14.sp,
-                        ),
-                      ),
+                      ],
                     ),
-                ],
-              ),
-            ),
-          ),
-        );
+                  ),
+                ),
+              );
+            },
+          );
+        } else {
+          return SizedBox();
+        }
       },
     );
   }

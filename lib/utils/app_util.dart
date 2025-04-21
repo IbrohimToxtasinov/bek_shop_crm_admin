@@ -24,18 +24,14 @@ class AppUtils {
     return getFormattedTime(parsedDate);
   }
 
-  static String totalPriceFormatter(List<CartModel> products) {
-    num sum = 0;
-    for (int i = 0; i < products.length; i++) {
-      sum = sum + products[i].productPrice * products[i].count;
-    }
-    return sum.toString();
-  }
-
   static num totalPrice(List<CartModel> products) {
     num sum = 0;
     for (int i = 0; i < products.length; i++) {
-      sum = sum + products[i].productPrice * products[i].count;
+      num productPrice =
+          products[i].isExpensive == 1
+              ? products[i].productPrice + products[i].expensivePrice
+              : products[i].productPrice + products[i].cheapPrice;
+      sum = sum + productPrice * products[i].count;
     }
     return sum;
   }
@@ -51,7 +47,23 @@ class AppUtils {
   static num totalPriceForEdit(List<OrderProductModel> products) {
     num sum = 0;
     for (int i = 0; i < products.length; i++) {
-      sum = sum + products[i].productPrice * products[i].count;
+      num productPrice =
+          products[i].isExpensive
+              ? products[i].productPrice + products[i].expensivePrice
+              : products[i].productPrice + products[i].cheapPrice;
+      sum = sum + productPrice * products[i].count;
+    }
+    return sum;
+  }
+
+  static num totalProfit(List<OrderProductModel> products) {
+    num sum = 0;
+    for (int i = 0; i < products.length; i++) {
+      num productPrice =
+          products[i].isExpensive
+              ? products[i].expensivePrice
+              : products[i].cheapPrice;
+      sum = sum + productPrice * products[i].count;
     }
     return sum;
   }

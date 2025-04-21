@@ -218,7 +218,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                               ),
                               SizedBox(width: 50.w),
                               Text(
-                                "${widget.orderModel.products[index].count} x ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].productPrice)}",
+                                "${widget.orderModel.products[index].count} x ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].isExpensive ? widget.orderModel.products[index].productPrice + widget.orderModel.products[index].expensivePrice : widget.orderModel.products[index].productPrice + widget.orderModel.products[index].cheapPrice)}",
                                 style: TextStyle(fontSize: 28.sp),
                               ),
                             ],
@@ -226,7 +226,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              "= ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].count * widget.orderModel.products[index].productPrice)} so'm",
+                              "= ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].isExpensive ? (widget.orderModel.products[index].productPrice + widget.orderModel.products[index].expensivePrice) * widget.orderModel.products[index].count : (widget.orderModel.products[index].productPrice + widget.orderModel.products[index].cheapPrice) * widget.orderModel.products[index].count)} so'm",
                               style: TextStyle(
                                 fontSize: 28.sp,
                                 fontWeight: FontWeight.w500,

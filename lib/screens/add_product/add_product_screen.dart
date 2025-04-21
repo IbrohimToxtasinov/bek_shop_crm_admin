@@ -29,10 +29,18 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  TextEditingController productNameTextEditingController = TextEditingController();
-  TextEditingController productDescriptionTextEditingController = TextEditingController();
-  TextEditingController productPriceTextEditingController = TextEditingController();
-  TextEditingController productQuantityTextEditingController = TextEditingController();
+  TextEditingController productNameTextEditingController =
+      TextEditingController();
+  TextEditingController productDescriptionTextEditingController =
+      TextEditingController();
+  TextEditingController productPriceTextEditingController =
+      TextEditingController();
+  TextEditingController expensivePriceTextEditingController =
+      TextEditingController();
+  TextEditingController cheapPriceTextEditingController =
+      TextEditingController();
+  TextEditingController productQuantityTextEditingController =
+      TextEditingController();
   bool isButtonEnabled = false;
   File? _image;
   bool productActive = true;
@@ -46,6 +54,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     productNameTextEditingController.addListener(_validateForm);
     productDescriptionTextEditingController.addListener(_validateForm);
     productPriceTextEditingController.addListener(_validateForm);
+    expensivePriceTextEditingController.addListener(_validateForm);
+    cheapPriceTextEditingController.addListener(_validateForm);
     productQuantityTextEditingController.addListener(_validateForm);
   }
 
@@ -54,6 +64,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     productNameTextEditingController.dispose();
     productDescriptionTextEditingController.dispose();
     productPriceTextEditingController.dispose();
+    expensivePriceTextEditingController.dispose();
+    cheapPriceTextEditingController.dispose();
     productQuantityTextEditingController.dispose();
     super.dispose();
   }
@@ -64,13 +76,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
           productNameTextEditingController.text.isNotEmpty &&
           productDescriptionTextEditingController.text.isNotEmpty &&
           productPriceTextEditingController.text.isNotEmpty &&
+          expensivePriceTextEditingController.text.isNotEmpty &&
+          cheapPriceTextEditingController.text.isNotEmpty &&
           productQuantityTextEditingController.text.isNotEmpty &&
           _image != null;
     });
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -83,11 +99,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("product_unit".tr(), style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+        Text(
+          "product_unit".tr(),
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        ),
         SegmentedButton<String>(
           segments: [
-            ButtonSegment(value: "dona", label: Text("piece".tr(),style: TextStyle(fontSize: 14.sp),)),
-            ButtonSegment(value: "kg", label: Text("kg".tr(),style: TextStyle(fontSize: 14.sp))),
+            ButtonSegment(
+              value: "dona",
+              label: Text("piece".tr(), style: TextStyle(fontSize: 14.sp)),
+            ),
+            ButtonSegment(
+              value: "kg",
+              label: Text("kg".tr(), style: TextStyle(fontSize: 14.sp)),
+            ),
           ],
           selected: {isCountable ? "dona" : "kg"},
           onSelectionChanged: (newValue) {
@@ -100,7 +125,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context, Function(DateTime) onDateSelected) async {
+  Future<void> _selectDate(
+    BuildContext context,
+    Function(DateTime) onDateSelected,
+  ) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -126,7 +154,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
       child: BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {
           if (state.status == FormStatus.addProductSuccess) {
-            Timer(const Duration(milliseconds: 1000), () => Navigator.pop(context));
+            Timer(
+              const Duration(milliseconds: 1000),
+              () => Navigator.pop(context),
+            );
           }
           if (state.status == FormStatus.uploadImageProductFail ||
               state.status == FormStatus.addProductFail) {
@@ -160,7 +191,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         decoration: BoxDecoration(
                           image:
                               _image != null
-                                  ? DecorationImage(image: FileImage(_image!), fit: BoxFit.cover)
+                                  ? DecorationImage(
+                                    image: FileImage(_image!),
+                                    fit: BoxFit.cover,
+                                  )
                                   : null,
                           color: Colors.grey[300],
                         ),
@@ -169,19 +203,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ? Center(
                                   child: IconButton(
                                     onPressed: _pickImage,
-                                    icon: Icon(Icons.upload, size: 40.sp, color: Colors.black54),
+                                    icon: Icon(
+                                      Icons.upload,
+                                      size: 40.sp,
+                                      color: Colors.black54,
+                                    ),
                                   ),
                                 )
                                 : Stack(
                                   alignment: Alignment.bottomRight,
                                   children: [
-                                    Positioned.fill(child: Image.file(_image!, fit: BoxFit.cover)),
+                                    Positioned.fill(
+                                      child: Image.file(
+                                        _image!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.all(8.0.w),
                                       child: CircleAvatar(
                                         backgroundColor: Colors.black54,
                                         child: IconButton(
-                                          icon: Icon(Icons.edit, color: Colors.white),
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                          ),
                                           onPressed: _pickImage,
                                         ),
                                       ),
@@ -204,7 +250,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             SizedBox(height: 10.h),
                             CustomTexFormFiledWidget(
                               text: "product_description".tr(),
-                              controller: productDescriptionTextEditingController,
+                              controller:
+                                  productDescriptionTextEditingController,
                               hintText: "enter_product_description".tr(),
                               isSuffixIconHave: true,
                               textInputAction: TextInputAction.next,
@@ -216,6 +263,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               text: "product_price".tr(),
                               controller: productPriceTextEditingController,
                               hintText: "enter_product_price".tr(),
+                              isSuffixIconHave: true,
+                            ),
+                            SizedBox(height: 10.h),
+                            CustomTexFormFiledWidget(
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
+                              controller: expensivePriceTextEditingController,
+                              text: "Qimmat narx",
+                              hintText: "Qimmat narxni kiriting",
+                              isSuffixIconHave: true,
+                            ),
+                            CustomTexFormFiledWidget(
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.number,
+                              controller: cheapPriceTextEditingController,
+                              text: "Arzon narx",
+                              hintText: "Arzon narxni kiriting",
                               isSuffixIconHave: true,
                             ),
                             SizedBox(height: 10.h),
@@ -260,7 +324,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 children: [
                                   Text(
                                     mfgDate != null
-                                        ? mfgDate!.toLocal().toString().split(' ')[0]
+                                        ? mfgDate!.toLocal().toString().split(
+                                          ' ',
+                                        )[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
@@ -282,7 +348,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ),
                                 ],
                               ),
-                              onTap: () => _selectDate(context, (date) => mfgDate = date),
+                              onTap:
+                                  () => _selectDate(
+                                    context,
+                                    (date) => mfgDate = date,
+                                  ),
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
@@ -299,7 +369,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 children: [
                                   Text(
                                     expDate != null
-                                        ? expDate!.toLocal().toString().split(' ')[0]
+                                        ? expDate!.toLocal().toString().split(
+                                          ' ',
+                                        )[0]
                                         : "select_date".tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
@@ -321,7 +393,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ),
                                 ],
                               ),
-                              onTap: () => _selectDate(context, (date) => expDate = date),
+                              onTap:
+                                  () => _selectDate(
+                                    context,
+                                    (date) => expDate = date,
+                                  ),
                             ),
                           ],
                         ),
@@ -337,20 +413,37 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     if (_image != null) {
                       context.read<ProductBloc>().add(
                         AddProduct(
+                          expensivePrice: double.parse(
+                            expensivePriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", ""),
+                          ),
+                          cheapPrice: double.parse(
+                            cheapPriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", ""),
+                          ),
                           productActive: productActive,
                           isCountable: isCountable,
                           mfgDate: mfgDate?.toString() ?? "",
                           expDate: expDate?.toString() ?? "",
                           imageFile: _image!,
                           categoryId: widget.categoryId,
-                          productName: productNameTextEditingController.text.trim(),
+                          productName:
+                              productNameTextEditingController.text.trim(),
                           productPrice: double.parse(
-                            productPriceTextEditingController.text.trim().replaceAll(" ", ""),
+                            productPriceTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", ""),
                           ),
                           productQuantity: double.parse(
-                            productQuantityTextEditingController.text.trim().replaceAll(" ", ""),
+                            productQuantityTextEditingController.text
+                                .trim()
+                                .replaceAll(" ", ""),
                           ),
-                          productDescription: productDescriptionTextEditingController.text.trim(),
+                          productDescription:
+                              productDescriptionTextEditingController.text
+                                  .trim(),
                         ),
                       );
                     } else {

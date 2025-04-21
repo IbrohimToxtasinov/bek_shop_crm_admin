@@ -177,6 +177,16 @@ class OrderDetailScreen extends StatelessWidget {
                           fontSize: 20.sp,
                         ),
                       ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "📈 Foyda: ${NumberFormat.decimalPattern('uz_UZ').format(AppUtils.totalProfit(orderModel.products))} ${tr("sum")}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.red.shade700,
+                          fontSize: 19.sp,
+                        ),
+                      ),
+
                       SizedBox(height: 6.h),
                       Text(
                         "⏳ ${AppUtils.formatDate(orderModel.createAt)}",
@@ -279,7 +289,7 @@ class OrderDetailScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2.h),
                                         Text(
-                                          '${tr("price")}: ${NumberFormat.decimalPattern('uz_UZ').format(product.productPrice)} ${tr("sum")}',
+                                          '${tr("price")}: ${NumberFormat.decimalPattern('uz_UZ').format(product.isExpensive ? product.expensivePrice + product.productPrice : product.cheapPrice + product.productPrice)} ${tr("sum")}',
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -299,7 +309,7 @@ class OrderDetailScreen extends StatelessWidget {
                                         ),
                                         SizedBox(height: 2.h),
                                         Text(
-                                          '${NumberFormat.decimalPattern('uz_UZ').format(product.count * product.productPrice)} ${tr("sum")}',
+                                          '${NumberFormat.decimalPattern('uz_UZ').format(product.isExpensive ? (product.expensivePrice + product.productPrice) * product.count : (product.cheapPrice + product.productPrice) * product.count)} ${tr("sum")}',
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,

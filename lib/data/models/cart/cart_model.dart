@@ -4,6 +4,8 @@ class CartFields {
   static String categoryId = "category_id";
   static String productImage = "product_image";
   static String productPrice = "product_price";
+  static String expensivePrice = "expensive_price";
+  static String cheapPrice = "cheap_price";
   static String productName = "product_name";
   static String productDescription = "product_description";
   static String productQuantity = "product_quantity";
@@ -11,6 +13,7 @@ class CartFields {
   static String createdAt = "created_at";
   static String updatedAt = "updated_at";
   static String isCountable = "is_countable";
+  static String isExpensive = "is_expensive";
   static String productActive = "product_active";
   static String mfgDate = "mfg_date";
   static String expDate = "exp_date";
@@ -25,9 +28,12 @@ class CartModel {
   final String createdAt;
   final String updatedAt;
   final num productPrice;
+  final num expensivePrice;
+  final num cheapPrice;
   final String productImage;
   final int productQuantity;
   final int isCountable;
+  final int isExpensive;
   final int productActive;
   final int count;
   final String? mfgDate;
@@ -39,9 +45,12 @@ class CartModel {
     required this.categoryId,
     required this.productName,
     required this.productPrice,
+    required this.expensivePrice,
+    required this.cheapPrice,
     required this.productImage,
     required this.productQuantity,
     required this.isCountable,
+    required this.isExpensive,
     required this.count,
     required this.createdAt,
     required this.updatedAt,
@@ -61,9 +70,12 @@ class CartModel {
       createdAt: json[CartFields.createdAt] as String? ?? "",
       updatedAt: json[CartFields.updatedAt] as String? ?? "",
       productPrice: json[CartFields.productPrice] as num? ?? 0,
+      expensivePrice: json[CartFields.expensivePrice] as num? ?? 0,
+      cheapPrice: json[CartFields.cheapPrice] as num? ?? 0,
       productImage: json[CartFields.productImage] as String? ?? "",
       productQuantity: json[CartFields.productQuantity] as int? ?? 0,
       isCountable: json[CartFields.isCountable] as int? ?? 0,
+      isExpensive: json[CartFields.isExpensive] as int? ?? 0,
       productActive: json[CartFields.productActive] as int? ?? 0,
       count: json[CartFields.count] as int? ?? 0,
       mfgDate: json[CartFields.mfgDate] as String? ?? "",
@@ -78,11 +90,14 @@ class CartModel {
       CartFields.productName: productName,
       CartFields.productDescription: productDescription,
       CartFields.productPrice: productPrice,
+      CartFields.expensivePrice: expensivePrice,
+      CartFields.cheapPrice: cheapPrice,
       CartFields.productImage: productImage,
       CartFields.productQuantity: productQuantity,
       CartFields.createdAt: createdAt,
       CartFields.updatedAt: updatedAt,
       CartFields.isCountable: isCountable,
+      CartFields.isExpensive: isExpensive,
       CartFields.productActive: productActive,
       CartFields.count: count,
       CartFields.mfgDate: mfgDate,
@@ -99,11 +114,14 @@ class CartModel {
     String? createdAt,
     String? updatedAt,
     double? productPrice,
+    double? expensivePrice,
+    double? cheapPrice,
     String? productImage,
     String? mfgDate,
     String? expDate,
     int? productQuantity,
     int? isCountable,
+    int? isExpensive,
     int? productActive,
     int? count,
   }) {
@@ -117,9 +135,12 @@ class CartModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       productPrice: productPrice ?? this.productPrice,
+      expensivePrice: expensivePrice ?? this.expensivePrice,
+      cheapPrice: cheapPrice ?? this.cheapPrice,
       productImage: productImage ?? this.productImage,
       productQuantity: productQuantity ?? this.productQuantity,
       isCountable: isCountable ?? this.isCountable,
+      isExpensive: isExpensive ?? this.isExpensive,
       count: count ?? this.count,
       mfgDate: mfgDate ?? this.mfgDate,
       expDate: expDate ?? this.expDate,

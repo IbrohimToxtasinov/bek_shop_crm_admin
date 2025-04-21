@@ -13,10 +13,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AddProductToCart extends StatefulWidget {
   final num? cartCount;
   final int? cartId;
+  final int isExpensive;
   final ProductModel productModel;
 
   const AddProductToCart({
     required this.productModel,
+    this.isExpensive = 0,
     this.cartCount,
     this.cartId,
     super.key,
@@ -188,6 +190,10 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   AddCart(
                                     cartModel: CartModel(
+                                      cheapPrice: widget.productModel.cheapPrice,
+                                      isExpensive: widget.isExpensive,
+                                      expensivePrice:
+                                          widget.productModel.expensivePrice,
                                       productActive:
                                           widget.productModel.productActive
                                               ? 1
@@ -224,6 +230,13 @@ class _AddProductToCartState extends State<AddProductToCart> {
                                 BlocProvider.of<CartBloc>(context).add(
                                   UpdateCart(
                                     cartModel: CartModel(
+
+                                      isExpensive: widget.isExpensive,
+                                      expensivePrice:
+                                          widget.productModel.expensivePrice,
+
+                                      cheapPrice:
+                                      widget.productModel.cheapPrice,
                                       productActive:
                                           widget.productModel.productActive
                                               ? 1
