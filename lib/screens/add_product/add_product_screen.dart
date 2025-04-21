@@ -274,6 +274,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               hintText: "Qimmat narxni kiriting",
                               isSuffixIconHave: true,
                             ),
+                            SizedBox(height: 10.h),
                             CustomTexFormFiledWidget(
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
