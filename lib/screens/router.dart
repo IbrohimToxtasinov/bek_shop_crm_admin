@@ -1,4 +1,4 @@
-import 'package:bek_shop/blocs/create_check/create_check_screen.dart';
+import 'package:bek_shop/screens/create_check/create_check_screen.dart';
 import 'package:bek_shop/data/models/category/category_model.dart';
 import 'package:bek_shop/data/models/order/order_model.dart';
 import 'package:bek_shop/data/models/product/product_model.dart';

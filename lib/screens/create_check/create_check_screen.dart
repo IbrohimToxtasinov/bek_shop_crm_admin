@@ -57,27 +57,21 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                 Center(
                   child: Text(
                     'BEK SHOP',
-                    style: TextStyle(
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Center(
-                  child: Text(
-                    'BUYURTMA CHEKI',
-                    style: TextStyle(fontSize: 28.sp),
-                  ),
+                  child: Text('BUYURTMA CHEKI', style: TextStyle(fontSize: 28)),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 20),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
                         text: 'Buyurtma ID: ',
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -85,7 +79,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                       TextSpan(
                         text: widget.orderModel.orderId,
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
@@ -93,14 +87,14 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
                         text: 'Mijoz: ',
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -108,7 +102,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                       TextSpan(
                         text: widget.orderModel.clientName,
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
@@ -116,14 +110,14 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
                         text: 'Tel: ',
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -131,7 +125,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                       TextSpan(
                         text: widget.orderModel.clientPhoneNumber,
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
@@ -139,14 +133,14 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
                         text: 'Manzil: ',
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -154,7 +148,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                       TextSpan(
                         text: widget.orderModel.clientAddress,
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
@@ -162,14 +156,14 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
                 Text.rich(
                   TextSpan(
                     children: [
                       TextSpan(
                         text: 'Vaqt: ',
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -179,7 +173,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                           widget.orderModel.createAt,
                         ),
                         style: TextStyle(
-                          fontSize: 28.sp,
+                          fontSize: 28,
                           fontWeight: FontWeight.normal,
                           color: Colors.black,
                         ),
@@ -188,22 +182,19 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                   ),
                 ),
 
-                SizedBox(height: 10.h),
-                Divider(thickness: 3.h, color: Colors.black),
+                SizedBox(height: 10),
+                Divider(thickness: 3, color: Colors.black),
                 Text(
                   'Mahsulotlar:',
-                  style: TextStyle(
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
-                Divider(thickness: 3.h, color: Colors.black),
+                Divider(thickness: 3, color: Colors.black),
                 ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 4.h),
+                      padding: EdgeInsets.symmetric(vertical: 4),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -213,13 +204,13 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                               Expanded(
                                 child: Text(
                                   widget.orderModel.products[index].productName,
-                                  style: TextStyle(fontSize: 28.sp),
+                                  style: TextStyle(fontSize: 28),
                                 ),
                               ),
-                              SizedBox(width: 50.w),
+                              SizedBox(width: 50),
                               Text(
                                 "${widget.orderModel.products[index].count} x ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].isExpensive ? widget.orderModel.products[index].productPrice + widget.orderModel.products[index].expensivePrice : widget.orderModel.products[index].productPrice + widget.orderModel.products[index].cheapPrice)}",
-                                style: TextStyle(fontSize: 28.sp),
+                                style: TextStyle(fontSize: 28),
                               ),
                             ],
                           ),
@@ -228,7 +219,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                             child: Text(
                               "= ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.products[index].isExpensive ? (widget.orderModel.products[index].productPrice + widget.orderModel.products[index].expensivePrice) * widget.orderModel.products[index].count : (widget.orderModel.products[index].productPrice + widget.orderModel.products[index].cheapPrice) * widget.orderModel.products[index].count)} so'm",
                               style: TextStyle(
-                                fontSize: 28.sp,
+                                fontSize: 28,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -240,37 +231,31 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                   separatorBuilder: (context, index) {
                     return Column(
                       children: [
-                        SizedBox(height: 10.h),
-                        DashedLine(height: 3.h, color: Colors.black),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 10),
+                        DashedLine(height: 3, color: Colors.black),
+                        SizedBox(height: 10),
                       ],
                     );
                   },
                   itemCount: widget.orderModel.products.length,
                 ),
-                Divider(thickness: 3.h, color: Colors.black),
-                SizedBox(height: 10.h),
+                Divider(thickness: 3, color: Colors.black),
+                SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     "Umumiy: ${NumberFormat.decimalPattern('uz_UZ').format(widget.orderModel.totalPrice)} so'm",
-                    style: TextStyle(
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 30),
                 Center(
                   child: Text(
                     'YANA KELIB TURING!',
-                    style: TextStyle(
-                      fontSize: 28.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -280,11 +265,11 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                         Text(
                           "Joylashuv (QR):",
                           style: TextStyle(
-                            fontSize: 26.sp,
+                            fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 10),
                         FutureBuilder<Uint8List>(
                           future: generateQrCodeImage(qrLink),
                           builder: (context, snapshot) {
@@ -292,37 +277,37 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
                                     ConnectionState.done &&
                                 snapshot.hasData) {
                               return Padding(
-                                padding: EdgeInsets.only(top: 12.h),
+                                padding: EdgeInsets.only(top: 12),
                                 child: Image.memory(
                                   snapshot.data!,
-                                  height: 120.h,
-                                  width: 120.w,
+                                  height: 120,
+                                  width: 120,
                                 ),
                               );
                             } else {
                               return Text(
                                 'QR yuklanmoqda...',
-                                style: TextStyle(fontSize: 22.sp),
+                                style: TextStyle(fontSize: 22),
                               );
                             }
                           },
                         ),
                       ],
                     ),
-                    SizedBox(width: 30.w),
+                    SizedBox(width: 30),
                     Column(
                       children: [
                         Text(
                           "Aloqa uchun:",
                           style: TextStyle(
-                            fontSize: 26.sp,
+                            fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 5.h),
+                        SizedBox(height: 5),
                         Text(
                           "+998 (99) 666-88-89",
-                          style: TextStyle(fontSize: 26.sp),
+                          style: TextStyle(fontSize: 26),
                         ),
                       ],
                     ),
@@ -336,7 +321,7 @@ class _CreateCheckScreenState extends State<CreateCheckScreen> {
         },
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(16.0.w),
+        padding: EdgeInsets.all(16.0),
         child: MainActionButton(
           onTap: () async {
             final address = await FlutterBluetoothPrinter.selectDevice(context);
@@ -397,8 +382,8 @@ class DashedLine extends StatelessWidget {
             children: List.generate(
               (constraints.constrainWidth() / 10).floor(),
               (_) => SizedBox(
-                width: 5.w,
-                height: height.h,
+                width: 5,
+                height: height,
                 child: DecoratedBox(decoration: BoxDecoration(color: color)),
               ),
             ),
